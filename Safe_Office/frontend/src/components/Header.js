@@ -24,7 +24,7 @@ function Header({ setSearch }) {
   useEffect(() => {}, [userInfo]);
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
         <Navbar.Brand href="/">Note Zipper</Navbar.Brand>
 
