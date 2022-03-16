@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Accordion, Badge, Button, Card } from "react-bootstrap";
+import { Container} from "react-bootstrap";
 import MainScreen from "../../components/MainScreen";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
@@ -60,17 +60,48 @@ function MyNotes({ history, search }) {
   return (
   <div>
     <div class="sidebar">
-    <a class="active" href="#home">Home</a>
-    <a href="#news">News</a>
-    <a href="#contact">Contact</a>
-    <a href="#about">About</a>
+    <a href="#">Desk Booking</a>
+    <a href="#contact">Room Booking</a>
+    <a href="#about">Your Bookings</a>
     </div>
   
     <div class="content">
-      <h2>Responsive Sidebar Example</h2>
-      <p>This example use media queries to transform the sidebar to a top navigation bar when the screen size is 700px or less.</p>
-      <p>We have also added a media query for screens that are 400px or less, which will vertically stack and center the navigation links.</p>
-      <h3>Resize the browser window to see the effect.</h3>
+      <h1>Welcome to Safe Office Desk Booking System!</h1>
+      <Container>
+        <h2>Quick search for a desk!</h2>
+        <form>
+          <label>City: </label>
+          <select class="form-select form-control-sm" id="exampleSelect1" >
+            <option>Cluj Napoca Cale Motilor nr. 35</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            </select>
+
+          <label > Address: </label> 
+          <select class="form-select form-control-sm" id="exampleSelect1">
+            <option>Cluj Napoca Cale Motilor nr. 35</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            </select>
+          <label >Floor:</label> 
+          <select class="form-select" id="exampleSelect1" >
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            </select>
+          <label>Date:</label> <br></br>
+          <input type="date"></input>
+
+      
+        </form>
+      </Container>
+    
     </div>
   </div>
   );
