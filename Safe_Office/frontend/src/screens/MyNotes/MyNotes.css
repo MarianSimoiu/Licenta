@@ -68,3 +68,8 @@ body {
 .search-container{
   margin: 40px;
 }
+
+.floor{
+  margin-right: 100px;
+  float: right;
+}

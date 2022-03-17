@@ -6,6 +6,8 @@ import ReactMarkdown from "react-markdown";
 import { FaHeart } from "react-icons/fa";
 import "./MyNotes.css";
 
+import floorPrint from "../../images/mainFloor.png"
+
 import { useDispatch, useSelector } from "react-redux";
 import { deleteNoteAction, listNotes } from "../../actions/notesActions";
 import Loading from "../../components/Loading";
@@ -106,8 +108,9 @@ function MyNotes({ history, search }) {
         </form>
       </div>
     </div>
-    <div style={{float:"right", display:"inline"}}>
-        <FaHeart></FaHeart>
+    <div class="floor" >
+      <FaHeart></FaHeart>
+      <img src={floorPrint} style={{width:"550px", height:"420px"}}></img>
     </div>
   </div>
   );
