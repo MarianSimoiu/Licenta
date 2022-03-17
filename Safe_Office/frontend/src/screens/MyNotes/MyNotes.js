@@ -3,7 +3,7 @@ import { Container} from "react-bootstrap";
 import MainScreen from "../../components/MainScreen";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import "./MyNotes.css";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -99,10 +99,15 @@ function MyNotes({ history, search }) {
 
           <label for="dateSelect" class="form-label mt-2">Date:</label> <br></br>
           <input type="date" class="form-control"  id="dateSelect"></input>
-          <button type="submit" class="btn btn-outline-primary mt-4">Search</button>
+
+          <button type="submit" class="btn btn-outline-primary mt-4" id="submit1">Search</button>
+          <button type="submit" class="btn btn-outline-warning mt-4" id="submit2">Floor plan</button>
+
         </form>
       </div>
-    
+      <Container>
+      <FontAwesomeIcon icon="fa-solid fa-arrow-rotate-right" />
+      </Container>
     </div>
   </div>
   );
