@@ -3,7 +3,7 @@ import { Container} from "react-bootstrap";
 import MainScreen from "../../components/MainScreen";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FaHeart } from "react-icons/fa";
 import "./MyNotes.css";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -105,9 +105,9 @@ function MyNotes({ history, search }) {
 
         </form>
       </div>
-      <Container>
-      <FontAwesomeIcon icon="fa-solid fa-arrow-rotate-right" />
-      </Container>
+    </div>
+    <div style={{float:"right", display:"inline"}}>
+        <FaHeart></FaHeart>
     </div>
   </div>
   );
