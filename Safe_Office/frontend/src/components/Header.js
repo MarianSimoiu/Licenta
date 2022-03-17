@@ -26,21 +26,11 @@ function Header({ setSearch }) {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href="/">Note Zipper</Navbar.Brand>
+        <Navbar.Brand href="/">Safe Office</Navbar.Brand>
 
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="m-auto">
-            {userInfo && (
-              <Form inline>
-                <FormControl
-                  type="text"
-                  placeholder="Search"
-                  className="mr-sm-2"
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-              </Form>
-            )}
           </Nav>
           <Nav>
             {userInfo ? (

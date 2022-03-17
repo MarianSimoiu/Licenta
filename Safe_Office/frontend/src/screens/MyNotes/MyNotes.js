@@ -67,40 +67,41 @@ function MyNotes({ history, search }) {
   
     <div class="content">
       <h1>Welcome to Safe Office Desk Booking System!</h1>
-      <Container>
-        <h2>Quick search for a desk!</h2>
+      <div class="search-container">
+        <h2 >Quick search for a desk!</h2>
         <form>
-          <label>City: </label>
-          <select class="form-select form-control-sm" id="exampleSelect1" >
-            <option>Cluj Napoca Cale Motilor nr. 35</option>
+          <label for="citySelect" class="form-label mt-4">City:</label>
+          <select class="form-select form-control-sm" id="citySelect" >
+            <option>Cluj Napoca</option>
             <option>2</option>
             <option>3</option>
             <option>4</option>
             <option>5</option>
-            </select>
+          </select>
 
-          <label > Address: </label> 
-          <select class="form-select form-control-sm" id="exampleSelect1">
-            <option>Cluj Napoca Cale Motilor nr. 35</option>
+          <label for="addressSelect" class="form-label mt-2">Address:</label>
+          <select class="form-select" id="addressSelect">
+            <option>Cale Motilor nr. 35</option>
             <option>2</option>
             <option>3</option>
             <option>4</option>
             <option>5</option>
-            </select>
-          <label >Floor:</label> 
-          <select class="form-select" id="exampleSelect1" >
+          </select>
+
+          <label for="floorSelect" class="form-label mt-2" id="floorSelect">Floor:</label>
+          <select class="form-select" id="inputSmall" >
             <option>1</option>
             <option>2</option>
             <option>3</option>
             <option>4</option>
             <option>5</option>
-            </select>
-          <label>Date:</label> <br></br>
-          <input type="date"></input>
+          </select>
 
-      
+          <label for="dateSelect" class="form-label mt-2">Date:</label> <br></br>
+          <input type="date" class="form-control"  id="dateSelect"></input>
+          <button type="submit" class="btn btn-outline-primary mt-4">Search</button>
         </form>
-      </Container>
+      </div>
     
     </div>
   </div>
