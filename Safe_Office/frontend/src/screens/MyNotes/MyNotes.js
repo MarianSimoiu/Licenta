@@ -3,7 +3,7 @@ import { Container} from "react-bootstrap";
 import MainScreen from "../../components/MainScreen";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-import { FaHeart } from "react-icons/fa";
+import { FaRegPlusSquare } from "react-icons/fa";
 import "./MyNotes.css";
 
 import floorPrint from "../../images/mainFloor.png"
@@ -109,8 +109,20 @@ function MyNotes({ history, search }) {
       </div>
     </div>
     <div class="floor" >
-      <FaHeart></FaHeart>
-      <img src={floorPrint} style={{width:"550px", height:"420px"}}></img>
+      <FaRegPlusSquare class="desk" id="slot1"></FaRegPlusSquare>
+      <FaRegPlusSquare class="desk" id="slot2"></FaRegPlusSquare>
+      <FaRegPlusSquare class="desk" id="slot3"></FaRegPlusSquare>
+      <FaRegPlusSquare class="desk" id="slot4"></FaRegPlusSquare>
+      <FaRegPlusSquare class="desk" id="slot5"></FaRegPlusSquare>
+      <FaRegPlusSquare class="desk" id="slot6"></FaRegPlusSquare>
+
+      <FaRegPlusSquare class="desk" id="slot7"></FaRegPlusSquare>
+      <FaRegPlusSquare class="desk" id="slot8"></FaRegPlusSquare>
+      <FaRegPlusSquare class="desk" id="slot9"></FaRegPlusSquare>
+      <FaRegPlusSquare class="desk" id="slot10"></FaRegPlusSquare>
+      <FaRegPlusSquare class="desk" id="slot11"></FaRegPlusSquare>
+      <FaRegPlusSquare class="desk" id="slot12"></FaRegPlusSquare>
+      <img  id="image-floor" src={floorPrint} ></img>
     </div>
   </div>
   );

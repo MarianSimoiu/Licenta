@@ -72,4 +72,84 @@ body {
 .floor{
   margin-right: 100px;
   float: right;
+  position: relative;
 }
+
+#image-floor {
+  border-style: groove;
+  border-width: 5px;
+  border-radius: 3px;
+  width:550px;
+  height:420px;
+}
+
+.desk {
+  position: absolute;
+  font-size: 20px;
+  color: rgb(83, 194, 83);
+}
+
+.desk:hover {
+  color: rgb(58, 153, 58);
+  cursor: pointer;
+}
+
+#slot1 {
+  left:257px;
+  top:175px;
+} 
+
+#slot2 {
+  left:305px;
+  top:175px;
+} 
+
+#slot3 {
+  left:352px;
+  top:175px;
+} 
+
+#slot4 {
+  left:400px;
+  top:175px;
+} 
+
+#slot5 {
+  left:448px;
+  top:175px;
+} 
+
+#slot6 {
+  left:496px;
+  top:175px;
+} 
+
+#slot7 {
+  left:257px;
+  top:255px;
+} 
+
+#slot8 {
+  left:305px;
+  top:255px;
+} 
+
+#slot9 {
+  left:352px;
+  top:255px;
+} 
+
+#slot10 {
+  left:400px;
+  top:255px;
+} 
+
+#slot11 {
+  left:448px;
+  top:255px;
+} 
+
+#slot12 {
+  left:496px;
+  top:255px;
+} 
