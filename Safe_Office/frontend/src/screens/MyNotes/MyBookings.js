@@ -1,46 +1,44 @@
 import React, { useEffect, useState } from "react";
-import { Container} from "react-bootstrap";
-import MainScreen from "../../components/MainScreen";
-import { Link } from "react-router-dom";
-import ReactMarkdown from "react-markdown";
 import { FaRegPlusSquare } from "react-icons/fa";
-import { createNoteAction } from "../../actions/notesActions";
-import "./MyNotes.css";
+import { createBookingAction } from "../../actions/bookingsActions";
+import "./MyBookings.css";
 
 import floorPrint from "../../images/mainFloor.png"
 
 import { useDispatch, useSelector } from "react-redux";
-import { deleteNoteAction, listNotes } from "../../actions/notesActions";
+import { deleteBookingAction, listBookings } from "../../actions/bookingsActions";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 
 
-function MyNotes({ history, search }) {
+function MyBokings({ history, search }) {
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [category, setCategory] = useState("");
+  const [city, setCity] = useState("");
+  const [address, setAddress] = useState("");
+  const [floor, setFloor] = useState("");
+  const [date, setDate] = useState("");
 
   const dispatch = useDispatch();
 
   const [showConfirmation, setShowConfirmation] = React.useState(false)
   
-  const noteList = useSelector((state) => state.noteList);
-  const { loading, error, notes } = noteList;
+  const bookingList = useSelector((state) => state.bookingList);
+  const { loading, error, bookings } = bookingList;
 
   const resetHandler = () => {
-    setTitle("");
-    setCategory("");
-    setContent("");
+    setCity("");
+    setAddress("");
+    setFloor("");
+    setDate("");
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(createNoteAction(title, content, category));
-    if (!title || !content || !category) return;
+    dispatch(createBookingAction(city, address, floor, date));
+    if (!city || !address || !floor || !date) return;
 
     resetHandler();
-    history.push("/mynotes");
+    history.push("/mybookings");
   };
 
   // const filteredNotes = notes.filter((note) =>
@@ -50,21 +48,21 @@ function MyNotes({ history, search }) {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const noteDelete = useSelector((state) => state.noteDelete);
+  const bookingDelete = useSelector((state) => state.bookingDelete);
   const {
     loading: loadingDelete,
     error: errorDelete,
     success: successDelete,
-  } = noteDelete;
+  } = bookingDelete;
 
-  const noteCreate = useSelector((state) => state.noteCreate);
-  const { success: successCreate } = noteCreate;
+  const bookingCreate = useSelector((state) => state.bookingCreate);
+  const { success: successCreate } = bookingCreate;
 
-  const noteUpdate = useSelector((state) => state.noteUpdate);
-  const { success: successUpdate } = noteUpdate;
+  const bookingUpdate = useSelector((state) => state.bookingUpdate);
+  const { success: successUpdate } = bookingUpdate;
 
   useEffect(() => {
-    dispatch(listNotes());
+    dispatch(listBookings());
     if (!userInfo) {
       history.push("/");
     }

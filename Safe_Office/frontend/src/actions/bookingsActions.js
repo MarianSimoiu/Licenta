@@ -1,23 +1,23 @@
 import {
-  NOTES_CREATE_FAIL,
-  NOTES_CREATE_REQUEST,
-  NOTES_CREATE_SUCCESS,
-  NOTES_DELETE_FAIL,
-  NOTES_DELETE_REQUEST,
-  NOTES_DELETE_SUCCESS,
-  NOTES_LIST_FAIL,
-  NOTES_LIST_REQUEST,
-  NOTES_LIST_SUCCESS,
-  NOTES_UPDATE_FAIL,
-  NOTES_UPDATE_REQUEST,
-  NOTES_UPDATE_SUCCESS,
-} from "../constants/notesConstants";
+  BOOKINGS_CREATE_FAIL,
+  BOOKINGS_CREATE_REQUEST,
+  BOOKINGS_CREATE_SUCCESS,
+  BOOKINGS_DELETE_FAIL,
+  BOOKINGS_DELETE_REQUEST,
+  BOOKINGS_DELETE_SUCCESS,
+  BOOKINGS_LIST_FAIL,
+  BOOKINGS_LIST_REQUEST,
+  BOOKINGS_LIST_SUCCESS,
+  BOOKINGS_UPDATE_FAIL,
+  BOOKINGS_UPDATE_REQUEST,
+  BOOKINGS_UPDATE_SUCCESS,
+} from "../constants/bookingsConstants";
 import axios from "axios";
 
-export const listNotes = () => async (dispatch, getState) => {
+export const listBookings = () => async (dispatch, getState) => {
   try {
     dispatch({
-      type: NOTES_LIST_REQUEST,
+      type: BOOKINGS_LIST_REQUEST,
     });
 
     const {
@@ -30,10 +30,10 @@ export const listNotes = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/notes`, config);
+    const { data } = await axios.get(`/api/bookings`, config);
 
     dispatch({
-      type: NOTES_LIST_SUCCESS,
+      type: BOOKINGS_LIST_SUCCESS,
       payload: data,
     });
   } catch (error) {
@@ -42,19 +42,19 @@ export const listNotes = () => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     dispatch({
-      type: NOTES_LIST_FAIL,
+      type: BOOKINGS_LIST_FAIL,
       payload: message,
     });
   }
 };
 
-export const createNoteAction = (title, content, category) => async (
+export const createBookingAction = (city, address, floor, date) => async (
   dispatch,
   getState
 ) => {
   try {
     dispatch({
-      type: NOTES_CREATE_REQUEST,
+      type: BOOKINGS_CREATE_REQUEST,
     });
 
     const {
@@ -69,13 +69,13 @@ export const createNoteAction = (title, content, category) => async (
     };
 
     const { data } = await axios.post(
-      `/api/notes/create`,
-      { title, content, category },
+      `/api/bookings/create`,
+      { city, address, floor, date },
       config
     );
 
     dispatch({
-      type: NOTES_CREATE_SUCCESS,
+      type:  BOOKINGS_CREATE_SUCCESS,
       payload: data,
     });
   } catch (error) {
@@ -84,16 +84,16 @@ export const createNoteAction = (title, content, category) => async (
         ? error.response.data.message
         : error.message;
     dispatch({
-      type: NOTES_CREATE_FAIL,
+      type: BOOKINGS_CREATE_FAIL,
       payload: message,
     });
   }
 };
 
-export const deleteNoteAction = (id) => async (dispatch, getState) => {
+export const deleteBookingAction = (id) => async (dispatch, getState) => {
   try {
     dispatch({
-      type: NOTES_DELETE_REQUEST,
+      type: BOOKINGS_DELETE_REQUEST,
     });
 
     const {
@@ -106,10 +106,10 @@ export const deleteNoteAction = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.delete(`/api/notes/${id}`, config);
+    const { data } = await axios.delete(`/api/bookings/${id}`, config);
 
     dispatch({
-      type: NOTES_DELETE_SUCCESS,
+      type: BOOKINGS_DELETE_SUCCESS,
       payload: data,
     });
   } catch (error) {
@@ -118,19 +118,19 @@ export const deleteNoteAction = (id) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     dispatch({
-      type: NOTES_DELETE_FAIL,
+      type: BOOKINGS_DELETE_FAIL,
       payload: message,
     });
   }
 };
 
-export const updateNoteAction = (id, title, content, category) => async (
+export const updateBookingAction = (id, city, address, floor, date ) => async (
   dispatch,
   getState
 ) => {
   try {
     dispatch({
-      type: NOTES_UPDATE_REQUEST,
+      type: BOOKINGS_UPDATE_REQUEST,
     });
 
     const {
@@ -145,13 +145,13 @@ export const updateNoteAction = (id, title, content, category) => async (
     };
 
     const { data } = await axios.put(
-      `/api/notes/${id}`,
-      { title, content, category },
+      `/api/bookings/${id}`,
+      { city, address, floor, date },
       config
     );
 
     dispatch({
-      type: NOTES_UPDATE_SUCCESS,
+      type: BOOKINGS_UPDATE_SUCCESS,
       payload: data,
     });
   } catch (error) {
@@ -160,7 +160,7 @@ export const updateNoteAction = (id, title, content, category) => async (
         ? error.response.data.message
         : error.message;
     dispatch({
-      type: NOTES_UPDATE_FAIL,
+      type: BOOKINGS_UPDATE_FAIL,
       payload: message,
     });
   }
