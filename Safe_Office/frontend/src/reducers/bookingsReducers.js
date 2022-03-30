@@ -13,7 +13,7 @@ import {
   BOOKINGS_LIST_SUCCESS,
 } from "../constants/bookingsConstants";
 
-export const bookingistReducer = (state = { bookings: [] }, action) => {
+export const bookingListReducer = (state = { bookings: [] }, action) => {
   switch (action.type) {
     case BOOKINGS_LIST_REQUEST:
       return { loading: true };

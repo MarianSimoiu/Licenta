@@ -11,7 +11,7 @@ import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 
 
-function MyBokings({ history, search }) {
+function MyBookings({ history, search }) {
 
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
@@ -77,7 +77,7 @@ function MyBokings({ history, search }) {
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
-      dispatch(deleteNoteAction(id));
+      dispatch(deleteBookingAction(id));
     }
   };
 
@@ -98,7 +98,7 @@ function MyBokings({ history, search }) {
         
         <form onSubmit={submitHandler} id="first-form">
           <label for="citySelect" class="form-label mt-4">City:</label>
-          <select class="form-select form-control-sm" id="citySelect" value={title}  onChange={(e) => setTitle(e.target.value)} >
+          <select class="form-select form-control-sm" id="citySelect" value={city}  onChange={(e) => setCity(e.target.value)} >
             <option>Cluj Napoca</option>
             <option>2</option>
             <option>3</option>
@@ -107,7 +107,7 @@ function MyBokings({ history, search }) {
           </select>
 
           <label for="addressSelect" class="form-label mt-2">Address:</label>
-          <select class="form-select" id="addressSelect" value={content} onChange={(e) => setContent(e.target.value)} >
+          <select class="form-select" id="addressSelect" value={address} onChange={(e) => setAddress(e.target.value)} >
             <option>Cale Motilor nr. 35</option>
             <option>2</option>
             <option>3</option>
@@ -116,7 +116,7 @@ function MyBokings({ history, search }) {
           </select>
 
           <label for="floorSelect" class="form-label mt-2" id="floorSelect" >Floor:</label>
-          <select class="form-select" id="inputSmall" value={category} onChange={(e) => setCategory(e.target.value)}>
+          <select class="form-select" id="inputSmall" value={floor} onChange={(e) => setFloor(e.target.value)}>
             <option>1</option>
             <option>2</option>
             <option>3</option>
@@ -125,7 +125,7 @@ function MyBokings({ history, search }) {
           </select>
 
           <label for="dateSelect" class="form-label mt-2">Date:</label> <br></br>
-          <input type="date" class="form-control"  id="dateSelect"  ></input>
+          <input type="date" class="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
 
           <button type="submit" class="btn btn-outline-primary mt-4" id="submit1">Search</button>
           <button type="submit" class="btn btn-outline-warning mt-4" id="submit2">Floor plan</button>
@@ -175,4 +175,4 @@ function MyBokings({ history, search }) {
   );
 }
 
-export default MyNotes;
+export default MyBookings;
