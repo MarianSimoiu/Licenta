@@ -2,6 +2,18 @@ import mongoose from "mongoose";
 
 const bookingSchema = mongoose.Schema(
   {
+    city: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    floor: {
+      type: Number,
+      required: true,
+    },
     date: {
         type: Date,
         required: true,
