@@ -48,7 +48,7 @@ export const listBookings = () => async (dispatch, getState) => {
   }
 };
 
-export const createBookingAction = (city, address, floor, date) => async (
+export const createBookingAction = (city, address, floor, date, desk) => async (
   dispatch,
   getState
 ) => {
@@ -70,7 +70,7 @@ export const createBookingAction = (city, address, floor, date) => async (
 
     const { data } = await axios.post(
       `/api/bookings/create`,
-      { city, address, floor, date },
+      { city, address, floor, date, desk},
       config
     );
 

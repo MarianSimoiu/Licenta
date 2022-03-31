@@ -28,14 +28,14 @@ const getBookingById = asyncHandler(async (req, res) => {
 //@route           GET /api/notes/create
 //@access          Private
 const CreateBooking = asyncHandler(async (req, res) => {
-  const { city, address, floor, date } = req.body;
+  const { city, address, floor, date, desk } = req.body;
 
-  if (!city || !address || !floor || !date) {
+  if (!city || !address || !floor || !date || !desk) {
     res.status(400);
     throw new Error("Please Fill all the feilds");
     return;
   } else {
-    const booking = new Booking({ user: req.user._id, city, address, floor, date });
+    const booking = new Booking({ user: req.user._id, city, address, floor, date, desk });
 
     const createdBooking = await booking.save();
 
@@ -81,7 +81,7 @@ const UpdateBooking = asyncHandler(async (req, res) => {
     booking.address = address;
     booking.floor = floor;
     booking.date = date;
-
+    booking.desk = desk;
     const updatedBooking = await booking.save();
     res.json(updatedBooking);
   } else {

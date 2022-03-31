@@ -17,6 +17,7 @@ function MyBookings({ history, search }) {
   const [address, setAddress] = useState("");
   const [floor, setFloor] = useState("");
   const [date, setDate] = useState("");
+  const [desk, setDesk] = useState("");
 
   const dispatch = useDispatch();
 
@@ -30,12 +31,13 @@ function MyBookings({ history, search }) {
     setAddress("");
     setFloor("");
     setDate("");
+    setDesk("");
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(createBookingAction(city, address, floor, date));
-    if (!city || !address || !floor || !date) return;
+    dispatch(createBookingAction(city, address, floor, date, desk));
+    if (!city || !address || !floor || !date || !desk) return;
 
     resetHandler();
     history.push("/mybookings");
@@ -133,14 +135,14 @@ function MyBookings({ history, search }) {
       </div>
     </div>
     <div class="floor" >
-      <FaRegPlusSquare class="desk" id="slot1" onClick={() => setShowConfirmation(true)}></FaRegPlusSquare>
+      <FaRegPlusSquare class="desk" id="slot1" onClick={() => {setShowConfirmation(true); setDesk(1)}}></FaRegPlusSquare>
       {showConfirmation ? 
        <div class="modal-sm" id="confirmation">
        <div class="modal-dialog" role="document">
          <div class="modal-content">
            <div class="modal-header">
              <h5 class="modal-title">Confirm Booking</h5>
-             <button onClick={ () => setShowConfirmation(false)} type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+             <button onClick={ () => {setShowConfirmation(false)}}  type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
              { showConfirmation ? null: null }
              <span aria-hidden="true"></span>
              </button>
@@ -149,7 +151,7 @@ function MyBookings({ history, search }) {
              <p>Accept in order to book your desk!</p>
            </div>
            <div class="modal-footer">
-             <button  form="first-form" type="submit" class="btn btn-primary">Save changes</button>
+             <button  form="first-form" type="submit" class="btn btn-primary" >Save changes</button>
              <button onClick={ () => setShowConfirmation(false)} type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Close</button>
              { showConfirmation ? null: null }
            </div>
