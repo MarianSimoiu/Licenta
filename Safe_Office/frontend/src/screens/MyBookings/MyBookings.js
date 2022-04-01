@@ -25,7 +25,7 @@ function MyBookings({ history, search }) {
   
   const bookingList = useSelector((state) => state.bookingList);
   const { loading, error, bookings } = bookingList;
-
+  
   const resetHandler = () => {
     setCity("");
     setAddress("");

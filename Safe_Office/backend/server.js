@@ -6,6 +6,7 @@ import path from "path";
 
 import bookingRoutes from "./routes/bookingRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import buildingRoutes from "./routes/buildingRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
@@ -18,6 +19,7 @@ app.use(express.json()); // to accept json data
 
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/buildings", buildingRoutes);
 
 // --------------------------deployment------------------------------
 const __dirname = path.resolve();
