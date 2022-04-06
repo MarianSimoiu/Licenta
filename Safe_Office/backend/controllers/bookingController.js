@@ -16,9 +16,9 @@ const getBookingById = asyncHandler(async (req, res) => {
   const booking = await Booking.findById(req.params.id);
 
   if (booking) {
-    res.json(note);
+    res.json(booking);
   } else {
-    res.status(404).json({ message: "Note not found" });
+    res.status(404).json({ message: "Booking not found" });
   }
 
   res.json(booking);

@@ -13,14 +13,19 @@ import {
   userUpdateReducer,
 } from "./reducers/userReducers";
 
+import {buildingListReducer} from "./reducers/buildingReducers"
+
+
 const reducer = combineReducers({
   bookingList: bookingListReducer,
+  buildingList: buildingListReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   bookingCreate: bookingCreateReducer,
   bookingDelete: bookingDeleteReducer,
   bookingUpdate: bookingUpdateReducer,
   userUpdate: userUpdateReducer,
+
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

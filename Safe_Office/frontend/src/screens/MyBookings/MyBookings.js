@@ -11,7 +11,7 @@ import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 
 
-function MyBookings({ history, search }) {
+function MyBookings({ history }) {
 
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
@@ -42,10 +42,6 @@ function MyBookings({ history, search }) {
     resetHandler();
     history.push("/mybookings");
   };
-
-  // const filteredNotes = notes.filter((note) =>
-  //   note.title.toLowerCase().includes(search.toLowerCase())
-  // );
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -82,8 +78,6 @@ function MyBookings({ history, search }) {
       dispatch(deleteBookingAction(id));
     }
   };
-
-
 
   return (
   <div>

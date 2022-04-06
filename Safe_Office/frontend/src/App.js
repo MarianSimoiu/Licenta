@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import LandingPage from "./screens/LandingPage/LandingPage";
 import MyBookings from "./screens/MyBookings/MyBookings";
+import Test from "./screens/Test/test";
 //import SingleNote from "./screens/SingleNote/SingleNote";
 import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
@@ -22,6 +23,7 @@ function App() {
         <Route path="/register" component={RegisterScreen} />
         <Route path="/mybookings" component={MyBookings} />
         <Route path="/profile" component={ProfileScreen} />
+        <Route path="/test" component={Test} />
       </main>
       <Footer />
     </Router>

@@ -17,4 +17,16 @@ const CreateBuilding = asyncHandler(async (req, res) => {
     }
   });
 
-export {CreateBuilding}
+  const getBuildings = asyncHandler(async (req, res) => {
+    const filter = {};
+    const building = await Building.find(filter);
+  
+    if (building) {
+      res.json(building);
+    } else {
+      res.status(404).json({ message: "Buildings not found" });
+    }
+  
+    res.json(building);
+  });
+export {CreateBuilding, getBuildings}
