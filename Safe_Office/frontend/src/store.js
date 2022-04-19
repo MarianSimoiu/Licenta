@@ -13,12 +13,13 @@ import {
   userUpdateReducer,
 } from "./reducers/userReducers";
 
-import {buildingListReducer} from "./reducers/buildingReducers"
+import {buildingListReducer, desksListReducers} from "./reducers/buildingReducers"
 
 
 const reducer = combineReducers({
   bookingList: bookingListReducer,
   buildingList: buildingListReducer,
+  desksList: desksListReducers,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   bookingCreate: bookingCreateReducer,

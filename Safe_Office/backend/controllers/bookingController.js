@@ -5,7 +5,7 @@ import asyncHandler from "express-async-handler";
 // @route   GET /api/notes
 // @access  Private
 const getBookings = asyncHandler(async (req, res) => {
-  const bookings = await Booking.find({ user: req.user._id });
+  const bookings = await Booking.find();
   res.json(bookings);
 });
 
@@ -13,14 +13,13 @@ const getBookings = asyncHandler(async (req, res) => {
 //@route           GET /api/notes/:id
 //@access          Public
 const getBookingById = asyncHandler(async (req, res) => {
-  const booking = await Booking.findById(req.params.id);
+  const booking = await Booking.find({id: req.params.address});
 
   if (booking) {
     res.json(booking);
   } else {
     res.status(404).json({ message: "Booking not found" });
   }
-
   res.json(booking);
 });
 

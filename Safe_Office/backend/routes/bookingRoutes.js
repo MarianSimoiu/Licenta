@@ -6,15 +6,16 @@ import {
   DeleteBooking,
   UpdateBooking,
 } from "../controllers/bookingController.js";
+import { getBuildingDesks } from "../controllers/buildingController.js";
 const router = express.Router();
 import { protect } from "../middleware/authMiddleware.js";
 
 router.route("/").get(protect, getBookings);
-router
-  .route("/:id")
-  .get(getBookingById)
+router.route("/:address").get(protect, getBuildingDesks)
+router.route("/:id")
+  .get(protect,getBookingById)
   .delete(protect, DeleteBooking)
   .put(protect, UpdateBooking);
-router.route("/create").post(protect, CreateBooking);
+router.route("/create").post(protect, CreateBooking)
 
 export default router;

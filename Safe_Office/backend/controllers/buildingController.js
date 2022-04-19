@@ -18,15 +18,20 @@ const CreateBuilding = asyncHandler(async (req, res) => {
   });
 
   const getBuildings = asyncHandler(async (req, res) => {
-    const filter = {};
-    const building = await Building.find(filter);
-  
-    if (building) {
-      res.json(building);
-    } else {
-      res.status(404).json({ message: "Buildings not found" });
-    }
-  
+    const building = await Building.find();
     res.json(building);
   });
-export {CreateBuilding, getBuildings}
+
+  const getBuildingDesks = asyncHandler(async (req, res) => {
+
+    const buildingDesks = await Building.find({address: req.params.address});
+
+    if (buildingDesks) {
+      res.json(buildingDesks);
+    } else {
+      res.status(404).json({ message: "Building not found" });
+    }
+
+
+  })
+export {CreateBuilding, getBuildings, getBuildingDesks}

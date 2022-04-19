@@ -2,157 +2,127 @@ import React, { useEffect, useState } from "react";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { createBookingAction } from "../../actions/bookingsActions";
 import "./MyBookings.css";
-
+import {listBuildingDesks, listBuildings} from "../../actions/buildingActions";
 import floorPrint from "../../images/mainFloor.png"
 
 import { useDispatch, useSelector } from "react-redux";
-import { deleteBookingAction, listBookings } from "../../actions/bookingsActions";
-import Loading from "../../components/Loading";
-import ErrorMessage from "../../components/ErrorMessage";
+import { listBookings } from "../../actions/bookingsActions";
+import axios from "axios";
+import { useParams } from 'react-router-dom'
+import { BUILDING_DESKS_FAIL, BUILDING_DESKS_REQUEST, BUILDING_DESKS_SUCCESS } from "../../constants/buildingConstants";
 
+function MyBookings({history}) {
 
-function MyBookings({ history }) {
-
-  const [city, setCity] = useState("");
-  const [address, setAddress] = useState("");
+  const [building, setBuilding] = useState("");
   const [floor, setFloor] = useState("");
   const [date, setDate] = useState("");
   const [desk, setDesk] = useState("");
-
+  const [noFloors, setFloors] = useState("");
+  const floors = 10;
+  const [fetchedData, setFetchedData] = useState([]);
   const dispatch = useDispatch();
 
-  const [showConfirmation, setShowConfirmation] = React.useState(false)
+  const buildingList = useSelector((state) => state.buildingList);
+  const {buildings}  = buildingList;
+
+  const desksList = useSelector((state) => state.desksList);
+  const {desks} = desksList;
+
+  useEffect(() => {
+    dispatch(listBuildings())
+    
+  },[dispatch])
+
+  async function fetching(){
+    const response= await axios.get("api/buildings/",
+    { 
+      params: { 
+        address: building
+      }
+    }
+  );
+    console.log(response.data)
+  };
   
+
+  const [showConfirmation, setShowConfirmation] = React.useState(false)
+  const [showSearch, setShowSearch] = React.useState(false)
+  const [showFloor, setShowFloor] = React.useState(false)
+
   const bookingList = useSelector((state) => state.bookingList);
-  const { loading, error, bookings } = bookingList;
+  const { bookings } = bookingList;
   
   const resetHandler = () => {
-    setCity("");
-    setAddress("");
+    setBuilding("");
     setFloor("");
     setDate("");
     setDesk("");
   };
 
+  /*
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(createBookingAction(city, address, floor, date, desk));
-    if (!city || !address || !floor || !date || !desk) return;
+    dispatch(createBookingAction(building, floor, date, desk));
+    if (!building || !floor || !date || !desk) return;
 
     resetHandler();
     history.push("/mybookings");
   };
+*/
+ const submitHandler = (e) => {
+   e.preventDefault()
+   fetching()
+ }
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
-  const bookingDelete = useSelector((state) => state.bookingDelete);
-  const {
-    loading: loadingDelete,
-    error: errorDelete,
-    success: successDelete,
-  } = bookingDelete;
+  
 
   const bookingCreate = useSelector((state) => state.bookingCreate);
   const { success: successCreate } = bookingCreate;
 
-  const bookingUpdate = useSelector((state) => state.bookingUpdate);
-  const { success: successUpdate } = bookingUpdate;
 
-  useEffect(() => {
-    dispatch(listBookings());
-    if (!userInfo) {
+ /* useEffect(() => {
+ //   dispatch(listBookings());
+  //  if (!userInfo) {
       history.push("/");
     }
   }, [
     dispatch,
-    history,
     userInfo,
-    successDelete,
-    successCreate,
-    successUpdate,
   ]);
+*/
 
-  const deleteHandler = (id) => {
-    if (window.confirm("Are you sure?")) {
-      dispatch(deleteBookingAction(id));
-    }
-  };
-
-  return (
-  <div>
-    <div class="sidebar">
-    <a href="#">Desk Booking</a>
-    <a href="#contact">Room Booking</a>
-    <a href="#about">Your Bookings</a>
-    </div>
   
-    <div class="content">
-      <h1>Welcome to Safe Office Desk Booking System!</h1>
-      <div class="search-container">
-        <h2 >Quick search for a desk!</h2>
-        
-        <form onSubmit={submitHandler} id="first-form">
-          <label for="citySelect" class="form-label mt-4">City:</label>
-          <select class="form-select form-control-sm" id="citySelect" value={city}  onChange={(e) => setCity(e.target.value)} >
-            <option>Cluj Napoca</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </select>
-
-          <label for="addressSelect" class="form-label mt-2">Address:</label>
-          <select class="form-select" id="addressSelect" value={address} onChange={(e) => setAddress(e.target.value)} >
-            <option>Cale Motilor nr. 35</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </select>
-
-          <label for="floorSelect" class="form-label mt-2" id="floorSelect" >Floor:</label>
-          <select class="form-select" id="inputSmall" value={floor} onChange={(e) => setFloor(e.target.value)}>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </select>
-
-          <label for="dateSelect" class="form-label mt-2">Date:</label> <br></br>
-          <input type="date" class="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
-
-          <button type="submit" class="btn btn-outline-primary mt-4" id="submit1">Search</button>
-          <button type="submit" class="btn btn-outline-warning mt-4" id="submit2">Floor plan</button>
-        </form>
-      </div>
-    </div>
-    <div class="floor" >
-      <FaRegPlusSquare class="desk" id="slot1" onClick={() => {setShowConfirmation(true); setDesk(1)}}></FaRegPlusSquare>
-      {showConfirmation ? 
-       <div class="modal-sm" id="confirmation">
-       <div class="modal-dialog" role="document">
-         <div class="modal-content">
-           <div class="modal-header">
-             <h5 class="modal-title">Confirm Booking</h5>
-             <button onClick={ () => {setShowConfirmation(false)}}  type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-             { showConfirmation ? null: null }
-             <span aria-hidden="true"></span>
-             </button>
-           </div>
-           <div class="modal-body">
-             <p>Accept in order to book your desk!</p>
-           </div>
-           <div class="modal-footer">
-             <button  form="first-form" type="submit" class="btn btn-primary" >Save changes</button>
-             <button onClick={ () => setShowConfirmation(false)} type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Close</button>
-             { showConfirmation ? null: null }
-           </div>
+function Confirmation(){
+  return(
+    <div class="modal-sm" id="confirmation">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Booking</h5>
+          <button onClick={ () => {setShowConfirmation(false)}}  type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          { showConfirmation ? null: null }
+          <span aria-hidden="true"></span>
+          </button>
         </div>
-       </div>
+        <div class="modal-body">
+          <p>Accept in order to book your desk!</p>
+        </div>
+        <div class="modal-footer">
+          <button  form="first-form" type="submit" class="btn btn-primary" >Save changes</button>
+          <button onClick={ () => setShowConfirmation(false)} type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Close</button>
+          { showConfirmation ? null: null }
+        </div>
      </div>
-        : null}
+    </div>
+  </div>
+        )}
+function FloorPlan() {
+  return(
+  <div>
+      <FaRegPlusSquare class="desk" id="slot1" onClick={() => {setShowConfirmation(true); setDesk(1)}}></FaRegPlusSquare>
+      {showConfirmation ? <Confirmation/> : null}
       <FaRegPlusSquare class="desk" id="slot2"></FaRegPlusSquare>
       <FaRegPlusSquare class="desk" id="slot3"></FaRegPlusSquare>
       <FaRegPlusSquare class="desk" id="slot4"></FaRegPlusSquare>
@@ -167,8 +137,77 @@ function MyBookings({ history }) {
       <FaRegPlusSquare class="desk" id="slot12"></FaRegPlusSquare>
       <img  id="image-floor" src={floorPrint} ></img>
     </div>
+  )}
+
+function Search(){
+  return(
+  <div>
+    <table class="table table-hover">
+    <thead>
+    <tr>
+      <th scope="col">Nr.crt</th>
+      <th scope="col">Building</th>
+      <th scope="col">Floor</th>
+      <th scope="col">Desk</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+     <tbody>
+     <tr class="table-light">
+      <td>1</td> 
+      <td>{noFloors}</td>
+      <td>Column content</td>
+      <td>Column content</td>
+      <td>Column content</td>
+    </tr>
+  </tbody>
+  </table>
+  </div>
+  )
+}
+
+  return (
+  <div>
+    <div class="sidebar">
+    <a href="#lo">Desk Booking</a>
+    <a href="#contact">Room Booking</a>
+    <a href="#about">Your Bookings</a>
+    </div>
+  
+    <div class="content">
+      <h1>Welcome to Safe Office Desk Booking System!</h1>
+      <div class="search-container">
+        <h2 >Quick search for a desk!</h2>
+        
+        <form onSubmit={submitHandler} id="first-form">
+        
+          <label for="buildingSelect" class="form-label mt-2">Address:</label>
+          <select class="form-select" id="buildingSelect"  onChange={(e) => setBuilding(e.target.value)}>
+            <option value=""disabled selected>select address</option>
+            {buildings?.map((building) => 
+             <option  value={building.address} key ={building.address} data-value={building.noFloors}>{building.address}</option>
+             )}
+          </select>
+    
+          <label for="floorSelect" class="form-label mt-2" id="floorSelect" >Floor:</label>
+          <select class="form-select" id="inputSmall" value={floor} onChange={(e) => setFloor(e.target.value)}>
+            <option value=""disabled selected>select floor</option>
+            {[...Array.from(Array(floors).keys())].map((num, i) => <option key={i}>{num+1}</option>)}
+          </select>
+      
+
+          <label for="dateSelect" class="form-label mt-2">Date:</label> <br></br>
+          <input type="date" class="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
+          <button type="submit" class="btn btn-outline-primary mt-4" id="submit1" onClick={() => {setShowSearch(true); setShowFloor(false)}}>Search</button>
+          <button type="submit" class="btn btn-outline-warning mt-4" id="submit2" onClick={() => {setShowSearch(false); setShowFloor(true)}}>Floor plan</button>
+        </form>
+      </div>
+    </div>
+    <div class="floor">
+    {showSearch ? <Search/> : <FloorPlan/>}
+    </div>
+    
   </div>
   );
 }
-
 export default MyBookings;

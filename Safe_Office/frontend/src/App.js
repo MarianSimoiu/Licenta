@@ -21,7 +21,8 @@ function App() {
         <Route path="/" component={LandingPage} exact />
         <Route path="/login" component={LoginScreen} />
         <Route path="/register" component={RegisterScreen} />
-        <Route path="/mybookings" component={MyBookings} />
+        <Route path="/mybookings/:address?" component={MyBookings} />
+
         <Route path="/profile" component={ProfileScreen} />
         <Route path="/test" component={Test} />
       </main>
