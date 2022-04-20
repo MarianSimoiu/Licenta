@@ -24,7 +24,7 @@ const CreateBuilding = asyncHandler(async (req, res) => {
 
   const getBuildingDesks = asyncHandler(async (req, res) => {
 
-    const buildingDesks = await Building.find({address: req.params.address});
+    const buildingDesks = await Building.findOne({address: req.params.address});
 
     if (buildingDesks) {
       res.json(buildingDesks);
