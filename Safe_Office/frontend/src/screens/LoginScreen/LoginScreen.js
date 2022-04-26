@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 import { login } from "../../actions/userActions";
-import MainScreen from "../../components/MainScreen";
 import "./LoginScreen.css";
 
 function LoginScreen({ history }) {
@@ -29,7 +28,7 @@ function LoginScreen({ history }) {
   };
 
   return (
-    <MainScreen title="LOGIN">
+
       <div className="loginContainer">
         {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
         {loading && <Loading />}
@@ -64,7 +63,7 @@ function LoginScreen({ history }) {
           </Col>
         </Row>
       </div>
-    </MainScreen>
+
   );
 }
 

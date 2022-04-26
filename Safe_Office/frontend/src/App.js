@@ -12,6 +12,7 @@ import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
 //import createBooking from "./screens/SingleNote/CreateNote";
 import { useState } from "react";
 import ProfileScreen from "./screens/ProfileScreen/ProfileScreen";
+import SearchFriend from "./screens/SearchFriend/SearchFriend";
 
 function App() {
   
@@ -22,7 +23,8 @@ function App() {
         <Route path="/" component={LandingPage} exact />
         <Route path="/login" component={LoginScreen} />
         <Route path="/register" component={RegisterScreen} />
-        <Route path="/bookings/:address?" component={Bookings} />
+        <Route path="/bookings" component={Bookings} />
+        <Route path="/searchFriend" component={SearchFriend} />
         <Route path="/mybookings/:user" component={MyBookings} />
         <Route path="/profile" component={ProfileScreen} />
       </main>

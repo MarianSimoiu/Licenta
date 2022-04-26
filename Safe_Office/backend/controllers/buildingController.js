@@ -24,13 +24,10 @@ const CreateBuilding = asyncHandler(async (req, res) => {
 
   const getBuildingDesks = asyncHandler(async (req, res) => {
 
-    const buildingDesks = await Building.findOne({address: req.params.address});
+    const buildingDesks = await Building.findById(req.params.id);
 
-    if (buildingDesks) {
       res.json(buildingDesks);
-    } else {
-      res.status(404).json({ message: "Building not found" });
-    }
+  
 
 
   })

@@ -5,14 +5,17 @@ import {
   CreateBooking,
   DeleteBooking,
   UpdateBooking,
-  getBookingByUser,
+  getActiveBookingByUser,
+  getHistoryBookingByUser,
 } from "../controllers/bookingController.js";
 const router = express.Router();
 import { protect } from "../middleware/authMiddleware.js";
 
+
 router.route("/create").post(protect, CreateBooking)
 router.route("/").get(protect, getBookings);
-router.route("/:user").get(protect,getBookingByUser)
+router.route("/active/:user").get(protect,getActiveBookingByUser)
+router.route("/expired/:user").get(protect,getHistoryBookingByUser)
 router.route("/:id").get(getBookingById)
   .delete(protect, DeleteBooking)
   .put(protect, UpdateBooking);

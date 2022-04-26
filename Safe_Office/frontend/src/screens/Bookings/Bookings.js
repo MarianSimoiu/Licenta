@@ -8,9 +8,9 @@ import floorPrint from "../../images/mainFloor.png"
 import { useDispatch, useSelector } from "react-redux";
 import { listBookings } from "../../actions/bookingsActions";
 import axios from "axios";
-import { useParams } from 'react-router-dom'
+import MainMenu from "../../components/MainMenu"
 
-function Bookings({history}) {
+function Bookings({history, match}) {
 
   const [building, setBuilding] = useState("");
   const [floor, setFloor] = useState("");
@@ -20,10 +20,10 @@ function Bookings({history}) {
   const floors = 10;
   const [fetchedData, setFetchedData] = useState([]);
   const dispatch = useDispatch();
-
+  const city = "ROmania";
   const buildingList = useSelector((state) => state.buildingList);
   const {buildings}  = buildingList;
-  console.log(buildings)
+
   const desksList = useSelector((state) => state.desksList);
   const {desks} = desksList;
 
@@ -32,15 +32,20 @@ function Bookings({history}) {
     
   },[dispatch])
 
-  async function fetching(){
-    const response= await axios.get("api/buildings/",
-    { 
-      params: { 
-        address: building
-      }
-    }
-  );
+  const fetching = async () => {
+              
+    const config = {
+        headers: {
+            Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+    console.log(building)
+    const response  = await axios.get(`/api/buildings/`,{ params : { id: building } }, config)
+
+    console.log("data:")
     console.log(response.data)
+    console.log("data")
+    setFetchedData(response.data)
   };
   
 
@@ -58,20 +63,17 @@ function Bookings({history}) {
     setDesk("");
   };
 
-  /*
+
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(createBookingAction(building, floor, date, desk));
-    if (!building || !floor || !date || !desk) return;
+    fetching()
+    dispatch(createBookingAction(city, building, floor, date, desk));
+    if (!city || !building || !floor || !date || !desk) return;
 
     resetHandler();
-    history.push("/mybookings");
+   // history.push("/mybookings");
   };
-*/
- const submitHandler = (e) => {
-   e.preventDefault()
-   fetching()
- }
+
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -167,12 +169,8 @@ function Search(){
 
   return (
   <div>
-    <div class="sidebar">
-    <a href="#lo">Desk Booking</a>
-    <a href="#contact">Room Booking</a>
-    <a href={`/mybookings/${userInfo._id}`}> Your Bookings</a>
-    </div>
-  
+    
+    <MainMenu uInfo={userInfo}></MainMenu>
     <div class="content">
       <h1>Welcome to Safe Office Desk Booking System!</h1>
       <div class="search-container">
@@ -184,7 +182,7 @@ function Search(){
           <select class="form-select" id="buildingSelect"  onChange={(e) => setBuilding(e.target.value)}>
             <option value=""disabled selected>select address</option>
             {buildings?.map((b) => 
-             <option  value={b.address} key ={b.address} data-value={b.noFloors}>{b.address}</option>
+             <option  value={b._id} key ={b.address} data-value={b.noFloors}>{b.address}</option>
              )}
           </select>
     

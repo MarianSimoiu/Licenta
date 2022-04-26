@@ -23,12 +23,20 @@ const getBookingById = asyncHandler(async (req, res) => {
  
 });
 
-const getBookingByUser = asyncHandler(async (req, res) => {
-  const booking = await Booking.find({user : req.params.user})
-//  if(booking)
+const getActiveBookingByUser = asyncHandler(async (req, res) => {
+  const booking = await Booking.find({user : req.params.user, date:{"$gte":new Date()}})
+  if(booking)
     res.json(booking)
-  //else 
-    //res.status(404).json({ message: "Bookings not found"})
+  else 
+    res.status(404).json({ message: "Bookings not found"})
+})
+
+const getHistoryBookingByUser = asyncHandler(async (req, res) => {
+  const booking = await Booking.find({user : req.params.user, date:{"$lte":new Date()}})
+  if(booking)
+    res.json(booking)
+  else 
+    res.status(404).json({ message: "Bookings not found"})
 })
 
 
@@ -98,4 +106,4 @@ const UpdateBooking = asyncHandler(async (req, res) => {
   }
 });
 
-export { getBookingById, getBookings, CreateBooking, DeleteBooking, UpdateBooking, getBookingByUser};
+export { getBookingById, getBookings, CreateBooking, DeleteBooking, UpdateBooking, getActiveBookingByUser, getHistoryBookingByUser};

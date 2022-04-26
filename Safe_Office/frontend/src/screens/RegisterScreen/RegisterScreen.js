@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 import { register } from "../../actions/userActions";
-import MainScreen from "../../components/MainScreen";
+import MainScreen from "../../components/MainMenu";
 import "./RegisterScreen.css";
 
 function RegisterScreen({ history }) {

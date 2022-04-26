@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
-import MainScreen from "../../components/MainScreen";
+import MainScreen from "../../components/MainMenu";
 import "./ProfileScreen.css";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../../actions/userActions";

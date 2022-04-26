@@ -1,8 +1,8 @@
 
-import {useDispatch, useSelector} from "react-redux"
+import {useSelector} from "react-redux"
 import React, { useEffect , useState} from "react";
 import axios from "axios"
-
+import MainMenu from "../../components/MainMenu";
 
 function MyBookings({match}) {
 
@@ -14,7 +14,8 @@ function MyBookings({match}) {
     const [date, setDate] = useState("");
     const [desk, setDesk] = useState("");
     const [noFloors, setFloors] = useState("");
-    const [fetchedData, setFetchedData] = useState([]);
+    const [fetchedDataActie, setFetchedDataActive] = useState([]);
+    const [fetchedDataExpired, setFetchedDataExpired] = useState([]);
     useEffect(() => {
 
         const fetching = async () => {
@@ -25,9 +26,12 @@ function MyBookings({match}) {
                 },
               };
 
-            const response  = await axios.get(`/api/bookings/${match.params.user}`, config)
+            const response  = await axios.get(`/api/bookings/active/${match.params.user}`, config)
+            const respone2 = await axios.get(`/api/bookings/expired/${match.params.user}`, config)
             console.log(response.data)
-            setFetchedData(response.data)
+            setFetchedDataActive(response.data)
+            setFetchedDataExpired(respone2.data)
+            
           };
       
           fetching();
@@ -36,14 +40,55 @@ function MyBookings({match}) {
       
     return(
         <div>
-            {fetchedData?.map((d) => <p>{d.address}</p>)}
-            <div className="sidebar">
-                <a href="#lo">Desk Booking</a>
-                <a href="#contact">Room Booking</a>
-                <a href="#about">Your Bookings</a>
-            </div>
+            <MainMenu uInfo={userInfo}></MainMenu>
+           
             <div className="content">
                 <h1>Current Bookings!</h1>
+                {fetchedDataActie?.map((b) => 
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Type</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Floor</th>
+                            <th scope="col">Desk</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-success">
+                        <th scope="row">Active</th>
+                        <td>{b.address}</td>
+                        <td>{b.date}</td>
+                        <td>{b.floor}</td>
+                        <td>{b.desk}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                )}
+                <h2>Bookings History:</h2>
+                {fetchedDataExpired?.map((b) =>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Type</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Floor</th>
+                            <th scope="col">Desk</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-active">
+                        <th scope="row">Expired</th>
+                        <td>{b.address}</td>
+                        <td>{b.date}</td>
+                        <td>{b.floor}</td>
+                        <td>{b.desk}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                )}
 
             </div>
         </div>
