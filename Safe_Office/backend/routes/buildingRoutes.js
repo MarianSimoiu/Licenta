@@ -5,5 +5,5 @@ const router = express.Router();
 
 router.route("/addBuilding").post(CreateBuilding);
 router.route("/").get(getBuildings);
-router.route("/:id").get(protect,getBuildingDesks);
+router.route("/:address").get(protect,getBuildingDesks);
 export default router;

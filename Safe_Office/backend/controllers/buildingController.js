@@ -24,11 +24,10 @@ const CreateBuilding = asyncHandler(async (req, res) => {
 
   const getBuildingDesks = asyncHandler(async (req, res) => {
 
-    const buildingDesks = await Building.findById(req.params.id);
+    const buildingDesks = await Building.find({ address: req.params.address});
 
       res.json(buildingDesks);
-  
-
+    
 
   })
 export {CreateBuilding, getBuildings, getBuildingDesks}

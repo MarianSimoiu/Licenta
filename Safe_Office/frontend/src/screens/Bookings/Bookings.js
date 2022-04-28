@@ -12,10 +12,11 @@ import MainMenu from "../../components/MainMenu"
 
 function Bookings({history, match}) {
 
-  const [building, setBuilding] = useState("");
+  const [address, setAddress] = useState("");
   const [floor, setFloor] = useState("");
   const [date, setDate] = useState("");
   const [desk, setDesk] = useState("");
+  const [fDesk, setFetchDesk] = useState("");
   const [noFloors, setFloors] = useState("");
   const floors = 10;
   const [fetchedData, setFetchedData] = useState([]);
@@ -39,25 +40,42 @@ function Bookings({history, match}) {
             Authorization: `Bearer ${userInfo.token}`,
         },
       };
-    console.log(building)
-    const response  = await axios.get(`/api/buildings/`,{ params : { id: building } }, config)
-
-    console.log("data:")
-    console.log(response.data)
-    console.log("data")
-    setFetchedData(response.data)
-  };
   
+    const response  = await axios.get(`/api/buildings/${address}`, config)
+    console.log(response.data)
+    setFetchedData(response.data)
+  }
+
+    var fetchedDesks
+    fetchedData?.map((f) => fetchedDesks = f.floors[floor-1].desks)
+    console.log(fetchedDesks)
+
+   // var availableDesks
+    ////fetchedDesks?.map((d, i) => { if(d[i].status.toString() != "available")
+       //                                availableDesks[i] = d[i] })
+
+
+
+    //functio {n DisplayDeskNo(i) {
+   // fetchedDesk?.map((d) => {  return(d[i].deskNo) })}
+                               
+
+  
+  
+
 
   const [showConfirmation, setShowConfirmation] = React.useState(false)
   const [showSearch, setShowSearch] = React.useState(false)
-  const [showFloor, setShowFloor] = React.useState(false)
+
+
+  const [setFloorPlan, setShowFloor] = React.useState(false)
+  
 
   const bookingList = useSelector((state) => state.bookingList);
   const { bookings } = bookingList;
   
   const resetHandler = () => {
-    setBuilding("");
+    setAddress("");
     setFloor("");
     setDate("");
     setDesk("");
@@ -67,8 +85,8 @@ function Bookings({history, match}) {
   const submitHandler = (e) => {
     e.preventDefault();
     fetching()
-    dispatch(createBookingAction(city, building, floor, date, desk));
-    if (!city || !building || !floor || !date || !desk) return;
+    dispatch(createBookingAction(city, address, floor, date, desk));
+    if (!city || !address || !floor || !date || !desk) return;
 
     resetHandler();
    // history.push("/mybookings");
@@ -119,6 +137,8 @@ function Confirmation(){
     </div>
   </div>
         )}
+
+
 function FloorPlan() {
   return(
   <div>
@@ -142,7 +162,10 @@ function FloorPlan() {
 
 function Search(){
   return(
-  <div>
+  <div className="search-table">
+    {fetchedDesks?.map((data, i) =>  {if(data.status == "available"){  i = i - 1
+    
+    return(
     <table class="table table-hover">
     <thead>
     <tr>
@@ -155,14 +178,16 @@ function Search(){
   </thead>
      <tbody>
      <tr class="table-light">
-      <td>1</td> 
-      <td>{noFloors}</td>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
+      <td>{i+1}</td> 
+      <td>{address}</td>
+      <td>{floor}</td> 
+      <td>{data.deskNo}</td>
+      <td>{data.status}</td>
+      <button type="button" id = "btn-booking"class="btn btn-success">Book now!</button>
     </tr>
   </tbody>
-  </table>
+  </table> )}}
+    )}
   </div>
   )
 }
@@ -179,10 +204,10 @@ function Search(){
         <form onSubmit={submitHandler} id="first-form">
         
           <label for="buildingSelect" class="form-label mt-2">Address:</label>
-          <select class="form-select" id="buildingSelect"  onChange={(e) => setBuilding(e.target.value)}>
+          <select class="form-select" id="buildingSelect"  onChange={(e) => setAddress(e.target.value)}>
             <option value=""disabled selected>select address</option>
             {buildings?.map((b) => 
-             <option  value={b._id} key ={b.address} data-value={b.noFloors}>{b.address}</option>
+             <option  value={b.address} key ={b._id} >{b.address}</option>
              )}
           </select>
     
