@@ -194,10 +194,12 @@ function Search(){
 
   return (
   <div>
-    
+
     <MainMenu uInfo={userInfo}></MainMenu>
+    
     <div class="content">
       <h1>Welcome to Safe Office Desk Booking System!</h1>
+      {userInfo.isAdmin ? <p>Yes Admin</p> : <p>no</p>}  
       <div class="search-container">
         <h2 >Quick search for a desk!</h2>
         

@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import {FaVirus, FaVirusSlash, FaShieldVirus} from "react-icons/fa";
 import {
   Container,
   Form,
@@ -9,7 +10,8 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {} from "react-router-dom";
-import { logout } from "../actions/userActions";
+import { logout } from "../actions/userActions"
+
 
 function Header({ setSearch }) {
   const dispatch = useDispatch();
@@ -21,8 +23,23 @@ function Header({ setSearch }) {
     dispatch(logout());
   };
 
-  useEffect(() => {}, [userInfo]);
+  const [isOn, setOn] = React.useState(JSON.parse(localStorage.getItem('is-on')) || false);
+  const [checked, setCheck] = React.useState(isOn)
 
+  const handleToggle = () => {
+    setOn(!isOn);
+    
+  }
+   
+  React.useEffect(() => {
+    localStorage.setItem('is-on', JSON.stringify(isOn));
+    if (isOn == false)
+       setCheck("");
+    else setCheck("true")
+  },[isOn]);
+  
+  
+ 
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
@@ -31,6 +48,27 @@ function Header({ setSearch }) {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="m-auto">
+          </Nav>
+          <Nav className="m-auto">
+            { userInfo ? ( 
+              <div className="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"  onClick={handleToggle} checked={checked}></input>
+                { !isOn ? 
+                <>
+                  <FaVirusSlash style ={{ color:'red'}}></FaVirusSlash>
+                  <label className="form-check-label"  style ={{ color:'red'}} for="flexSwitchCheckDefault">Protocol Off</label>
+                  
+                </>
+                  : 
+                <>
+                <FaShieldVirus style ={{ color:'green'}}></FaShieldVirus>
+                <label className="form-check-label"  style ={{ color:'green'}} for="flexSwitchCheckDefault">Protocol On</label>
+                </>
+                }
+                 
+        
+            </div>
+            ) : <></>}
           </Nav>
           <Nav>
             {userInfo ? (
@@ -66,5 +104,6 @@ function Header({ setSearch }) {
     </Navbar>
   );
 }
+
 
 export default Header;
