@@ -23,8 +23,19 @@ const buildingSchema = mongoose.Schema({
                     type:String,
                     required: true,
                 }
+             }],
+             conferenceRooms:[{
+                conferenceRoomNo:{
+                    type:Number,
+                    required: true,
+                },
+                status:{
+                    type:String,
+                    required: true,
+                }
              }] 
         }]
+
     })
 
 const Building = mongoose.model("Building", buildingSchema);

@@ -1,0 +1,22 @@
+
+#conference_room{
+    top: 335px;
+    left: 390px;
+}
+
+.room{
+    position: absolute;
+    font-size: 25px;
+    color: rgb(83, 194, 83);
+  }
+  
+.room:hover {
+    color: rgb(58, 153, 58);
+    cursor: pointer;
+  }
+
+#success-alert{
+    width: 600px;
+    margin: auto;
+    transition: all .5s ease-in-out;
+}

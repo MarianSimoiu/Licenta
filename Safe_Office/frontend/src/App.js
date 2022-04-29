@@ -10,10 +10,9 @@ import MyBookings  from "./screens/MyBookings/MyBookings";
 import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
 //import createBooking from "./screens/SingleNote/CreateNote";
-import { useState } from "react";
 import ProfileScreen from "./screens/ProfileScreen/ProfileScreen";
 import SearchFriend from "./screens/SearchFriend/SearchFriend";
-
+import RoomBooking from "./screens/RoomBooking/RoomBooking"
 function App() {
   
   return (
@@ -24,7 +23,8 @@ function App() {
         <Route path="/login" component={LoginScreen} />
         <Route path="/register" component={RegisterScreen} />
         <Route path="/bookings" component={Bookings} />
-        <Route path="/searchFriend" component={SearchFriend} />
+        <Route path="/room_booking" component={RoomBooking} />
+        <Route path="/search_friend" component={SearchFriend} />
         <Route path="/mybookings/:user" component={MyBookings} />
         <Route path="/profile" component={ProfileScreen} />
       </main>

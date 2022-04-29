@@ -18,7 +18,8 @@ function Header({ setSearch }) {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
+  
+  console.log(userInfo)
   const logoutHandler = () => {
     dispatch(logout());
   };
@@ -28,7 +29,6 @@ function Header({ setSearch }) {
 
   const handleToggle = () => {
     setOn(!isOn);
-    
   }
    
   React.useEffect(() => {
@@ -50,7 +50,7 @@ function Header({ setSearch }) {
           <Nav className="m-auto">
           </Nav>
           <Nav className="m-auto">
-            { userInfo ? ( 
+            {userInfo.isAdmin ? (
               <div className="form-check form-switch">
               <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"  onClick={handleToggle} checked={checked}></input>
                 { !isOn ? 

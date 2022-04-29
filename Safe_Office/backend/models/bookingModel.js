@@ -18,7 +18,7 @@ const bookingSchema = mongoose.Schema(
         type: Date,
         required: true,
     },
-    desk: {
+    floorSeat: {
       type: String,
       required: true,
     },

@@ -44,14 +44,14 @@ const getHistoryBookingByUser = asyncHandler(async (req, res) => {
 //@route           GET /api/notes/create
 //@access          Private
 const CreateBooking = asyncHandler(async (req, res) => {
-  const { city, address, floor, date, desk } = req.body;
+  const { city, address, floor, date, floorSeat} = req.body;
 
-  if (!city || !address || !floor || !date || !desk) {
+  if (!city || !address || !floor || !date || !floorSeat) {
     res.status(400);
     throw new Error("Please Fill all the feilds");
     return;
   } else {
-    const booking = new Booking({ user: req.user._id, city, address, floor, date, desk });
+    const booking = new Booking({ user: req.user._id, city, address, floor, date, floorSeat });
 
     const createdBooking = await booking.save();
 
