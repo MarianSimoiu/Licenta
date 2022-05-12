@@ -10,7 +10,7 @@ function MainScreen({uInfo}) {
       <a href={`/mybookings/${uInfo._id}`}> Your Bookings</a>
       : <></>}
       <a href="/search_friend">Serach for friend</a>
-      <a href="#">Book for a friend</a>
+      <a href="/book-for-friend">Book for a friend</a>
     </div>
   );
 }

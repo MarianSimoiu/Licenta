@@ -3,7 +3,7 @@ import {useSelector} from "react-redux"
 import React, { useEffect , useState} from "react";
 import axios from "axios"
 import MainMenu from "../../components/MainMenu";
-
+import "./myBookings.css"
 function MyBookings({match}) {
 
     const userLogin = useSelector((state) => state.userLogin);
@@ -66,9 +66,10 @@ function MyBookings({match}) {
                     </tbody>
                 </table>
                 )}
+            <div className="expired">
                 <h2>Bookings History:</h2>
                 {fetchedDataExpired?.map((b) =>
-                <table class="table table-hover">
+                <table class="table table-hover m-3">
                     <thead>
                         <tr>
                             <th scope="col">Type</th>
@@ -89,6 +90,7 @@ function MyBookings({match}) {
                     </tbody>
                 </table>
                 )}
+            </div>
 
             </div>
         </div>

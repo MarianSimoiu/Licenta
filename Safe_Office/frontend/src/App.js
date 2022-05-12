@@ -13,6 +13,7 @@ import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
 import ProfileScreen from "./screens/ProfileScreen/ProfileScreen";
 import SearchFriend from "./screens/SearchFriend/SearchFriend";
 import RoomBooking from "./screens/RoomBooking/RoomBooking"
+import BookFriend from "./screens/BookforFriend/BookfForFriend"
 function App() {
   
   return (
@@ -23,10 +24,12 @@ function App() {
         <Route path="/login" component={LoginScreen} />
         <Route path="/register" component={RegisterScreen} />
         <Route path="/bookings" component={Bookings} />
+        <Route path="/profile" component={ProfileScreen} />
         <Route path="/room_booking" component={RoomBooking} />
+        <Route path="/book-for-friend" component={BookFriend} />
         <Route path="/search_friend" component={SearchFriend} />
         <Route path="/mybookings/:user" component={MyBookings} />
-        <Route path="/profile" component={ProfileScreen} />
+        
       </main>
       <Footer />
     </Router>

@@ -12,7 +12,7 @@ function RegisterScreen({ history }) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [pic, setPic] = useState(
-    "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+    "https://res.cloudinary.com/dnmtxnbkb/image/upload/v1652347359/buildings/Circ_tjkhgr.jpg"
   );
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
@@ -68,7 +68,6 @@ function RegisterScreen({ history }) {
   };
 
   return (
-    <MainScreen title="REGISTER">
       <div className="loginContainer">
         {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
         {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
@@ -138,7 +137,6 @@ function RegisterScreen({ history }) {
           </Col>
         </Row>
       </div>
-    </MainScreen>
   );
 }
 

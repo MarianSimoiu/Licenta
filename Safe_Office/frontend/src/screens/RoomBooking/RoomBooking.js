@@ -18,6 +18,7 @@ function RoomBooking({history}) {
     const [noFloors, setFloors] = useState("");
     const floors = 10;
     const [fetchedData, setFetchedData] = useState([]);
+    const [fetchedRooms, setFetchedRooms] = useState([]);
     const dispatch = useDispatch();
     const city = "ROmania";
     const buildingList = useSelector((state) => state.buildingList);
@@ -41,18 +42,20 @@ function RoomBooking({history}) {
       
         const response  = await axios.get(`/api/buildings/${address}`, config)
         setFetchedData(response.data)
-        console.log(response.data)
+        
+      var fetchedR
+      fetchedData?.map((f) => fetchedR = f.floors[floor-1].conferenceRooms)
+      setFetchedRooms(fetchedR)
+      console.log(fetchedR)
       }
-
-    var fetchedRooms
-    fetchedData?.map((f) => fetchedRooms = f.floors[floor-1].conferenceRooms)
-    console.log(fetchedRooms)
-
 
     useEffect(() => {
         dispatch(listBuildings())
-        
-      },[dispatch])
+        fetching()
+        if (!userInfo) {
+          history.push("/login");
+        }
+      },[dispatch,userInfo])
 
     const resetHandler = () => {
         setAddress("");
@@ -64,6 +67,7 @@ function RoomBooking({history}) {
     
     const submitHandler = (e) => {
         e.preventDefault();
+        console.log("create")
         dispatch(createBookingAction(city, address, floor, date, floorSeat));
         if (!city || !address || !floor || !date || !floorSeat) 
            return;
@@ -144,7 +148,7 @@ function RoomBooking({history}) {
             <td>{floor}</td> 
             <td>{data.conferenceRoomNo}{"-CR"}</td>
             <td>{data.status}</td>
-            <button type="button" id="btn-booking"class="btn btn-success" onClick={ () => {setShowConfirmation(true); setFloorSeat(data.conferenceRoomNo)}}>Book now!</button>
+            <button type="button" id="btn-booking"className="btn btn-success" onClick={ () => {setShowConfirmation(true); setFloorSeat(data.conferenceRoomNo)}}>Book now!</button>
           </tr>
         </tbody>
         </table> )}}
@@ -182,9 +186,9 @@ function RoomBooking({history}) {
 
           <label for="dateSelect" class="form-label mt-2">Date:</label> <br></br>
           <input type="date" class="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
-          <button type="submit" class="btn btn-outline-primary mt-4" id="submit1" onClick={() => {setShowSearch(true);fetching()}}>Search</button>
-          <button type="submit" class="btn btn-outline-warning mt-4" id="submit2" onClick={() => setShowSearch(false)}>Floor plan</button>
         </form>
+        <button className="btn btn-outline-primary mt-4" id="submit1" onClick={() => {fetching();setShowSearch(true)}}>Search</button>
+        <button className="btn btn-outline-warning mt-4" id="submit2" onClick={() => setShowSearch(false)}>Floor plan</button>
       </div>
     </div>
     <div class="floor">

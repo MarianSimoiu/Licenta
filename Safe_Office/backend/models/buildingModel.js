@@ -9,6 +9,10 @@ const buildingSchema = mongoose.Schema({
             type:Number,
             required: true,
         },
+        pic: {
+            type: String,
+            required: true,
+          },
         floors:[{
              floorNo: {
                  type:Number,

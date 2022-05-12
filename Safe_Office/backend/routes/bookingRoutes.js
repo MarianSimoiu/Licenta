@@ -7,11 +7,12 @@ import {
   UpdateBooking,
   getActiveBookingByUser,
   getHistoryBookingByUser,
+  trigger
 } from "../controllers/bookingController.js";
 const router = express.Router();
 import { protect } from "../middleware/authMiddleware.js";
 
-
+router.route("/trigger").get(trigger)
 router.route("/create").post(protect, CreateBooking)
 router.route("/").get(protect, getBookings);
 router.route("/active/:user").get(protect,getActiveBookingByUser)

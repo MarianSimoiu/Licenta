@@ -18,7 +18,7 @@ function LoginScreen({ history }) {
 
   useEffect(() => {
     if (userInfo) {
-      history.push("/mybookings");
+      history.push("/bookings");
     }
   }, [history, userInfo]);
 

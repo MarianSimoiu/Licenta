@@ -50,7 +50,7 @@ function Header({ setSearch }) {
           <Nav className="m-auto">
           </Nav>
           <Nav className="m-auto">
-            {userInfo.isAdmin ? (
+            {userInfo && userInfo.isAdmin ? (
               <div className="form-check form-switch">
               <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"  onClick={handleToggle} checked={checked}></input>
                 { !isOn ? 
@@ -73,7 +73,7 @@ function Header({ setSearch }) {
           <Nav>
             {userInfo ? (
               <>
-                <Nav.Link href="/mybookings"></Nav.Link>
+                
                 <NavDropdown
                   title={`${userInfo.name}`}
                   id="collasible-nav-dropdown"

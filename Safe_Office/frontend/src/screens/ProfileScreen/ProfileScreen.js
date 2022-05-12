@@ -64,7 +64,6 @@ const ProfileScreen = ({ location, history }) => {
   };
 
   return (
-    <MainScreen title="EDIT PROFILE">
       <div>
         <Row className="profileContainer">
           <Col md={6}>
@@ -141,7 +140,7 @@ const ProfileScreen = ({ location, history }) => {
           </Col>
         </Row>
       </div>
-    </MainScreen>
+
   );
 };
 
