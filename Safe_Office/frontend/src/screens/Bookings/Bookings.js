@@ -1,37 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { createBookingAction } from "../../actions/bookingsActions";
 import "./Bookings.css";
 import {listBuildingDesks, listBuildings} from "../../actions/buildingActions";
 import floorPrint from "../../images/mainFloor.png"
-import Circ from "../../images/Circ.jpg"
 import { useDispatch, useSelector } from "react-redux";
 import { listBookings } from "../../actions/bookingsActions";
 import axios from "axios";
 import MainMenu from "../../components/MainMenu"
+import { format } from 'date-fns';
 
 function Bookings({history, match}) {
 
   const [address, setAddress] = useState("");
   const [floor, setFloor] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date())
   const [desk, setDesk] = useState("");
   const [noFloors, setFloors] = useState("");
   const [fetchedData, setFetchedData] = useState([]);
   const [fetchedDesks, setFetchedDesks] = useState([]);
-  const dispatch = useDispatch();
   const buildingList = useSelector((state) => state.buildingList);
   const {buildings}  = buildingList;
   const [pic, setPic] = useState("https://res.cloudinary.com/dnmtxnbkb/image/upload/v1652353724/buildings/da_htpdpb.jpg");
   
-  
+  const dispatch = useDispatch();
+
   const desksList = useSelector((state) => state.desksList);
   const {desks} = desksList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
   
-  
+
 
   const fetching = async () => {
               
@@ -236,11 +236,12 @@ function Search(){
           </select>
       
 
-          <label for="dateSelect" class="form-label mt-2">Date:</label> <br></br>
-          <input type="date" class="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
+          <label for="dateSelect" className="form-label mt-2">Date:</label> <br></br>
+          <input type="date" className="form-control"  id="dateSelect"  value={date}  onFocus={(e) => (e.target.type = "date")}
+        onBlur={(e) => (e.target.type = "text")} placeholder={(format(new Date(), 'yyyy/MM/dd')) }onChange={(e) => setDate(e.target.value)}></input>
         </form>
         <button className="btn btn-outline-primary mt-4" id="submit1" onClick={() => searchPressed()}>Search</button>
-        <button className="btn btn-outline-warning mt-4" id="submit2" onClick={() => setShowSearch(false)}>Floor plan</button>
+        <button className="btn btn-outline-warning mt-4" id="submit2" onClick={() => {setShowSearch(false); setShowDefault(false)}}>Floor plan</button>
       </div>
     </div>
     <div class="floor">
