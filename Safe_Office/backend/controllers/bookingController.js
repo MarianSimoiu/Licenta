@@ -46,7 +46,7 @@ const getHistoryBookingByUser = asyncHandler(async (req, res) => {
 const CreateBooking = asyncHandler(async (req, res) => {
   const {address, floor, date, floorSeat} = req.body;
 
-  if (!city || !address || !floor || !date || !floorSeat) {
+  if (!address || !floor || !date || !floorSeat) {
     res.status(400);
     throw new Error("Please Fill all the feilds");
     return;
@@ -84,7 +84,7 @@ const DeleteBooking = asyncHandler(async (req, res) => {
 // @access  Private
 const UpdateBooking = asyncHandler(async (req, res) => {
   const {address, floor, date } = req.body;
-
+  
   const booking = await Booking.findById(req.params.id);
 
   if (booking.user.toString() !== req.user._id.toString()) {

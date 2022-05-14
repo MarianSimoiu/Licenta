@@ -4,7 +4,7 @@ import asyncHandler from "express-async-handler";
 const CreateBuilding = asyncHandler(async (req, res) => {
     const { address,noFloors, floors, pic} = req.body;
   
-    if ( !address || !noFloors|| !floors || !pic) {
+    if (!address || !noFloors|| !floors || !pic) {
       res.status(400);
       throw new Error("Please Fill all the feilds");
       return;

@@ -4,6 +4,8 @@ import React, { useEffect , useState} from "react";
 import axios from "axios"
 import MainMenu from "../../components/MainMenu";
 import "./myBookings.css"
+import moment from 'moment'
+
 function MyBookings({match}) {
 
     const userLogin = useSelector((state) => state.userLogin);
@@ -37,15 +39,18 @@ function MyBookings({match}) {
           fetching();
     },[match.params.user])
 
-      
+    function Filter(){
+        return(
+          <div></div>
+        )}
+
     return(
         <div>
-            <MainMenu uInfo={userInfo}></MainMenu>
-           
+            <MainMenu uInfo={userInfo}></MainMenu>      
             <div className="content">
-                <h1>Current Bookings!</h1>
-                {fetchedDataActie?.map((b) => 
-                <table class="table table-hover">
+                <Filter></Filter>
+                <h2 className="mt-3">Current Bookings:</h2>
+                <table className="table table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Type</th>
@@ -55,21 +60,21 @@ function MyBookings({match}) {
                             <th scope="col">Desk</th>
                         </tr>
                     </thead>
+                {fetchedDataActie?.map((b) =>        
                     <tbody>
-                        <tr class="table-success">
+                        <tr className="table-success">
                         <th scope="row">Active</th>
                         <td>{b.address}</td>
-                        <td>{b.date}</td>
+                        <td>{moment(b.date).format('yyyy/MM/DD')}</td>
                         <td>{b.floor}</td>
                         <td>{b.desk}</td>
                         </tr>
                     </tbody>
-                </table>
                 )}
+                </table>
             <div className="expired">
-                <h2>Bookings History:</h2>
-                {fetchedDataExpired?.map((b) =>
-                <table class="table table-hover m-3">
+                <h2 className="mt-3">Bookings History:</h2>
+                <table className="table table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Type</th>
@@ -79,17 +84,19 @@ function MyBookings({match}) {
                             <th scope="col">Desk</th>
                         </tr>
                     </thead>
+                {fetchedDataExpired?.map((b) => 
                     <tbody>
-                        <tr class="table-active">
+                        <tr className="table-active">
                         <th scope="row">Expired</th>
                         <td>{b.address}</td>
-                        <td>{b.date}</td>
+                        <td>{moment(b.date).format('yyyy/MM/DD')}</td>
                         <td>{b.floor}</td>
                         <td>{b.desk}</td>
                         </tr>
                     </tbody>
-                </table>
                 )}
+                </table>
+                
             </div>
 
             </div>

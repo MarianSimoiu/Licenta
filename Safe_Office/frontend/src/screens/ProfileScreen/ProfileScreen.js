@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
-import MainScreen from "../../components/MainMenu";
+import MainScreen from "../../components/MainScreen";
+import MainMenu from "../../components/MainMenu";
 import "./ProfileScreen.css";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../../actions/userActions";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
-
 const ProfileScreen = ({ location, history }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,7 +22,7 @@ const ProfileScreen = ({ location, history }) => {
 
   const userUpdate = useSelector((state) => state.userUpdate);
   const { loading, error, success } = userUpdate;
-
+  const bar = "_"
   useEffect(() => {
     if (!userInfo) {
       history.push("/");
@@ -33,6 +33,32 @@ const ProfileScreen = ({ location, history }) => {
     }
   }, [history, userInfo]);
 
+  const postDetailsVaccination = (pics) => {
+    setPicMessage(null);
+    //if (pics.type === "image/jpeg" || pics.type === "image/png") {
+      const data = new FormData();
+      data.append("file", pics);
+      data.append("upload_preset", "safeoffice");
+      data.append("cloud_name","dnmtxnbkb");
+      data.append("public_id", `${userInfo.name + "_" + userInfo.email}`);
+      data.append("folder", "vaccination_certificate")
+      fetch("https://api.cloudinary.com/v1_1/dnmtxnbkb/image/upload", {
+        method: "post",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          //setPic(data.url.toString());
+          console.log(pic);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    //} else {
+     // return setPicMessage("Please Select an Image");
+    //}
+  };
+  
   const postDetails = (pics) => {
     setPicMessage(null);
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
@@ -64,9 +90,11 @@ const ProfileScreen = ({ location, history }) => {
   };
 
   return (
+     
       <div>
-        <Row className="profileContainer">
-          <Col md={6}>
+        <MainMenu uInfo={userInfo}></MainMenu>
+        <h1 className="title">Edit your profile</h1>
+          <div className="content-profile">
             <Form onSubmit={submitHandler}>
               {loading && <Loading />}
               {success && (
@@ -75,72 +103,43 @@ const ProfileScreen = ({ location, history }) => {
                 </ErrorMessage>
               )}
               {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-              <Form.Group controlId="name">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+           
+                <label htmlFor="" className="form-label mt-2">Name</label>
+                <Form.Control  type="text" placeholder="Enter Name"value={name} onChange={(e) => setName(e.target.value)}></Form.Control>
+
+                <label htmlFor="" className="form-label mt-2">Email Address</label>
+                <Form.Control type="email"placeholder="Enter Email" value={email} onChange={(e) => setEmail(e.target.value)}></Form.Control>
+             
+                <label htmlFor="" className="form-label mt-2">Password</label>
+                <Form.Control type="password" placeholder="Enter Password" value={password} onChange={(e) => setPassword(e.target.value)}></Form.Control>
+                <label htmlFor="" className="form-label mt-2">Confirm Password</label>
+                <Form.Control type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
                 ></Form.Control>
-              </Form.Group>
-              <Form.Group controlId="email">
-                <Form.Label>Email Address</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Enter Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group controlId="password">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Enter Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group controlId="confirmPassword">
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Confirm Password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                ></Form.Control>
-              </Form.Group>{" "}
+
               {picMessage && (
                 <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
               )}
-              <Form.Group controlId="pic">
-                <Form.Label>Change Profile Picture</Form.Label>
-                <Form.File
-                  onChange={(e) => postDetails(e.target.files[0])}
-                  id="custom-file"
-                  type="image/png"
-                  label="Upload Profile Picture"
-                  custom
-                />
-              </Form.Group>
-              <Button type="submit" varient="primary">
-                Update
-              </Button>
+  
+                <label htmlFor="" className="form-label mt-2">Change Profile Picture</label>
+                <input class="form-control mt-2"   onChange={(e) => postDetails(e.target.files[0])} id="formFile" type="file" label="Upload Profile Picture"></input>
+                <label htmlFor="" className="form-label mt-2">Add Green Certificate</label>
+                <input class="form-control mt-2"   onChange={(e) => postDetailsVaccination(e.target.files[0])} id="formFile" type="file" label="Upload Profile Picture"></input>
+                <button type="submit" class="btn btn-success mt-2">Update</button>
             </Form>
-          </Col>
+          </div>
+
           <Col
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-            }}
-          >
-            <img src={pic} alt={name} className="profilePic" />
+            }}>
+            <div>
+              <img src={pic} alt={name} className="profilePic" />
+            </div>
           </Col>
-        </Row>
       </div>
-
+     
   );
 };
 

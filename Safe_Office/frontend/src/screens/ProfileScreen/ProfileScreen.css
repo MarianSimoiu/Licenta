@@ -1,15 +1,27 @@
 .profilePic {
-  width: 60%;
-  display: flex;
+  width: 20%;
   align-items: center;
-  padding: 20px;
+  position: absolute;
 }
 .profileContainer {
   display: flex;
-  margin: 20px;
+  
 }
 @media only screen and (max-width: 768px) {
   .profileContainer {
     flex-direction: column-reverse;
   }
+}
+
+.title{
+  margin-left: 250px;
+  font-size: 60px;
+  /* font-family: "Ubuntu", sans-serif; */
+  font-family: "Work Sans", sans-serif;
+  padding: 5px 10px;
+}
+.content-profile {
+  margin-left: 200px;
+    padding: 20px;
+    height: 120px;
 }

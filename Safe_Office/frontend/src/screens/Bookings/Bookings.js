@@ -244,7 +244,7 @@ function Search(){
         <button className="btn btn-outline-warning mt-4" id="submit2" onClick={() => {setShowSearch(false); setShowDefault(false)}}>Floor plan</button>
       </div>
     </div>
-    <div class="floor">
+    <div className="floor">
     {showDefault ? <Default/> : showSearch ?  <Search/> : <FloorPlan/>}
     
     </div>
