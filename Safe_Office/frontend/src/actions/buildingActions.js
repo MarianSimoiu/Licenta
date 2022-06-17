@@ -42,7 +42,7 @@ export const listBuildings= () => async (dispatch, getState) => {
     }
   };
 
-  export const listBuildingDesks= (address) => async (dispatch, getState) => {
+  export const listBuildingById= (id) => async (dispatch, getState) => {
     try {
       dispatch({
         type: BUILDING_DESKS_REQUEST,
@@ -58,7 +58,7 @@ export const listBuildings= () => async (dispatch, getState) => {
         },
       };
   
-      const { data } = await axios.get(`/api/buildings/${address}`, config);
+      const { data } = await axios.get(`/api/buildings/${id}`, config);
   
       dispatch({
         type: BUILDING_DESKS_SUCCESS,

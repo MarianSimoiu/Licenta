@@ -1,9 +1,9 @@
 import express from "express"
-import {CreateBuilding, getBuildingDesks, getBuildings} from '../controllers/buildingController.js'
+import {CreateBuilding, getBuildingById, getBuildings} from '../controllers/buildingController.js'
 import { protect } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.route("/addBuilding").post(CreateBuilding);
 router.route("/").get(getBuildings);
-router.route("/:address").get(protect,getBuildingDesks);
+router.route("/:id").get(getBuildingById);
 export default router;

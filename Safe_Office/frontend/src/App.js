@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import LandingPage from "./screens/LandingPage/LandingPage";
-import Bookings from "./screens/Bookings/Bookings";
+import DeskBooking from "./screens/DeskBooking/DeskBooking";
 import Test from "./screens/Test/test";
 import MyBookings  from "./screens/MyBookings/MyBookings";
 //import SingleNote from "./screens/SingleNote/SingleNote";
@@ -14,6 +14,7 @@ import ProfileScreen from "./screens/ProfileScreen/ProfileScreen";
 import SearchFriend from "./screens/SearchFriend/SearchFriend";
 import RoomBooking from "./screens/RoomBooking/RoomBooking"
 import BookFriend from "./screens/BookforFriend/BookfForFriend"
+import Buildings from "./screens/Buildings/Buildings"
 function App() {
   
   return (
@@ -23,7 +24,8 @@ function App() {
         <Route path="/" component={LandingPage} exact />
         <Route path="/login" component={LoginScreen} />
         <Route path="/register" component={RegisterScreen} />
-        <Route path="/bookings" component={Bookings} />
+        <Route path="/buildings" component={Buildings} />
+        <Route path="/desk_booking/:id" component={DeskBooking} />
         <Route path="/profile" component={ProfileScreen} />
         <Route path="/room_booking" component={RoomBooking} />
         <Route path="/book-for-friend" component={BookFriend} />

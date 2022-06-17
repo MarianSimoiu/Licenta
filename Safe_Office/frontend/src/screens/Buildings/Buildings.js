@@ -1,7 +1,7 @@
 import React, { useEffect, useState} from "react";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { createBookingAction } from "../../actions/bookingsActions";
-import "./Bookings.css";
+import "./Buildings.css";
 import {listBuildingDesks, listBuildings} from "../../actions/buildingActions";
 import floorPrint from "../../images/mainFloor.png"
 import { useDispatch, useSelector } from "react-redux";
@@ -9,8 +9,9 @@ import { listBookings } from "../../actions/bookingsActions";
 import axios from "axios";
 import MainMenu from "../../components/MainMenu"
 import { format } from 'date-fns';
+import image from "../../images/da.jpg"
 
-function Bookings({history, match}) {
+function Buildings({history, match}) {
 
   const [address, setAddress] = useState("");
   const [floor, setFloor] = useState("");
@@ -155,6 +156,10 @@ function Default() {
   )
 }
 
+
+
+
+
 function FloorPlan() {
   return(
   <div>
@@ -209,9 +214,44 @@ function Search(){
 }
 
   return (
+<>
+  <MainMenu uInfo={userInfo}></MainMenu>
+  
+  <div class="content">
+   {buildings?.map((b,key) => 
+    <div class="example" key={key}>
+      <article class="card depth--two">
+        <figure class="image">
+          <img src={b.pic}/>
+        </figure>
+        <div class="card__body">
+          <header class="card__primary-title">
+            {b?.address.map((a) => 
+            <>
+              <h2 class="text-large">{a.city}</h2>
+              <h3 class="text-secondary text-normal text-small">{a.street}</h3> 
+            </> 
+            )}
+          </header>
+          <div class="card__supporting-text">
+            Floors, DesksAvailable/TotalDesks, AvailableRooms/Total Rooms 
+          </div>
+        </div>
+        <footer class="card__actions">
+          <a href={`/desk_booking/${b._id}`}class="btn"  >Select Building</a>
+        </footer>
+      </article>
+    </div>
+   )}
+  </div>
+</>
+    
+
+    /*
   <div>
 
     <MainMenu uInfo={userInfo}></MainMenu>
+    
     { showConfirmationError ? <ConfirmationError/> : null }
     <div class="content">
       <h1>Welcome to Safe Office Desk Booking System!</h1>
@@ -250,7 +290,8 @@ function Search(){
     </div>
     
   </div>
+  */
   );
 }
 
-export default Bookings;
+export default Buildings;

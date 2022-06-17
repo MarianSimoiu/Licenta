@@ -35,7 +35,6 @@ const ProfileScreen = ({ location, history }) => {
 
   const postDetailsVaccination = (pics) => {
     setPicMessage(null);
-    //if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const data = new FormData();
       data.append("file", pics);
       data.append("upload_preset", "safeoffice");
@@ -48,15 +47,11 @@ const ProfileScreen = ({ location, history }) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          //setPic(data.url.toString());
           console.log(pic);
         })
         .catch((err) => {
           console.log(err);
         });
-    //} else {
-     // return setPicMessage("Please Select an Image");
-    //}
   };
   
   const postDetails = (pics) => {
@@ -122,7 +117,7 @@ const ProfileScreen = ({ location, history }) => {
   
                 <label htmlFor="" className="form-label mt-2">Change Profile Picture</label>
                 <input class="form-control mt-2"   onChange={(e) => postDetails(e.target.files[0])} id="formFile" type="file" label="Upload Profile Picture"></input>
-                <label htmlFor="" className="form-label mt-2">Add Green Certificate</label>
+                <label htmlFor="" className="form-label mt-2">Add Vaccination Certificate</label>
                 <input class="form-control mt-2"   onChange={(e) => postDetailsVaccination(e.target.files[0])} id="formFile" type="file" label="Upload Profile Picture"></input>
                 <button type="submit" class="btn btn-success mt-2">Update</button>
             </Form>

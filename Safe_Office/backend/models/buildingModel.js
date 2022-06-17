@@ -1,10 +1,16 @@
 import mongoose from "mongoose";
 
 const buildingSchema = mongoose.Schema({
-        address:{
-            type:String,
-            required: true,
-        },
+        address:[{
+            city: {
+                type: String,
+                required: true,
+                },
+            street: {
+                type: String,
+                required: true,
+            }
+        }],
         noFloors:{
             type:Number,
             required: true,
@@ -19,24 +25,16 @@ const buildingSchema = mongoose.Schema({
                  required:true,
              },
              desks:[{
-                deskNo: {
-                    type:Number,
-                    required: true,
-                },
-                status:{
-                    type:String,
+                cod_space: {
+                    type: String,
                     required: true,
                 }
              }],
              conferenceRooms:[{
-                conferenceRoomNo:{
-                    type:Number,
+                cod_space:{
+                    type: String,
                     required: true,
                 },
-                status:{
-                    type:String,
-                    required: true,
-                }
              }] 
         }]
 
