@@ -1,0 +1,150 @@
+
+.control-area {
+    margin-top: 50px;
+    background-color: rgb(173, 208, 239);
+    height: 420px;
+    width: 400px;
+    opacity: 100%;
+    border-radius: 5px;
+}
+
+.big {
+    font-size: 1.2em;
+  }
+  
+  .small {
+    font-size: .7em;
+  }
+  
+  .square {
+    width: .7em;
+    height: .7em;
+    margin: .5em;
+    display: inline-block;
+  }
+  
+  /* Custom dropdown */
+  .custom-dropdown {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 10px; /* demo only */
+  }
+  
+  .custom-dropdown select {
+    background-color: #0a6590;
+    color: #fff;
+    font-size: inherit;
+    padding: .5em;
+    padding-right: 2.5em; 
+    border: 0;
+    margin: 0;
+    border-radius: 3px;
+    text-indent: 0.01px;
+    text-overflow: '';
+    -webkit-appearance: button; /* hide default arrow in chrome OSX */
+  }
+  
+  .custom-dropdown::before,
+  .custom-dropdown::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+  }
+  
+  .custom-dropdown::after { /*  Custom dropdown arrow */
+    content: "\25BC";
+    height: 1em;
+    font-size: .625em;
+    line-height: 1;
+    right: 1.2em;
+    top: 50%;
+    margin-top: -.5em;
+  }
+  
+  .custom-dropdown::before { /*  Custom dropdown arrow cover */
+    width: 2em;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 0 3px 3px 0;
+  }
+  
+  .custom-dropdown select[disabled] {
+    color: rgba(0,0,0,.3);
+  }
+  
+  .custom-dropdown select[disabled]::after {
+    color: rgba(0,0,0,.1);
+  }
+  
+  .custom-dropdown::before {
+    background-color: rgba(0,0,0,.15);
+  }
+  
+  .custom-dropdown::after {
+    color: rgba(0,0,0,.4);
+  }
+
+label{
+    display:inline-block;
+    margin-bottom:0.5rem
+}
+
+input[type=date]{
+    display: inline-block;
+    background-color: #0a6590;
+    font-size: .7em;
+    border-radius: 3px;
+    text-indent: 0.01px;
+    width: 200px;
+    margin-left: 12px;
+    border: 0;
+    border-radius: 3px;
+    text-indent: 0.01px;
+    color: #fff;
+}
+
+.control-point{
+    padding-left: 20px;
+
+}
+
+#floorSelect{
+    padding-top: 50x;
+}
+
+#header-search {
+  padding: 20px 30px;
+  text-align: center;
+  color: rgb(53, 120, 208);
+  font-size: 30px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+#welcome-text{
+    padding: 20px 30px;
+    color: rgb(10, 17, 27);
+    font-size: 30px;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+
+.line{
+    display:block;
+    width:80%; /*or whatever width you want the effect of <hr>*/
+    border-top: 1px solid;
+    border-color: blue;
+    margin-top: 20px;
+ }
+
+ #info{
+    display: inline;
+    font-size: 18px;
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(255, 255, 255);
+    background-color: #0a6590;
+    border-radius: 3px;
+    
+ }

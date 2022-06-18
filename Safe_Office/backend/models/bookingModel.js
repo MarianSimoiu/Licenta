@@ -2,9 +2,10 @@ import mongoose from "mongoose";
 
 const bookingSchema = mongoose.Schema(
   {
-    address: {
-      type: String,
+    building: {
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "Building",
     },
     floor: {
       type: Number,
@@ -14,13 +15,13 @@ const bookingSchema = mongoose.Schema(
         type: Date,
         required: true,
     },
-    floorSeat: {
+    codSpace: {
       type: String,
       required: true,
     },
     status: {
       type: String,
-      required: true
+      default: "active",
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,

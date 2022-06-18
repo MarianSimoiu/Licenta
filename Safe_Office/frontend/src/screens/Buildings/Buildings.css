@@ -71,10 +71,11 @@ body {
 }
 
 .floor{
-  margin-right: 100px;
-  float: right;
+  float: left;
   position: relative;
-  margin-top: 100px;
+  top: 50px;
+  left: 50px;
+
 }
 
 #image-floor {

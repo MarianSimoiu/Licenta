@@ -3,7 +3,7 @@ import asyncHandler from "express-async-handler";
 import Building from "../models/BuildingModel.js";
 
 // @desc    Get logged in user notes
-// @route   GET /api/notes
+// @route   GET /api/bookings
 // @access  Private
 const getBookings = asyncHandler(async (req, res) => {
   const bookings = await Booking.find();
@@ -44,14 +44,14 @@ const getHistoryBookingByUser = asyncHandler(async (req, res) => {
 //@route           GET /api/notes/create
 //@access          Private
 const CreateBooking = asyncHandler(async (req, res) => {
-  const {address, floor, date, floorSeat} = req.body;
+  const {building, floor, date, codSpace} = req.body;
 
-  if (!address || !floor || !date || !floorSeat) {
+  if (!building|| !floor || !date || !codSpace) {
     res.status(400);
     throw new Error("Please Fill all the feilds");
     return;
   } else {
-    const booking = new Booking({ user: req.user._id, address, floor, date, floorSeat });
+    const booking = new Booking({ user: req.user._id, building, floor, date, codSpace});
 
     const createdBooking = await booking.save();
 

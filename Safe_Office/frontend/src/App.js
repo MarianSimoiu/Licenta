@@ -28,7 +28,7 @@ function App() {
         <Route path="/desk_booking/:id" component={DeskBooking} />
         <Route path="/profile" component={ProfileScreen} />
         <Route path="/room_booking" component={RoomBooking} />
-        <Route path="/book-for-friend" component={BookFriend} />
+        <Route path="/book-for-colleague" component={BookFriend} />
         <Route path="/search_friend" component={SearchFriend} />
         <Route path="/mybookings/:user" component={MyBookings} />
         

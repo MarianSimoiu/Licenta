@@ -16,8 +16,28 @@ function MyBookings({match}) {
     const [date, setDate] = useState("");
     const [desk, setDesk] = useState("");
     const [noFloors, setFloors] = useState("");
-    const [fetchedDataActie, setFetchedDataActive] = useState([]);
+    const [filter, setFilter] = useState("All");
+
+    const [fetchedDataActive, setFetchedDataActive] = useState([]);
     const [fetchedDataExpired, setFetchedDataExpired] = useState([]);
+    const [fetchedAllData, setFetchedAllData] = useState([]);
+    const [fetchedBuilding, setFetchedBuilding] = useState([]);
+
+    
+    const fetchBuilding = async (id) => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+          };
+
+        const r = await axios.get(`/api/buildings/${id}`, config)
+        setFetchedBuilding(r.data);
+        
+        
+
+    }
+
     useEffect(() => {
 
         const fetching = async () => {
@@ -30,21 +50,109 @@ function MyBookings({match}) {
 
             const response  = await axios.get(`/api/bookings/active/${match.params.user}`, config)
             const respone2 = await axios.get(`/api/bookings/expired/${match.params.user}`, config)
-            console.log(response.data)
+            const respone3 = await axios.get(`/api/bookings/`, config)
+           
+          
             setFetchedDataActive(response.data)
             setFetchedDataExpired(respone2.data)
+            setFetchedAllData(respone3.data)
             
           };
       
           fetching();
     },[match.params.user])
 
-    function Filter(){
-        return(
-          <div></div>
-        )}
+    function ManageFilter(){
+        if(filter == "All")
+            return(
+                <>
+                    {fetchedAllData?.map((b,i) => {
+                        fetchBuilding(b._id);
+                     return( 
+                        <tr>
+                        <td>{i+1}</td>
+                        <td>{b.status}</td>
+                        <td>{moment(b.date).format('yyyy/MM/DD')}</td>
+                        <td>{b.floor}</td>
+                        <td>{b.codSpace}</td>
+                        </tr>
+                        )})}
+                </>)
+        if(filter == "Expired")
+             return(
+            <>
+                {fetchedDataExpired?.map((b,i) =>  
+
+                    <tr>
+                    <td>{i+1}</td>
+                    <td>Active</td>
+                    <td>{b.status}</td>
+                    <td>{moment(b.date).format('yyyy/MM/DD')}</td>
+                    <td>{b.floor}</td>
+                    <td>{b.codSpace}</td>
+                    </tr>)}
+            </>)
+        if(filter == "Active")
+             return(
+            <>
+                {fetchedDataActive?.map((b,i) =>        
+                    <tr>
+                    <td>{i+1}</td>
+                    <td>Active</td>
+                    <td>{b.status}</td>
+                    <td>{moment(b.date).format('yyyy/MM/DD')}</td>
+                    <td>{b.floor}</td>
+                    <td>{b.codSpace}</td>
+                    </tr>)}
+            </>) }
+
 
     return(
+<div>
+    <MainMenu uInfo={userInfo}></MainMenu> 
+    
+    <div class="container-xl" >
+        
+        <div class="table-responsive">
+            
+            <div class="table-wrapper">   
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6"><h2>Manage <b>Bookings</b></h2></div>
+                    <div class="col-sm-6">
+                        <div class="btn-group" data-toggle="buttons">
+                            <button  class="btn btn-info active" type="radio" name="status" value="all" checked="checked" onClick={()=> setFilter("All")}> All </button>
+                            <button  class="btn btn-success" type="radio" name="status" value="active" onClick={ ()=> setFilter("Active")}> Active </button>
+                            <button  className="btn btn-warning" type="radio" name="status" value="expired" onClick={ ()=> setFilter("Expired")}> Expired </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Building</th>
+                        <th>Booking Date</th>
+                        <th>Floor</th>
+                        <th>Space cod</th>
+                        <th>Status</th> 
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                 <ManageFilter></ManageFilter>
+                </tbody>
+            </table>
+        </div> 
+    </div>   
+</div> 
+</div>
+
+    )
+        /*
+    return(
+
         <div>
             <MainMenu uInfo={userInfo}></MainMenu>      
             <div className="content">
@@ -103,6 +211,7 @@ function MyBookings({match}) {
         </div>
         
     )
+    */
 }
 
 export default MyBookings;

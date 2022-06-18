@@ -42,7 +42,7 @@ function LoginScreen({ history }) {
             <div class="col-md-8">
               <div class="mt-5">
               <h3>Log in</h3>
-              <p id="p" class="mb-4">Fill in the login details with your own credentials and come to the office!</p>
+              <p id="p" class="mb-4">Fill in the login details with your own credentials and book your way to the office!</p>
             </div>
             <Form onSubmit={submitHandler}>
           <Form.Group controlId="formBasicEmail">

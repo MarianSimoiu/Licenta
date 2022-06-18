@@ -88,7 +88,8 @@ const ProfileScreen = ({ location, history }) => {
      
       <div>
         <MainMenu uInfo={userInfo}></MainMenu>
-        <h1 className="title">Edit your profile</h1>
+        <div className="content">
+        <h2 id="welcome-text">Welcome to Safe Office Desk Booking.</h2>
           <div className="content-profile">
             <Form onSubmit={submitHandler}>
               {loading && <Loading />}
@@ -121,19 +122,24 @@ const ProfileScreen = ({ location, history }) => {
                 <input class="form-control mt-2"   onChange={(e) => postDetailsVaccination(e.target.files[0])} id="formFile" type="file" label="Upload Profile Picture"></input>
                 <button type="submit" class="btn btn-success mt-2">Update</button>
             </Form>
+           
           </div>
-
+        </div>
           <Col
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              left: "150px",
+              top: "50px",
+              
             }}>
             <div>
               <img src={pic} alt={name} className="profilePic" />
             </div>
           </Col>
       </div>
+       
      
   );
 };
