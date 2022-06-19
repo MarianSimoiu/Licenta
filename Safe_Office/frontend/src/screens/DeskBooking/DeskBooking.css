@@ -133,10 +133,10 @@ input[type=date]{
 
 .line{
     display:block;
-    width:80%; /*or whatever width you want the effect of <hr>*/
+    width:100%; /*or whatever width you want the effect of <hr>*/
     border-top: 1px solid;
     border-color: blue;
-    margin-top: 20px;
+    margin-top: 30px;
  }
 
  #info{
@@ -147,4 +147,11 @@ input[type=date]{
     background-color: #0a6590;
     border-radius: 3px;
     
+ }
+
+ #btn-floor{
+  margin-left: 40px;
+  margin-top: 50px;
+  width: 80%;
+  text-align: center;
  }

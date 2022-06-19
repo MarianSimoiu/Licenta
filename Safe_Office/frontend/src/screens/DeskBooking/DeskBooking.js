@@ -6,7 +6,7 @@ import { FaRegPlusSquare } from "react-icons/fa";
 import { createBookingAction } from "../../actions/bookingsActions";
 import axios from "axios";
 import "./DeskBooking.css"
-
+import moment from 'moment'
 
 function DeskBooking({history, match}) {
 
@@ -20,9 +20,26 @@ function DeskBooking({history, match}) {
     const [noFloors, setFloors] = useState("");
     const [showConfirmation, setShowConfirmation] = React.useState(false)
     const [showConfirmationError, setShowConfirmationError] = React.useState(false)
-
+    const [fetchedData, setFetchedData] = useState([]);
     const dispatch = useDispatch();
 
+
+    const fetchFilteredBookings= async () => {
+      if( !floor || !date)
+         return        
+      const config = {
+          headers: {
+              Authorization: `Bearer ${userInfo.token}`,
+          },
+        };
+           
+
+      const response  = await axios.get(`/api/bookings/${match.params.id}/${floor}/${date}`, config)
+      setFetchedData(response.data)
+      
+      }
+
+      
     useEffect(() => {
         const fetching = async () => {
             const { data } = await axios.get(`/api/buildings/${match.params.id}`);
@@ -39,7 +56,7 @@ function DeskBooking({history, match}) {
 
       const submitHandler = (e) => {
         e.preventDefault();
-            dispatch(createBookingAction(match.params.id, floor, date, codSpace));
+            dispatch(createBookingAction(match.params.id, address, floor, date, codSpace));
             if (!floor || !date || !codSpace) 
                return;
             setShowConfirmation(false)
@@ -131,7 +148,7 @@ function DeskBooking({history, match}) {
                   <div className="control-area"  >
                     <h4 id="header-search">Quick desk search</h4>
                     <div className="control-point" id="floorSelect">
-
+ 
                     {address?.map((d) =>  {
                         return (
                           <>
@@ -149,15 +166,31 @@ function DeskBooking({history, match}) {
                          </select>
                       </span>
                       
-                      <div className="line"></div>
-                    </div>
-                    <br></br>
+                      
+                     </div>
+              
                   <div className="control-point">
                     <label for="dateSelect">Date:</label> 
                     <input type="date" className="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
                   </div>
-                
-                  <div className="control-point">
+                  <div className="line"></div>
+                  <button  id="btn-floor" type="button" class="btn btn-primary" onClick={()=> fetchFilteredBookings()}>Floor Plan</button>
+                </div>
+                </div>          
+                <div className="col-sm-4">
+                  <div className="floor">
+                    <FloorPlan></FloorPlan>
+                  </div>
+                </div>
+            </div>    
+          </form>
+        </div>
+    </>
+    )
+}
+
+/*
+<div className="control-point">
                     <label for="dateSelect">From:</label> 
                     <span className="custom-dropdown small">
                       <select>
@@ -192,22 +225,6 @@ function DeskBooking({history, match}) {
                       
                     </span>
                   </div>
-                
-                  </div>
-                  
-                </div>
-                
-                <div className="col-sm-4">
-                  <div className="floor">
-                    <FloorPlan></FloorPlan>
-                  </div>
-                </div>
-            </div>    
-          </form>
-        </div>
-    </>
-    )
-}
-
+*/
 
 export default DeskBooking

@@ -8,13 +8,15 @@
     padding-top: 100px;
     padding-left: 300px;
 }
+
 .table-wrapper {
-    width: 850px;
+    width: 1050px;
     background: #fff;
 	margin: 0 auto;
     padding: 20px 30px 5px;
     box-shadow: 0 0 1px 0 rgba(0,0,0,.25);
 }
+
 .table-title .btn-group {
     float: right;
 }
@@ -82,3 +84,29 @@ table.table td .btn.manage:hover {
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
 }
+
+.badge-success{
+    color:#fff;background-color:#28a745;
+    border-radius: 3px;
+    font-size: 13px;
+    padding: 2px;
+    font-weight: bold;
+    
+}
+.badge-success:focus,
+.badge-success:hover{color:#fff;background-color:#0f8a2c}
+.badge-success.focus,
+.badge-success:focus{outline:0;-webkit-box-shadow:0 0 0 0.2rem rgba(26, 163, 58, 0.5);box-shadow:0 0 0 0.2rem rgba(30, 154, 59, 0.5)}
+
+.badge-inactive{
+    color:rgb(0, 0, 0);background-color:#e5e223;
+    border-radius: 3px;
+    font-size: 13px;
+    padding: 3px;
+    font-weight: bold;   
+}
+
+.badge-inactive:focus,
+.badge-inactive:hover{color:rgb(2, 2, 2);background-color:#cbc946}
+.badge-inactive.focus,
+.badge-inactive:focus{outline:0;-webkit-box-shadow:0 0 0 0.2rem rgba(221, 254, 88, 0.5);box-shadow:0 0 0 0.2rem rgba(225, 245, 52, 0.5)}

@@ -1,6 +1,7 @@
 import Booking from "../models/BookingModel.js";
 import asyncHandler from "express-async-handler";
 import Building from "../models/BuildingModel.js";
+import moment from 'moment'
 
 // @desc    Get logged in user notes
 // @route   GET /api/bookings
@@ -40,18 +41,32 @@ const getHistoryBookingByUser = asyncHandler(async (req, res) => {
     res.status(404).json({ message: "Bookings not found"})
 })
 
+const getFilteredBookings = asyncHandler(async (req, res) => {
+   const tomorrow = new Date()
+   const today = new Date(req.params.date)
+   tomorrow.setDate(today.getDate() + 1);
+   var tomorrowFixed = moment(tomorrow).format('YYYY-MM-DD[T00:00:00.000Z]');
+
+  const booking = await Booking.find({date: {"$lte": new Date(today),
+                                             "$gte": new Date(today)}})
+  if(booking)
+    res.json(booking)
+  else
+    res.status(404).json({ message: "Bookings not found"})
+})
+
 //@description     Create single Note
 //@route           GET /api/notes/create
 //@access          Private
 const CreateBooking = asyncHandler(async (req, res) => {
-  const {building, floor, date, codSpace} = req.body;
+  const {building, address, floor, date, codSpace} = req.body;
 
   if (!building|| !floor || !date || !codSpace) {
     res.status(400);
     throw new Error("Please Fill all the feilds");
     return;
   } else {
-    const booking = new Booking({ user: req.user._id, building, floor, date, codSpace});
+    const booking = new Booking({ user: req.user._id, building, address, floor, date, codSpace});
 
     const createdBooking = await booking.save();
 
@@ -126,4 +141,4 @@ const trigger = asyncHandler (async(req, res)  => {
   //})
 
 
-export { getBookingById, getBookings, CreateBooking, DeleteBooking, UpdateBooking, getActiveBookingByUser, getHistoryBookingByUser, trigger};
+export { getBookingById, getBookings, CreateBooking, DeleteBooking, UpdateBooking, getActiveBookingByUser, getHistoryBookingByUser, trigger, getFilteredBookings};

@@ -7,6 +7,16 @@ const bookingSchema = mongoose.Schema(
       required: true,
       ref: "Building",
     },
+    address:[{
+      city: {
+          type: String,
+          required: true,
+          },
+      street: {
+          type: String,
+          required: true,
+      }
+  }],
     floor: {
       type: Number,
       required: true,
@@ -21,7 +31,7 @@ const bookingSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      default: "active",
+      default: "Active",
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,

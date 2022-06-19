@@ -1,12 +1,12 @@
-
-import {useSelector} from "react-redux"
+import {useSelector,  useDispatch} from "react-redux"
 import React, { useEffect , useState} from "react";
 import axios from "axios"
 import MainMenu from "../../components/MainMenu";
 import "./myBookings.css"
 import moment from 'moment'
+import { deleteBookingAction} from "../../actions/bookingsActions";
 
-function MyBookings({match}) {
+function MyBookings({match, history}) {
 
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
@@ -17,26 +17,23 @@ function MyBookings({match}) {
     const [desk, setDesk] = useState("");
     const [noFloors, setFloors] = useState("");
     const [filter, setFilter] = useState("All");
+    const [status, setStatus] = useState();
 
     const [fetchedDataActive, setFetchedDataActive] = useState([]);
     const [fetchedDataExpired, setFetchedDataExpired] = useState([]);
     const [fetchedAllData, setFetchedAllData] = useState([]);
     const [fetchedBuilding, setFetchedBuilding] = useState([]);
 
-    
-    const fetchBuilding = async (id) => {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${userInfo.token}`,
-            },
-          };
+    const noteDelete = useSelector((state) => state.noteDelete);
+    const dispatch = useDispatch();
 
-        const r = await axios.get(`/api/buildings/${id}`, config)
-        setFetchedBuilding(r.data);
-        
-        
+    const deleteHandler = (id) => {
+        if (window.confirm("Are you sure?")) {
+          dispatch(deleteBookingAction(id));
+        }
+        window.location.reload();
+      };
 
-    }
 
     useEffect(() => {
 
@@ -67,14 +64,25 @@ function MyBookings({match}) {
             return(
                 <>
                     {fetchedAllData?.map((b,i) => {
-                        fetchBuilding(b._id);
+                        
                      return( 
                         <tr>
                         <td>{i+1}</td>
-                        <td>{b.status}</td>
-                        <td>{moment(b.date).format('yyyy/MM/DD')}</td>
+                        {b.address?.map((d) =>  {
+                            return(
+                            <>
+                                <td>{d.city}</td>
+                                <td>{d.street}</td>
+                            </>
+                            )})}
                         <td>{b.floor}</td>
                         <td>{b.codSpace}</td>
+                        <td>{moment(b.date).format('yyyy/MM/DD')}</td>
+                        {b.status == "Active" ? 
+                        <td><span className="badge-success">{b.status}</span></td>
+                        : <td><span className="badge-inactive">{b.status}</span></td>
+                        }
+                        <td><button className="btn btn-danger" onClick={() => deleteHandler(b._id)}>Delete</button></td>
                         </tr>
                         )})}
                 </>)
@@ -85,24 +93,38 @@ function MyBookings({match}) {
 
                     <tr>
                     <td>{i+1}</td>
-                    <td>Active</td>
-                    <td>{b.status}</td>
-                    <td>{moment(b.date).format('yyyy/MM/DD')}</td>
+                    {b.address?.map((d) =>  {
+                            return(
+                            <>
+                                <td>{d.city}</td>
+                                <td>{d.street}</td>
+                            </>
+                            )})}
                     <td>{b.floor}</td>
                     <td>{b.codSpace}</td>
+                    <td>{moment(b.date).format('yyyy/MM/DD')}</td>
+                    <td><span className="badge-inactive">Expired</span></td>
+                    <td><button className="btn btn-danger" onClick={() => deleteHandler(b._id)}>Delete</button></td>
                     </tr>)}
             </>)
         if(filter == "Active")
              return(
             <>
                 {fetchedDataActive?.map((b,i) =>        
-                    <tr>
+                    <tr data-status="active">
                     <td>{i+1}</td>
-                    <td>Active</td>
-                    <td>{b.status}</td>
-                    <td>{moment(b.date).format('yyyy/MM/DD')}</td>
+                    {b.address?.map((d) =>  {
+                            return(
+                            <>
+                                <td>{d.city}</td>
+                                <td>{d.street}</td>
+                            </>
+                            )})}
                     <td>{b.floor}</td>
                     <td>{b.codSpace}</td>
+                    <td>{moment(b.date).format('yyyy/MM/DD')}</td>
+                    <td><span className="badge-success">Active</span></td>
+                    <td><button className="btn btn-danger" onClick={() => deleteHandler(b._id)}>Delete</button></td>
                     </tr>)}
             </>) }
 
@@ -111,10 +133,8 @@ function MyBookings({match}) {
 <div>
     <MainMenu uInfo={userInfo}></MainMenu> 
     
-    <div class="container-xl" >
-        
+    <div class="container-xl" >    
         <div class="table-responsive">
-            
             <div class="table-wrapper">   
             <div class="table-title">
                 <div class="row">
@@ -132,10 +152,11 @@ function MyBookings({match}) {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Building</th>
-                        <th>Booking Date</th>
+                        <th>City</th>
+                        <th>Address</th>
                         <th>Floor</th>
                         <th>Space cod</th>
+                        <th>Date</th>
                         <th>Status</th> 
                         <th>Action</th>
                     </tr>
