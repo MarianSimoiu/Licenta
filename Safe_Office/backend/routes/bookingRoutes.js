@@ -16,7 +16,7 @@ import { protect } from "../middleware/authMiddleware.js";
 router.route("/trigger").get(trigger)
 router.route("/create").post(protect, CreateBooking)
 router.route("/").get(protect, getBookings);
-router.route("/:date").get(protect, getFilteredBookings);
+router.route("/:buildingId/:floor/:date").get(protect, getFilteredBookings);
 router.route("/active/:user").get(protect,getActiveBookingByUser)
 router.route("/expired/:user").get(protect,getHistoryBookingByUser)
 router.route("/:id").get(getBookingById)
