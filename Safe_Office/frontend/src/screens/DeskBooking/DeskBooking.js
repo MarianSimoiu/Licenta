@@ -2,20 +2,25 @@ import MainMenu from "../../components/MainMenu"
 import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import floorPrint from "../../images/mainFloor.png"
-import { FaRegPlusSquare } from "react-icons/fa";
+import { FaRegPlusSquare, FaRegUserCircle } from "react-icons/fa";
 import { createBookingAction } from "../../actions/bookingsActions";
 import axios from "axios";
 import "./DeskBooking.css"
 import moment from 'moment'
+import {render} from 'react-dom';
+
 
 function DeskBooking({history, match}) {
 
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
 
+
+    var today = moment(new Date()).format('YYYY-MM-DD');
+
     const [address, setAddress] = useState([]);
-    const [floor, setFloor] = useState("");
-    const [date, setDate] = useState(new Date())
+    const [floor, setFloor] = useState("1");
+    const [date, setDate] = useState(today)
     const [codSpace, setSpace] = useState("");
     const [noFloors, setFloors] = useState("");
     const [showConfirmation, setShowConfirmation] = React.useState(false)
@@ -24,7 +29,7 @@ function DeskBooking({history, match}) {
     const dispatch = useDispatch();
 
 
-    const fetchFilteredBookings= async () => {
+    const fetchFilteredBookings = async () => {
       if( !floor || !date)
          return        
       const config = {
@@ -32,14 +37,11 @@ function DeskBooking({history, match}) {
               Authorization: `Bearer ${userInfo.token}`,
           },
         };
-           
-
+      
       const response  = await axios.get(`/api/bookings/${match.params.id}/${floor}/${date}`, config)
       setFetchedData(response.data)
-      
-      }
+    }
 
-      
     useEffect(() => {
         const fetching = async () => {
             const { data } = await axios.get(`/api/buildings/${match.params.id}`);
@@ -51,6 +53,10 @@ function DeskBooking({history, match}) {
           history.push("/login");
         }
 
+        
+          
+        fetchFilteredBookings()
+      
         fetching();
       },[match.params.id,userInfo])
 
@@ -98,7 +104,6 @@ function DeskBooking({history, match}) {
                   <p>City: {d.city}</p>
                   <p>Address: {d.street}</p>
                 </>
-                
                 )})}
                 <p>Floors: {floor}</p>
                 <p>Date: {date}</p>
@@ -107,18 +112,42 @@ function DeskBooking({history, match}) {
               <div class="modal-footer">
                 <button  form="first-form" type="submit" class="btn btn-primary">Save changes</button>
                 <button onClick={ () => {setShowConfirmation(false);}} type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Close</button>
-                
               </div>
            </div>
           </div>
         </div>
         )}
-      
+    
+    function Yes(info, slot) {
+    
+      return(
+       <>
+         <FaRegUserCircle class="desk" id="slot1"></FaRegUserCircle>
+        <div class="hide">
+          <p>desk cod: D-2</p>
+          <p>status: Unavailable</p>
+        </div>
+       </>
+     
+      );
+    }
 
-    function FloorPlan() {
+    function IsAvailable(deskNo){
+      
+      var available = true;
+      fetchedData.map((d, i) => {
+          if(d.codSpace == deskNo) 
+            available = false;
+          })
+      return available;
+    }
+
+
+    
+    function FloorPlan() { 
         return(
-        <div>
-            <FaRegPlusSquare class="desk" id="slot1" onClick={() => {setShowConfirmation(true); setSpace("D-1")}}></FaRegPlusSquare>
+        <div>  
+          {IsAvailable("D-2") ? <FaRegPlusSquare class="desk" id="slot1" onClick={() => {setShowConfirmation(true); setSpace("D-1")}}></FaRegPlusSquare>: <Yes info={fetchedData} slot={"slot1"}></Yes>}        
             <FaRegPlusSquare class="desk" id="slot2" onClick={() => {setShowConfirmation(true); setSpace("D-2")}}></FaRegPlusSquare>
             <FaRegPlusSquare class="desk" id="slot3" onClick={() => {setShowConfirmation(true); setSpace("D-3")}}></FaRegPlusSquare>
             <FaRegPlusSquare class="desk" id="slot4" onClick={() => {setShowConfirmation(true); setSpace("D-4")}}></FaRegPlusSquare>
@@ -136,9 +165,11 @@ function DeskBooking({history, match}) {
           </div>
         )}
 
+
     return(
     <>
-        <MainMenu uInfo={userInfo}></MainMenu>
+      {userInfo &&
+        <MainMenu uInfo={userInfo}></MainMenu>}
         {showConfirmationError ? <ConfirmationError/> : null }
         <div className="content">
         <form onSubmit={submitHandler} id="first-form">
@@ -160,7 +191,7 @@ function DeskBooking({history, match}) {
                        
                       <label for="floorSelect" class="form-label mt-2" >Floor:</label>
                       <span className="custom-dropdown small">
-                        <select value={floor} onChange={(e) => {setFloor(e.target.value);}}>
+                        <select value={floor} onChange={(e) => {setFloor(e.target.value); }}>
                           <option value=""disabled selected>select floor</option>
                           {[...Array.from(Array(noFloors).keys())].map((num, i) => <option key={i}>{num+1}</option>)}
                          </select>
@@ -174,7 +205,8 @@ function DeskBooking({history, match}) {
                     <input type="date" className="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
                   </div>
                   <div className="line"></div>
-                  <button  id="btn-floor" type="button" class="btn btn-primary" onClick={()=> fetchFilteredBookings()}>Floor Plan</button>
+                  <button  id="btn-floor" type="button" class="btn btn-primary" onClick={()=> fetchFilteredBookings()}>Search</button>
+                  
                 </div>
                 </div>          
                 <div className="col-sm-4">

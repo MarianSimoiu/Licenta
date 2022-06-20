@@ -47,7 +47,7 @@ const getFilteredBookings = asyncHandler(async (req, res) => {
    tomorrow.setDate(today.getDate() + 1);
    var tomorrowFixed = moment(tomorrow).format('YYYY-MM-DD[T00:00:00.000Z]');
 
-  const booking = await Booking.find({date: {"$lte": new Date(today),
+  const booking = await Booking.find({ building: req.params.buildingId, floor: req.params.floor, date: {"$lte": new Date(today),
                                              "$gte": new Date(today)}})
   if(booking)
     res.json(booking)

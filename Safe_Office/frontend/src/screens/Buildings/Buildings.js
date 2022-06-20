@@ -215,7 +215,8 @@ function Search(){
 
   return (
 <>
-  <MainMenu uInfo={userInfo}></MainMenu>
+  {userInfo &&
+  <MainMenu uInfo={userInfo}></MainMenu>}
   
   <div class="content">
    {buildings?.map((b,key) => 

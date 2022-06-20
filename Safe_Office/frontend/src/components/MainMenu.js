@@ -2,9 +2,13 @@ import React from "react";
 import "./MainMenu.css"
 
 function MainScreen({uInfo}) {
+ 
   return (
-    <div class="vertical-nav bg-white" id="sidebar">
+ 
+
+  <div class="vertical-nav bg-white" id="sidebar">
   <div class="py-4 px-3 mb-4 bg-light">
+    
     <div class="media d-flex align-items-center">
       <img src={uInfo.pic} alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm"></img>
       <div class="media-body">
@@ -72,7 +76,8 @@ function MainScreen({uInfo}) {
     </li>
   </ul>
 </div>
-  );
+    
+    )
 }
 
 export default MainScreen;
