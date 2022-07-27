@@ -38,6 +38,10 @@ const bookingSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
+    userName: {
+      type: String,
+      required: true,
+    }
   },
   {
     timestamps: true,

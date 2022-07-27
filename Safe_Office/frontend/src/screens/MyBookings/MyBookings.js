@@ -5,6 +5,7 @@ import MainMenu from "../../components/MainMenu";
 import "./myBookings.css"
 import moment from 'moment'
 import { deleteBookingAction} from "../../actions/bookingsActions";
+import TextBar from "../../components/TextBar";
 
 function MyBookings({match, history}) {
 
@@ -132,7 +133,7 @@ function MyBookings({match, history}) {
     return(
 <div>
     <MainMenu uInfo={userInfo}></MainMenu> 
-    
+    <TextBar text={"You can manage your active bookings and delete old ones!"}></TextBar>
     <div class="container-xl" >    
         <div class="table-responsive">
             <div class="table-wrapper">   

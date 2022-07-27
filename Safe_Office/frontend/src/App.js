@@ -24,10 +24,10 @@ function App() {
         <Route path="/" component={LandingPage} exact />
         <Route path="/login" component={LoginScreen} />
         <Route path="/register" component={RegisterScreen} />
-        <Route path="/buildings" component={Buildings} />
+        <Route path="/select_building/:kind" component={Buildings} />
         <Route path="/desk_booking/:id" component={DeskBooking} />
         <Route path="/profile" component={ProfileScreen} />
-        <Route path="/room_booking" component={RoomBooking} />
+        <Route path="/room_booking/:id" component={RoomBooking} />
         <Route path="/book-for-colleague" component={BookFriend} />
         <Route path="/search_friend" component={SearchFriend} />
         <Route path="/mybookings/:user" component={MyBookings} />

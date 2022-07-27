@@ -129,6 +129,10 @@ input[type=date]{
     font-family: 'Times New Roman', Times, serif;
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
+    position: relative;
+    width: 70%;
+    top: 30px;
+    left: 21%;
 }
 
 .line{
@@ -156,38 +160,28 @@ input[type=date]{
   text-align: center;
  }
 
- .hide {
-  left:257px;
-  top:100px;
-  opacity: 0;
-  visibility: hidden;
-  position: absolute;
-  transform: translate(0, 10px);
-  background-color: #2f99f6;
-  width: auto;
-  height: auto;
-  text-align: center;
-  border-radius: 3px;
-  font-size: 13px;
-  padding: 2px;
-  color: #fff;
-}
 
-.hide:before{
+.deskReserved {
   position: absolute;
-  z-index: -1;
-  border-style: solid;
-  border-width: 0 10px 10px 10px;
-  border-color: transparent transparent #bfbfbf transparent;
-  transition-duration: 0.3s;
-  transition-property: transform;
+  font-size: 20px;
+  color: rgb(240, 51, 96);
+  display: inline-block;
 }
 
 
+.deskReserved:hover {
+  color: rgb(191, 22, 137);
+  cursor: pointer;
+}
 
-.desk:hover + .hide {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(0, -20px);
-  transition: all 0.5s cubic-bezier(0.75, -0.02, 0.2, 0.97);
+.deskReservedByMe{
+  position: absolute;
+  font-size: 20px;
+  color: rgb(18, 93, 223);
+  display: inline-block;
+}
+
+.deskReservedByMe:hover {
+  color:rgb(103, 168, 252);
+  cursor: pointer;
 }

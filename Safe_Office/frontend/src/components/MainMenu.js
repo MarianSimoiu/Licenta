@@ -28,13 +28,13 @@ function MainScreen({uInfo}) {
       </a>
     </li>
     <li class="nav-item">
-      <a href="/buildings" class="nav-link text-dark font-italic">
+      <a href="/select_building/desk_booking" class="nav-link text-dark font-italic">
         <i class="fa fa-address-card mr-3 text-primary fa-fw"></i>
         Desk Booking
       </a>
     </li>
     <li class="nav-item">
-      <a href="/room_booking" class="nav-link text-dark font-italic">
+      <a href="/select_building/room_booking" class="nav-link text-dark font-italic">
         <i class="fa fa-cubes mr-3 text-primary fa-fw"></i>
         Room Booking
       </a>

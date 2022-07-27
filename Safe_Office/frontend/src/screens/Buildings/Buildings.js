@@ -234,12 +234,16 @@ function Search(){
             </> 
             )}
           </header>
-          <div class="card__supporting-text">
-            Floors, DesksAvailable/TotalDesks, AvailableRooms/Total Rooms 
+          <div class="card__supporting-text">        
+            <p>Floors: {b.noFloors}</p>
+            {b.floor?.map((f, i) =>
+              f.desk[i] == ""
+              )}
+            <p></p>
           </div>
         </div>
         <footer class="card__actions">
-          <a href={`/desk_booking/${b._id}`}class="btn"  >Select Building</a>
+          <a href={`/${match.params.kind}/${b._id}`}class="btn"  >Select Building</a>
         </footer>
       </article>
     </div>

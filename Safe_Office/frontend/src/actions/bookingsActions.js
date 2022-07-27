@@ -82,7 +82,7 @@ export const listUserBookings = () => async (dispatch, getState) => {
   }
 };
 
-export const createBookingAction = (building, address, floor, date, codSpace) => async (
+export const createBookingAction = (building, address, floor, date, codSpace, userName) => async (
   dispatch,
   getState
 ) => {
@@ -104,7 +104,7 @@ export const createBookingAction = (building, address, floor, date, codSpace) =>
 
     const { data } = await axios.post(
       `/api/bookings/create`,
-      {building, address, floor, date, codSpace},
+      {building, address, floor, date, codSpace, userName},
       config
     );
 

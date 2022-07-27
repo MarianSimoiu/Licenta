@@ -1,19 +1,46 @@
 
-#conference_room{
-    top: 335px;
-    left: 390px;
-}
-
 .room{
     position: absolute;
     font-size: 25px;
     color: rgb(83, 194, 83);
+    top: 335px;
+    left: 390px;
   }
   
 .room:hover {
     color: rgb(58, 153, 58);
     cursor: pointer;
   }
+
+
+.roomReserved {
+    position: absolute;
+    font-size: 25px;
+    color: rgb(240, 51, 96);
+    display: inline-block;
+  }
+  
+.roomReserved:hover {
+    color: rgb(191, 22, 137);
+    cursor: pointer;
+  }
+
+
+.roomReservedByMe{
+  position: absolute;
+  font-size: 25px;
+  color: rgb(18, 93, 223);
+  display: inline-block;
+  top: 335px;
+  left: 390px;
+}
+
+.roomReservedByMe:hover {
+  color:rgb(103, 168, 252);
+  cursor: pointer;
+}
+
+
 
 #success-alert{
     width: 600px;

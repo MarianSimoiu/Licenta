@@ -1,4 +1,5 @@
 import MainMenu from "../../components/MainMenu"
+import TextBar from "../../components/TextBar"
 import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import floorPrint from "../../images/mainFloor.png"
@@ -7,9 +8,7 @@ import { createBookingAction } from "../../actions/bookingsActions";
 import axios from "axios";
 import "./DeskBooking.css"
 import moment from 'moment'
-import {render} from 'react-dom';
-
-
+import ReactTooltip from 'react-tooltip';
 function DeskBooking({history, match}) {
 
     const userLogin = useSelector((state) => state.userLogin);
@@ -26,8 +25,8 @@ function DeskBooking({history, match}) {
     const [showConfirmation, setShowConfirmation] = React.useState(false)
     const [showConfirmationError, setShowConfirmationError] = React.useState(false)
     const [fetchedData, setFetchedData] = useState([]);
-    const dispatch = useDispatch();
 
+    const dispatch = useDispatch();
 
     const fetchFilteredBookings = async () => {
       if( !floor || !date)
@@ -52,17 +51,15 @@ function DeskBooking({history, match}) {
         if (!userInfo) {
           history.push("/login");
         }
-
-        
-          
-        fetchFilteredBookings()
-      
+  
+        fetchFilteredBookings();
         fetching();
-      },[match.params.id,userInfo])
+      },[match.params.id,userInfo,floor,date,fetchFilteredBookings])
 
-      const submitHandler = (e) => {
-        e.preventDefault();
-            dispatch(createBookingAction(match.params.id, address, floor, date, codSpace));
+    
+      const SubmitHandler = (e) => {
+            e.preventDefault();
+            dispatch(createBookingAction(match.params.id, address, floor, date, codSpace, userInfo.name));
             if (!floor || !date || !codSpace) 
                return;
             setShowConfirmation(false)
@@ -71,8 +68,7 @@ function DeskBooking({history, match}) {
       };
 
       const resetHandler = () => {
-        setFloor("");
-        setDate("");
+        setFloor(floor);
         setSpace("");
       };
      
@@ -118,19 +114,42 @@ function DeskBooking({history, match}) {
         </div>
         )}
     
-    function Yes(info, slot) {
     
+   
+
+    function Reserved(props) {
+      
       return(
-       <>
-         <FaRegUserCircle class="desk" id="slot1"></FaRegUserCircle>
-        <div class="hide">
-          <p>desk cod: D-2</p>
-          <p>status: Unavailable</p>
-        </div>
-       </>
-     
-      );
+          fetchedData?.map((d, i) => {
+          if(d.codSpace == props.deskNo) {
+            if(d.user == userInfo._id)
+              var cls = "deskReservedByMe";
+            else
+              var cls = "deskReserved";
+            let string = "booked by: " + d.userName + "<br></br>" +   "space cod: " + d.codSpace 
+          return( 
+          <>
+            <FaRegUserCircle class={cls} id={props.cod} key={props.cod}  data-type="warning" data-place ="top"
+            data-tip={string} data-html={true} ></FaRegUserCircle>
+            <ReactTooltip />
+          </>
+          )}
+
+        }))
     }
+
+    function Available(props) {
+      let string = "Available!" + "<br></br>" + "space cod: " + props.deskNo;
+
+      return(
+        <>
+          <FaRegPlusSquare class="desk" id={props.cod} key={props.cod} data-type="success" data-tip={string} data-html={true}
+          onClick={() => {setShowConfirmation(true); setSpace(props.deskNo)}}></FaRegPlusSquare>
+          <ReactTooltip />
+        </>
+      )
+    }
+    
 
     function IsAvailable(deskNo){
       
@@ -146,23 +165,22 @@ function DeskBooking({history, match}) {
     
     function FloorPlan() { 
         return(
-        <div>  
-          {IsAvailable("D-2") ? <FaRegPlusSquare class="desk" id="slot1" onClick={() => {setShowConfirmation(true); setSpace("D-1")}}></FaRegPlusSquare>: <Yes info={fetchedData} slot={"slot1"}></Yes>}        
-            <FaRegPlusSquare class="desk" id="slot2" onClick={() => {setShowConfirmation(true); setSpace("D-2")}}></FaRegPlusSquare>
-            <FaRegPlusSquare class="desk" id="slot3" onClick={() => {setShowConfirmation(true); setSpace("D-3")}}></FaRegPlusSquare>
-            <FaRegPlusSquare class="desk" id="slot4" onClick={() => {setShowConfirmation(true); setSpace("D-4")}}></FaRegPlusSquare>
-            <FaRegPlusSquare class="desk" id="slot5" onClick={() => {setShowConfirmation(true); setSpace("D-5")}}></FaRegPlusSquare>
-            <FaRegPlusSquare class="desk" id="slot6" onClick={() => {setShowConfirmation(true); setSpace("D-6")}}></FaRegPlusSquare>
-      
-            <FaRegPlusSquare class="desk" id="slot7" onClick={() => {setShowConfirmation(true); setSpace("D-7")}}></FaRegPlusSquare>
-            <FaRegPlusSquare class="desk" id="slot8" onClick={() => {setShowConfirmation(true); setSpace("D-8")}}></FaRegPlusSquare>
-            <FaRegPlusSquare class="desk" id="slot9" onClick={() => {setShowConfirmation(true); setSpace("D-9")}}></FaRegPlusSquare>
-            <FaRegPlusSquare class="desk" id="slot10" onClick={() => {setShowConfirmation(true); setSpace("D-10")}}></FaRegPlusSquare>
-            <FaRegPlusSquare class="desk" id="slot11" onClick={() => {setShowConfirmation(true); setSpace("D-11")}}></FaRegPlusSquare>
-            <FaRegPlusSquare class="desk" id="slot12" onClick={() => {setShowConfirmation(true); setSpace("D-12")}}></FaRegPlusSquare>
-            <img  id="image-floor" src={floorPrint} ></img>
-            {showConfirmation ? <Confirmation/> : null}
-          </div>
+        <div> 
+          {IsAvailable("D-1") ? <Available cod="slot1" deskNo="D-1" > </Available> : <Reserved cod="slot1" deskNo="D-1"></Reserved>}
+          {IsAvailable("D-2") ? <Available cod="slot2" deskNo="D-2" > </Available> : <Reserved cod="slot2" deskNo="D-2"></Reserved>}  
+          {IsAvailable("D-3") ? <Available cod="slot3" deskNo="D-3" > </Available> : <Reserved cod="slot3" deskNo="D-3"></Reserved>} 
+          {IsAvailable("D-4") ? <Available cod="slot4" deskNo="D-4" > </Available> : <Reserved cod="slot4" deskNo="D-4"></Reserved>} 
+          {IsAvailable("D-5") ? <Available cod="slot5" deskNo="D-5" > </Available> : <Reserved cod="slot5" deskNo="D-5"></Reserved>} 
+          {IsAvailable("D-6") ? <Available cod="slot6" deskNo="D-6" > </Available> : <Reserved cod="slot6" deskNo="D-6"></Reserved>}
+          {IsAvailable("D-7") ? <Available cod="slot7" deskNo="D-7" > </Available> : <Reserved cod="slot7" deskNo="D-7"></Reserved>}
+          {IsAvailable("D-8") ? <Available cod="slot8" deskNo="D-8" > </Available> : <Reserved cod="slot8" deskNo="D-8"></Reserved>}
+          {IsAvailable("D-9") ? <Available cod="slot9" deskNo="D-9" > </Available> : <Reserved cod="slot9" deskNo="D-9"></Reserved>}
+          {IsAvailable("D-10") ? <Available cod="slot10" deskNo="D-10" > </Available> : <Reserved cod="slot10" deskNo="D-10"></Reserved>}
+          {IsAvailable("D-11") ? <Available cod="slot11" deskNo="D-11" > </Available> : <Reserved cod="slot11" deskNo="D-11"></Reserved>}
+          {IsAvailable("D-12") ? <Available cod="slot12" deskNo="D-12" > </Available> : <Reserved cod="slot12" deskNo="D-12"></Reserved>}                      
+          <img  id="image-floor" src={floorPrint} ></img>
+          {showConfirmation ? <Confirmation/> : null}
+        </div>
         )}
 
 
@@ -171,9 +189,10 @@ function DeskBooking({history, match}) {
       {userInfo &&
         <MainMenu uInfo={userInfo}></MainMenu>}
         {showConfirmationError ? <ConfirmationError/> : null }
-        <div className="content">
-        <form onSubmit={submitHandler} id="first-form">
-          <h2 id="welcome-text">Welcome to Safe Office Desk Booking.</h2>
+        <TextBar text={"Welcome to Safe Office Desk Booking System!"}></TextBar>
+        <div className="content">         
+        <form onSubmit={SubmitHandler} id="first-form">
+          
             <div className="row">
                 <div className="col-sm-4">
                   <div className="control-area"  >
@@ -205,7 +224,6 @@ function DeskBooking({history, match}) {
                     <input type="date" className="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
                   </div>
                   <div className="line"></div>
-                  <button  id="btn-floor" type="button" class="btn btn-primary" onClick={()=> fetchFilteredBookings()}>Search</button>
                   
                 </div>
                 </div>          

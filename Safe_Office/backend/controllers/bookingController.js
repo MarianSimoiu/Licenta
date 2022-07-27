@@ -55,18 +55,21 @@ const getFilteredBookings = asyncHandler(async (req, res) => {
     res.status(404).json({ message: "Bookings not found"})
 })
 
+
+
 //@description     Create single Note
 //@route           GET /api/notes/create
 //@access          Private
+
 const CreateBooking = asyncHandler(async (req, res) => {
-  const {building, address, floor, date, codSpace} = req.body;
+  const {building, address, floor, date, codSpace, userName} = req.body;
 
   if (!building|| !floor || !date || !codSpace) {
     res.status(400);
     throw new Error("Please Fill all the feilds");
     return;
   } else {
-    const booking = new Booking({ user: req.user._id, building, address, floor, date, codSpace});
+    const booking = new Booking({ user: req.user._id, building, address, floor, date, codSpace, userName});
 
     const createdBooking = await booking.save();
 
