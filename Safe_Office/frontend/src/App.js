@@ -13,8 +13,9 @@ import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
 import ProfileScreen from "./screens/ProfileScreen/ProfileScreen";
 import SearchFriend from "./screens/SearchFriend/SearchFriend";
 import RoomBooking from "./screens/RoomBooking/RoomBooking"
-import BookFriend from "./screens/BookforFriend/BookfForFriend"
 import Buildings from "./screens/Buildings/Buildings"
+import BookForColleague from "./screens/BookForColleague/BookForColleague";
+
 function App() {
   
   return (
@@ -28,7 +29,7 @@ function App() {
         <Route path="/desk_booking/:id" component={DeskBooking} />
         <Route path="/profile" component={ProfileScreen} />
         <Route path="/room_booking/:id" component={RoomBooking} />
-        <Route path="/book-for-colleague" component={BookFriend} />
+        <Route path="/book-for-colleague/:id" component={BookForColleague} />
         <Route path="/search_friend" component={SearchFriend} />
         <Route path="/mybookings/:user" component={MyBookings} />
         

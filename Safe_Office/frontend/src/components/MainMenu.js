@@ -40,7 +40,7 @@ function MainScreen({uInfo}) {
       </a>
     </li>
     <li class="nav-item">
-      <a href="/book-for-colleague" class="nav-link text-dark font-italic">
+      <a href="/select_building/book-for-colleague" class="nav-link text-dark font-italic">
         <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
         Book for a Colleague
       </a>

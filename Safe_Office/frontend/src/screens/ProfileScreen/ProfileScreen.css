@@ -1,8 +1,10 @@
 .profilePic {
-  width: 15%;
+  width: 60%;
   align-items: center;
   position: absolute;
   border-radius: 5px;
+  left: 50px;
+  top: 30px;
 }
 .profileContainer {
   display: flex;
@@ -21,8 +23,25 @@
   font-family: "Work Sans", sans-serif;
   padding: 5px 10px;
 }
+
 .content-profile {
   margin-left: 200px;
     padding: 20px;
     height: 120px;
+}
+
+.input-general{
+  width:400px;
+  border-radius: 4px;
+}
+
+.form-profile{
+  margin-top: 30px;
+}
+
+#changePicture{
+  position: relative;
+  margin-top: 345px;
+  margin-left: 50px;
+  
 }

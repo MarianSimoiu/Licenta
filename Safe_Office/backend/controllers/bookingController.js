@@ -123,25 +123,5 @@ const UpdateBooking = asyncHandler(async (req, res) => {
   }
 });
 
-const trigger = asyncHandler (async(req, res)  => {
-})
- /*
-  Booking.find({date:{"$lte":new Date()}}).then((booking) => {
-       booking.forEach((booking) => {
-         res.json(booking);
-       })
-  })
-});
-  */
- // for await (let item of Bookings)
 
-
-
-  //res.json(expired_bookings)
-
-  //const building = await Building.findOne({address: booking.address, floors: { floorNo: booking.floor, desks:{ deskNo: booking.desk} }});
-  //res.json(building);
-  //})
-
-
-export { getBookingById, getBookings, CreateBooking, DeleteBooking, UpdateBooking, getActiveBookingByUser, getHistoryBookingByUser, trigger, getFilteredBookings};
+export { getBookingById, getBookings, CreateBooking, DeleteBooking, UpdateBooking, getActiveBookingByUser, getHistoryBookingByUser, getFilteredBookings};

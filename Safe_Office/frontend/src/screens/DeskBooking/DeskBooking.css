@@ -43,6 +43,7 @@
     text-indent: 0.01px;
     text-overflow: '';
     -webkit-appearance: button; /* hide default arrow in chrome OSX */
+    height: 35px;
   }
   
   .custom-dropdown::before,
@@ -105,6 +106,19 @@ input[type=date]{
     color: #fff;
 }
 
+#cp-name{
+  display: inline-block;
+  background-color: #0a6590;
+  font-size: .7em;
+  border-radius: 3px;
+  text-indent: 0.01px;
+  width: 200px;
+  margin-left: 12px;
+  border: 0;
+  border-radius: 3px;
+  text-indent: 0.01px;
+}
+
 .control-point{
     padding-left: 20px;
 
@@ -114,6 +128,9 @@ input[type=date]{
     padding-top: 50x;
 }
 
+#cp-name{
+  margin-top: 10px;
+}
 #header-search {
   padding: 20px 30px;
   text-align: center;

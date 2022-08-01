@@ -41,12 +41,14 @@ function DeskBooking({history, match}) {
       setFetchedData(response.data)
     }
 
+    
+
     useEffect(() => {
-        const fetching = async () => {
-            const { data } = await axios.get(`/api/buildings/${match.params.id}`);
-            setFloors(data.noFloors);
-            setAddress(data.address);
-        }
+      const fetching = async () => {
+        const { data } = await axios.get(`/api/buildings/${match.params.id}`);
+        setFloors(data.noFloors);
+        setAddress(data.address);
+  }
 
         if (!userInfo) {
           history.push("/login");
@@ -54,17 +56,21 @@ function DeskBooking({history, match}) {
   
         fetchFilteredBookings();
         fetching();
-      },[match.params.id,userInfo,floor,date,fetchFilteredBookings])
+      },[match.params.id,userInfo,floor,date])
 
     
       const SubmitHandler = (e) => {
             e.preventDefault();
             dispatch(createBookingAction(match.params.id, address, floor, date, codSpace, userInfo.name));
-            if (!floor || !date || !codSpace) 
-               return;
+            
             setShowConfirmation(false)
             setShowConfirmationError(true);
             resetHandler();  
+            setTimeout(function(){
+              window.location.reload(1);
+           }, 2000);
+            if (!floor || !date || !codSpace) 
+               return;
       };
 
       const resetHandler = () => {

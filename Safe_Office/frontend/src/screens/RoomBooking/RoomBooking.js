@@ -75,6 +75,9 @@ function RoomBooking({history, match}) {
             setShowConfirmation(false)
             setShowConfirmationError(true);
             resetHandler();  
+            setTimeout(function(){
+              window.location.reload(1);
+           }, 2000);
       };
 
   

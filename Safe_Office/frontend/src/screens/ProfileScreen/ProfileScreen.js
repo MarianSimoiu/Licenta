@@ -1,29 +1,50 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
-import MainScreen from "../../components/MainScreen";
 import MainMenu from "../../components/MainMenu";
 import "./ProfileScreen.css";
 import { useDispatch, useSelector } from "react-redux";
-import { updateProfile } from "../../actions/userActions";
+import { addPermission, updateProfile } from "../../actions/userActions";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
-const ProfileScreen = ({ location, history }) => {
+import TextBar from "../../components/TextBar";
+import axios from "axios";
+
+const ProfileScreen = ({match, history }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pic, setPic] = useState();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [picMessage, setPicMessage] = useState();
+  const [fetchedData, setFetchedData] = useState([]);
+  const [colleague, setColleague] = useState("");
+  const [userNameAdd, setAddPermission] = useState("");
+  const [userNameDelete, setDeletePermission] = useState("");
+  const [permissionType, setPermissionType] = useState("")
 
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
+  
   const userUpdate = useSelector((state) => state.userUpdate);
   const { loading, error, success } = userUpdate;
+
   const bar = "_"
+
+
+
   useEffect(() => {
+    const fetchColleagues = async() =>{
+      const config = {
+        headers: {
+            Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+    
+    const response  = await axios.get(`/api/users/`, config)
+    setFetchedData(response.data)
+    }
+
     if (!userInfo) {
       history.push("/");
     } else {
@@ -31,17 +52,18 @@ const ProfileScreen = ({ location, history }) => {
       setEmail(userInfo.email);
       setPic(userInfo.pic);
     }
+    fetchColleagues();
   }, [history, userInfo]);
 
   const postDetailsVaccination = (pics) => {
     setPicMessage(null);
       const data = new FormData();
       data.append("file", pics);
-      data.append("upload_preset", "safeoffice");
-      data.append("cloud_name","dnmtxnbkb");
+      data.append("upload_preset", "Safe_Office");
+      data.append("cloud_name","dhfeqdcb2");
       data.append("public_id", `${userInfo.name + "_" + userInfo.email}`);
-      data.append("folder", "vaccination_certificate")
-      fetch("https://api.cloudinary.com/v1_1/dnmtxnbkb/image/upload", {
+      data.append("folder", "digital_green_certificate")
+      fetch("https://api.cloudinary.com/v1_1/dhfeqdcb2/image/upload", {
         method: "post",
         body: data,
       })
@@ -59,8 +81,10 @@ const ProfileScreen = ({ location, history }) => {
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const data = new FormData();
       data.append("file", pics);
-      data.append("upload_preset", "notezipper");
-      data.append("cloud_name", "piyushproj");
+      data.append("upload_preset", "Safe_Office");
+      data.append("cloud_name", "dhfeqdcb2");
+      data.append("public_id", `${userInfo.name + "_" + userInfo.email}`);
+      data.append("folder", "profile_picture")
       fetch("https://api.cloudinary.com/v1_1/piyushproj/image/upload", {
         method: "post",
         body: data,
@@ -80,18 +104,23 @@ const ProfileScreen = ({ location, history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    let permissionArray = [];
+    if(permissionType == "add")
+      permissionArray.push(permissionType, userNameAdd);
+    if(permissionType == "delete")
+      permissionArray.push(permissionType, userNameDelete);
 
-    dispatch(updateProfile({ name, email, password, pic }));
+    dispatch(updateProfile({ name, email, password, pic, permissionArray}));
   };
 
   return (
-     
-      <div>
+      <>
         <MainMenu uInfo={userInfo}></MainMenu>
-        <div className="content">
-        <h2 id="welcome-text">Welcome to Safe Office Desk Booking.</h2>
-          <div className="content-profile">
-            <Form onSubmit={submitHandler}>
+        <TextBar text={"Edit my profile."}></TextBar>
+        <div className="content">   
+            <form onSubmit={submitHandler} className="form-profile">
+            <div className="row">
+              <div className="col-sm-4">
               {loading && <Loading />}
               {success && (
                 <ErrorMessage variant="success">
@@ -99,46 +128,75 @@ const ProfileScreen = ({ location, history }) => {
                 </ErrorMessage>
               )}
               {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-           
-                <label htmlFor="" className="form-label mt-2">Name</label>
-                <Form.Control  type="text" placeholder="Enter Name"value={name} onChange={(e) => setName(e.target.value)}></Form.Control>
+                <div className="form-group">
+                  <label htmlFor="name" className="form-label mt-2">Name</label>
+                  <input  type="text" className="input-general" placeholder="Enter Name" value={name} onChange={(e) => setName(e.target.value)}></input>
+                </div>
 
-                <label htmlFor="" className="form-label mt-2">Email Address</label>
-                <Form.Control type="email"placeholder="Enter Email" value={email} onChange={(e) => setEmail(e.target.value)}></Form.Control>
-             
-                <label htmlFor="" className="form-label mt-2">Password</label>
-                <Form.Control type="password" placeholder="Enter Password" value={password} onChange={(e) => setPassword(e.target.value)}></Form.Control>
-                <label htmlFor="" className="form-label mt-2">Confirm Password</label>
-                <Form.Control type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
-                ></Form.Control>
+                <div className="form-group">
+                  <label htmlFor="" className="form-label mt-2">Email Address</label>
+                  <input type="email" className="input-general" placeholder="Enter Email" value={email} onChange={(e) => setEmail(e.target.value)}></input>
+                </div>
 
-              {picMessage && (
-                <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
-              )}
-  
-                <label htmlFor="" className="form-label mt-2">Change Profile Picture</label>
-                <input class="form-control mt-2"   onChange={(e) => postDetails(e.target.files[0])} id="formFile" type="file" label="Upload Profile Picture"></input>
-                <label htmlFor="" className="form-label mt-2">Add Vaccination Certificate</label>
-                <input class="form-control mt-2"   onChange={(e) => postDetailsVaccination(e.target.files[0])} id="formFile" type="file" label="Upload Profile Picture"></input>
-                <button type="submit" class="btn btn-success mt-2">Update</button>
-            </Form>
-           
-          </div>
-        </div>
-          <Col
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              left: "150px",
-              top: "50px",
+                <div className="form-group">
+                  <label htmlFor="" className="form-label mt-2">Password</label>
+                  <input type="password" placeholder="Enter Password" className="input-general" value={password} onChange={(e) => setPassword(e.target.value)}></input>
+                </div>
+                
+                <div className="form-group">
+                  <label htmlFor="" className="form-label mt-2">Confirm Password</label>
+                  <input type="password" placeholder="Confirm Password" className="input-general" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></input>
+                </div>
+
               
-            }}>
-            <div>
-              <img src={pic} alt={name} className="profilePic" />
+              <div className="form-group">
+                <label htmlFor="" className="form-label mt-2">Add Vaccination Certificate</label>
+                <input class="input-general mt-2"   onChange={(e) => postDetailsVaccination(e.target.files[0])} id="formFile" type="file" label="Upload Profile Picture"></input>
+              </div>
+ 
+              </div>
+              <div className="col-sm-4">
+                {picMessage && (
+                <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
+                )}
+                <img src={pic} alt={name} className="profilePic" />
+                <div className="form-group" id="changePicture">
+                  <label htmlFor="" className="form-label mt-2">Change Profile Picture</label>
+                  <input class="input-general mt-2"   onChange={(e) => postDetails(e.target.files[0])} id="formFile" type="file" label="Upload Profile Picture"></input>
+                </div>
+                <button type="submit" class="btn btn-success mt-2">Update Profile</button>   
+              </div>
+              <div className="col-mt-2">
+                  <p className="ml-2">Create permission</p>
+                  <span className="custom-dropdown small">
+                    <select value={userNameAdd} onChange={(e) => {setAddPermission(e.target.value)}}>
+                      {fetchedData?.map((c,i) => {
+                        if(c._id != userInfo._id)
+                        return(
+                          <option key={i}>{c.name}</option>
+                        )})}
+                    </select>
+                  </span>
+                  <button type="submit" class="btn btn-success ml-4" onClick={() => setPermissionType("add")}>Add permission</button>
+                <p className="ml-2">Modify permission</p>
+                <span className="custom-dropdown small">
+                  <select value={userNameDelete} onChange={(e) => {setDeletePermission(e.target.value)}}>
+                    {userInfo.permission?.map((p,i) => {
+                      return(
+                        <option key={i}>{p}</option>
+                      )})}
+                  </select>
+                </span>
+                <button type="submit" className="btn btn-danger ml-4" onClick={() => setPermissionType("delete")}>Delete permission</button>
+              </div>
             </div>
-          </Col>
-      </div>
+          </form>
+        </div>
+            
+          
+     
+          
+  </>
        
      
   );

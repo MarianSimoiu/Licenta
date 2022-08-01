@@ -5,6 +5,14 @@ import generateToken from "../utils/generateToken.js";
 //@description     Auth the user
 //@route           POST /api/users/login
 //@access          Public
+
+function arrayRemove(arr, value) { 
+    
+  return arr.filter(function(ele){ 
+      return ele != value; 
+  });
+}
+
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -18,6 +26,7 @@ const authUser = asyncHandler(async (req, res) => {
       isAdmin: user.isAdmin,
       isVaccinated: user.isVaccinated,
       pic: user.pic,
+      persmission: user.permission,
       token: generateToken(user._id),
     });
   } else {
@@ -65,13 +74,45 @@ const registerUser = asyncHandler(async (req, res) => {
 // @desc    GET user profile
 // @route   GET /api/users/profile
 // @access  Private
+
+const addPermission = asyncHandler(async (req, res) => {
+  const {userId, userName} = req.body;
+
+  const user = await User.findById(req.params.id);
+  
+  if(user) {
+    if (!Array.isArray(user.permission))
+      user.permission = [];
+    user.permission.push(userName);
+
+    const updatedUser = await user.save();
+    res.json(updatedUser);
+
+  } else {
+    res.status(404);
+    throw new Error("User Not Found");
+  }
+ })
+
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
+  if (!Array.isArray(user.permission))
+      user.permission = [];
+  
   if (user) {
+    if (req.body.permissionArray[0] == "add")
+      user.permission.push(req.body.permissionArray[1]);
+    
+    if (req.body.permissionArray[0] == "delete"){
+      var newPermission = arrayRemove(user.permission, req.body.permissionArray[1]);
+      user.permission = newPermission
+    }
+
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     user.pic = req.body.pic || user.pic;
+      
     if (req.body.password) {
       user.password = req.body.password;
     }
@@ -84,7 +125,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       email: updatedUser.email,
       pic: updatedUser.pic,
       isAdmin: updatedUser.isAdmin,
-
+      permission: updatedUser.permission,
       token: generateToken(updatedUser._id),
     });
   } else {
@@ -93,4 +134,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, updateUserProfile, registerUser };
+const getUsers = asyncHandler(async (req,res) => {
+  const users = await User.find();
+  res.json(users);
+})
+
+export { authUser, updateUserProfile, registerUser, getUsers, addPermission };
