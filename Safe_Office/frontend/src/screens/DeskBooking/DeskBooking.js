@@ -9,6 +9,9 @@ import axios from "axios";
 import "./DeskBooking.css"
 import moment from 'moment'
 import ReactTooltip from 'react-tooltip';
+import { DatePicker } from 'react-rainbow-components';
+
+
 function DeskBooking({history, match}) {
 
     const userLogin = useSelector((state) => state.userLogin);
@@ -25,6 +28,7 @@ function DeskBooking({history, match}) {
     const [showConfirmation, setShowConfirmation] = React.useState(false)
     const [showConfirmationError, setShowConfirmationError] = React.useState(false)
     const [fetchedData, setFetchedData] = useState([]);
+    const [pic, setPic] = useState([]);
 
     const dispatch = useDispatch();
 
@@ -48,6 +52,7 @@ function DeskBooking({history, match}) {
         const { data } = await axios.get(`/api/buildings/${match.params.id}`);
         setFloors(data.noFloors);
         setAddress(data.address);
+        setPic(data.pic);
   }
 
         if (!userInfo) {
@@ -171,7 +176,7 @@ function DeskBooking({history, match}) {
     
     function FloorPlan() { 
         return(
-        <div> 
+        <div style={{position:"relative"}}> 
           {IsAvailable("D-1") ? <Available cod="slot1" deskNo="D-1" > </Available> : <Reserved cod="slot1" deskNo="D-1"></Reserved>}
           {IsAvailable("D-2") ? <Available cod="slot2" deskNo="D-2" > </Available> : <Reserved cod="slot2" deskNo="D-2"></Reserved>}  
           {IsAvailable("D-3") ? <Available cod="slot3" deskNo="D-3" > </Available> : <Reserved cod="slot3" deskNo="D-3"></Reserved>} 
@@ -184,7 +189,7 @@ function DeskBooking({history, match}) {
           {IsAvailable("D-10") ? <Available cod="slot10" deskNo="D-10" > </Available> : <Reserved cod="slot10" deskNo="D-10"></Reserved>}
           {IsAvailable("D-11") ? <Available cod="slot11" deskNo="D-11" > </Available> : <Reserved cod="slot11" deskNo="D-11"></Reserved>}
           {IsAvailable("D-12") ? <Available cod="slot12" deskNo="D-12" > </Available> : <Reserved cod="slot12" deskNo="D-12"></Reserved>}                      
-          <img  id="image-floor" src={floorPrint} ></img>
+          <img  id="image-floor" src={floorPrint} style={{display:"block"}}></img>
           {showConfirmation ? <Confirmation/> : null}
         </div>
         )}
@@ -196,7 +201,49 @@ function DeskBooking({history, match}) {
         <MainMenu uInfo={userInfo}></MainMenu>}
         {showConfirmationError ? <ConfirmationError/> : null }
         <TextBar text={"Welcome to Safe Office Desk Booking System!"}></TextBar>
-        <div className="content">         
+
+        <div className="row">
+          <div className="col-2"></div>
+          <div className="col-2" style={{margin:"auto"}}>   
+            <div class="example">
+              <article class="card depth--two"  style={{width:"250px"}}>
+                <figure class="image"><img src={pic}/></figure>
+                <div class="card__body">
+                <header class="card__primary-title">
+                {address.map((a) => 
+                  <>
+                    <h2 class="text-large">{a.city}</h2>
+                    <h3 class="text-secondary text-normal text-small">{a.street}</h3> 
+                  </> 
+                    )}
+                 </header>
+                <div class="card__supporting-text">        
+                  <p>Floors: {noFloors}</p>
+                  <p></p>
+                </div>
+                </div>
+              </article>
+            </div>
+          </div>         
+          <div className="col-6 pt-5" style={{margin:"auto", display:"block"}}>
+              <FloorPlan></FloorPlan>
+              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                {[...Array.from(Array(noFloors).keys())].map((num, i) =>{
+                  return(
+                    <>
+                      <input type="radio" class="btn-check" name="btnradio" id={i} autocomplete="off" checked=""></input>
+                      <label class="btn btn-outline-primary" for="btnradio1">Floor {num+1}</label>
+                    </>
+                    )})}
+              </div>
+          </div> 
+         
+        </div>
+    </>
+)}
+/*
+******8
+     
         <form onSubmit={SubmitHandler} id="first-form">
           
             <div className="row">
@@ -232,20 +279,9 @@ function DeskBooking({history, match}) {
                   <div className="line"></div>
                   
                 </div>
-                </div>          
-                <div className="col-sm-4">
-                  <div className="floor">
-                    <FloorPlan></FloorPlan>
-                  </div>
-                </div>
-            </div>    
-          </form>
-        </div>
-    </>
-    )
-}
+                </div>     
 
-/*
+*******8
 <div className="control-point">
                     <label for="dateSelect">From:</label> 
                     <span className="custom-dropdown small">
