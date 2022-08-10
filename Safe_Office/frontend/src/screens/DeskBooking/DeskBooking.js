@@ -9,8 +9,7 @@ import axios from "axios";
 import "./DeskBooking.css"
 import moment from 'moment'
 import ReactTooltip from 'react-tooltip';
-
-
+import DateTimePicker from 'react-datetime-picker';
 
 function DeskBooking({history, match}) {
 
@@ -29,7 +28,7 @@ function DeskBooking({history, match}) {
     const [showConfirmationError, setShowConfirmationError] = React.useState(false)
     const [fetchedData, setFetchedData] = useState([]);
     const [pic, setPic] = useState([]);
-
+    const [value, setValue] = React.useState(new Date());
     const dispatch = useDispatch();
 
     const fetchFilteredBookings = async () => {
@@ -94,36 +93,14 @@ function DeskBooking({history, match}) {
 
     function Confirmation(){
         return(
-          <div className="modal-sm" id="confirmation">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Confirm Booking</h5>
-                <button onClick={ () => {setShowConfirmation(false)}}  type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-      
-                <span aria-hidden="true"></span>
-                </button>
-              </div>
-              <div class="modal-body">
-              {address?.map((d) =>  {
-                return(
-                <>
-                  <p>City: {d.city}</p>
-                  <p>Address: {d.street}</p>
-                </>
-                )})}
-                <p>Floors: {floor}</p>
-                <p>Date: {date}</p>
-                <p>Desk: {codSpace}</p>
-              </div>
-              <div class="modal-footer">
-                <button  form="first-form" type="submit" class="btn btn-primary">Save changes</button>
-                <button onClick={ () => {setShowConfirmation(false);}} type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Close</button>
-              </div>
-           </div>
+          <div class="card text-white bg-primary mb-3" id="confirmation">
+            <div class="card-header">Header</div>
+            <div class="card-body">
+              <h4 class="card-title">Primary card title</h4>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
           </div>
-        </div>
-        )}
+          )}
     
     
    
@@ -194,6 +171,8 @@ function DeskBooking({history, match}) {
         </div>
         )}
 
+     
+        
 
     return(
     <>
@@ -201,45 +180,48 @@ function DeskBooking({history, match}) {
         <MainMenu uInfo={userInfo}></MainMenu>}
         {showConfirmationError ? <ConfirmationError/> : null }
         <TextBar text={"Welcome to Safe Office Desk Booking System!"}></TextBar>
-
+        
         <div className="row">
-          <div className="col-2">
-          
-          </div>
-          <div className="col-2" style={{margin:"auto"}}> 
-            <div className="control-point">
-              <label for="dateSelect">Date:</label> 
-              <input type="date" className="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
-            </div>
+          <div className="col-2"> </div>
+          <div className="col-1" style={{margin:"auto"}}> 
             <div class="example">
               <article class="card depth--two"  style={{width:"250px"}}>
                 <figure class="image"><img src={pic}/></figure>
                 <div class="card__body">
-                <header class="card__primary-title">
-                {address.map((a) => 
-                  <>
+                  <header class="card__primary-title">
+                  {address.map((a) => 
+                    <>
                     <h2 class="text-large">{a.city}</h2>
                     <h3 class="text-secondary text-normal text-small">{a.street}</h3> 
-                  </> 
+                    </> 
                     )}
-                 </header>
-                <div class="card__supporting-text">        
-                  <p>Floors: {noFloors}</p>
-                  <p></p>
-                </div>
+                  </header>
+                  <div class="card__supporting-text">        
+                    <p>Floors: {noFloors}</p>
+                    <p></p>
+                  </div>
                 </div>
               </article>
             </div>
-          </div>         
+          </div>
+            <div className="col-2 pt-5">
+              <div className="control-point" style={{left:"10px"}}>
+              
+                <label id="dateLabel">Booking Date</label>
+                <input type="date" className="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
+                <label id="dateLabel">From</label>
+                <input type="time"   className="form-control" id="time-from"></input>
+                <label id="dateLabel">To</label>
+                <input type="time"  className="form-control"  id="time-to"></input>
+              </div>
+              
+            </div>         
           <div className="col-4 pt-5" style={{margin:"auto", display:"block"}}>
-              <FloorPlan></FloorPlan>
-              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+              <FloorPlan ></FloorPlan>
+              <div div class="btn-group me-2" role="group" aria-label="First group">
                 {[...Array.from(Array(noFloors).keys())].map((num, i) =>{
                   return(
-                    <>
-                      <input type="radio" class="btn-check" name="btnradio" id={i} autocomplete="off" checked=""></input>
-                      <label class="btn btn-outline-primary" for="btnradio1">{num+1}</label>
-                    </>
+                      <button type="button" class="btn btn-primary" value={floor} onChange={(e) => setFloor(e.target.value)}> {num+1}</button>
                     )})}
               </div>
           </div> 
@@ -324,5 +306,37 @@ function DeskBooking({history, match}) {
                     </span>
                   </div>
 */
+/*
+  
+        <div className="modal-sm" id="confirmation">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Confirm Booking</h5>
+                <button onClick={ () => {setShowConfirmation(false)}}  type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+      
+                <span aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="modal-body">
+              {address?.map((d) =>  {
+                return(
+                <>
+                  <p>City: {d.city}</p>
+                  <p>Address: {d.street}</p>
+                </>
+                )})}
+                <p>Floors: {floor}</p>
+                <p>Date: {date}</p>
+                <p>Desk: {codSpace}</p>
+              </div>
+              <div class="modal-footer">
+                <button  form="first-form" type="submit" class="btn btn-primary">Save changes</button>
+                <button onClick={ () => {setShowConfirmation(false);}} type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Close</button>
+              </div>
+           </div>
+          </div>
+        </div>
 
+*/
 export default DeskBooking
