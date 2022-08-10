@@ -82,7 +82,7 @@ const ProfileScreen = ({match, history }) => {
       data.append("cloud_name", "dhfeqdcb2");
       data.append("public_id", `${userInfo.name + "_" + userInfo.email}`);
       data.append("folder", "profile_picture")
-      fetch("https://api.cloudinary.com/v1_1/piyushproj/image/upload", {
+      fetch("https://api.cloudinary.com/v1_1/dhfeqdcb2/image/upload", {
         method: "post",
         body: data,
       })
@@ -156,7 +156,7 @@ const ProfileScreen = ({match, history }) => {
                 {picMessage && (
                 <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
                 )}
-                <img src={pic} alt={name} className="profilePic" />
+                <img src={userInfo.pic} alt={name} className="profilePic" />
                 <div className="form-group" id="changePicture">
                   <label htmlFor="" className="form-label mt-2">Change Profile Picture</label>
                   <input class="input-general mt-2"   onChange={(e) => postDetails(e.target.files[0])} id="formFile" type="file" label="Upload Profile Picture"></input>

@@ -16,10 +16,13 @@ import RoomBooking from "./screens/RoomBooking/RoomBooking"
 import Buildings from "./screens/Buildings/Buildings"
 import BookForColleague from "./screens/BookForColleague/BookForColleague";
 
+
 function App() {
   
   return (
+    
     <Router>
+
       <Header/>
       <main className="App">
         <Route path="/" component={LandingPage} exact />

@@ -1,5 +1,9 @@
 import React from "react";
 import "./MainMenu.css"
+import {FaDesktop, FaUserFriends, FaUserEdit} from "react-icons/fa";
+import { MdMeetingRoom, MdOutlineLogout} from "react-icons/md";
+import {RiTeamFill, RiLogoutBoxRFill} from "react-icons/ri"
+import {GiNotebook} from "react-icons/gi"
 
 function MainScreen({uInfo}) {
  
@@ -10,10 +14,10 @@ function MainScreen({uInfo}) {
   <div class="py-4 px-3 mb-4 bg-light">
     
     <div class="media d-flex align-items-center">
-      <img src={uInfo.pic} alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm"></img>
+      <img src={uInfo.pic} alt={uInfo.name} id="profile-pic" class="mr-3 rounded-circle img-thumbnail shadow-sm"></img>
       <div class="media-body">
         <h4 class="m-0">{uInfo.name}</h4>
-        <p class="font-weight-light text-muted mb-0">Online</p>
+        <p class="font-weight-light text-muted mb-0">Employee</p>
       </div>
     </div>
   </div>
@@ -22,27 +26,22 @@ function MainScreen({uInfo}) {
 
   <ul class="nav flex-column bg-white mb-0">
     <li class="nav-item">
-      <a href="/buildings" class="nav-link text-dark font-italic bg-light">
-        <i class="fa fa-th-large mr-3 text-primary fa-fw"></i>
-        Buildings
-      </a>
+      <a href="/select_building/desk_booking" class="nav-link text-dark font-italic bg-light"><FaDesktop id="side-icon"></FaDesktop> <p id="side-item"><em>Desk booking</em></p></a>
+      
     </li>
-    <li class="nav-item">
-      <a href="/select_building/desk_booking" class="nav-link text-dark font-italic">
-        <i class="fa fa-address-card mr-3 text-primary fa-fw"></i>
-        Desk Booking
-      </a>
-    </li>
-    <li class="nav-item">
+    <li class="nav-item" id="option">
       <a href="/select_building/room_booking" class="nav-link text-dark font-italic">
-        <i class="fa fa-cubes mr-3 text-primary fa-fw"></i>
-        Room Booking
+      <MdMeetingRoom id="side-icon"></MdMeetingRoom> <p id="side-item"><em>Room booking</em></p>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item"  id="option">
       <a href="/select_building/book-for-colleague" class="nav-link text-dark font-italic">
-        <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
-        Book for a Colleague
+      <FaUserFriends id="side-icon"></FaUserFriends> <p id="side-item"><em>Colleague booking</em></p>
+      </a>
+    </li>
+    <li class="nav-item"  id="option">
+      <a href="/select_building/table-booking" class="nav-link text-dark font-italic">
+      <RiTeamFill id="side-icon"></RiTeamFill> <p id="side-item"><em>Table booking</em></p>
       </a>
     </li>
   </ul>
@@ -50,30 +49,22 @@ function MainScreen({uInfo}) {
   <p class="text-gray font-weight-bold text-uppercase px-3 small py-4 mb-0">Profile actions</p>
 
   <ul class="nav flex-column bg-white mb-0">
-    <li class="nav-item">
+    <li class="nav-item" id="option">
       <a href={`/mybookings/${uInfo._id}`} class="nav-link text-dark font-italic">
-        <i class="fa fa-area-chart mr-3 text-primary fa-fw"></i>
-        My Bookings
+        <GiNotebook id="side-icon"></GiNotebook> <p id="side-item"><em>My bookings</em></p>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" id="option">
       <a href="/profile" class="nav-link text-dark font-italic">
-        <i class="fa fa-bar-chart mr-3 text-primary fa-fw"></i>
-        Edit Profile
+      <FaUserEdit id="side-icon"></FaUserEdit> <p id="side-item"><em>Edit Profile</em></p>
       </a>
     </li>
-    <li class="nav-item">
-      <a href="#" class="nav-link text-dark font-italic">
-        <i class="fa fa-pie-chart mr-3 text-primary fa-fw"></i>
-        Pie charts
+    <li class="nav-item" id="option">
+      <a href="/profile" class="nav-link text-dark font-italic">
+      <RiLogoutBoxRFill id="side-icon"></RiLogoutBoxRFill> <p id="side-item"><em>Logout</em></p>
       </a>
     </li>
-    <li class="nav-item">
-      <a href="#" class="nav-link text-dark font-italic">
-        <i class="fa fa-line-chart mr-3 text-primary fa-fw"></i>
-        Line charts
-      </a>
-    </li>
+    
   </ul>
 </div>
     

@@ -1,7 +1,7 @@
 .profilePic {
   width: 60%;
   align-items: center;
-  position: absolute;
+  position: relative;
   border-radius: 5px;
   left: 50px;
   top: 30px;

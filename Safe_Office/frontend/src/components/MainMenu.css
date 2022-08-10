@@ -41,3 +41,28 @@
       float: none;
     }
   }
+
+#profile-pic{
+  width:70px;
+  height: 65px;
+}
+
+#option:hover{
+  background-color: rgb(83, 169, 240);
+}
+
+#side-item{
+  display:inline;
+  margin-left: 10px;
+}
+
+#side-icon{
+  display:inline;
+  margin-left: 5px;
+  width: 30px;
+  color: blue;
+}
+
+#safe-logo{
+  color: #04AA6D;
+}

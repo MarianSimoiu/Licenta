@@ -11,7 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import {} from "react-router-dom";
 import { logout } from "../actions/userActions"
-
+import {AiFillSafetyCertificate} from "react-icons/ai"
 
 function Header({ setSearch }) {
   const dispatch = useDispatch();
@@ -43,7 +43,7 @@ function Header({ setSearch }) {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href="/">Safe Office</Navbar.Brand>
+        <Navbar.Brand><AiFillSafetyCertificate id="safe-logo"></AiFillSafetyCertificate> Safe Office</Navbar.Brand>
 
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">

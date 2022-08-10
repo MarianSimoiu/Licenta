@@ -3,13 +3,13 @@ import TextBar from "../../components/TextBar"
 import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import floorPrint from "../../images/mainFloor.png"
-import { FaRegPlusSquare, FaRegUserCircle } from "react-icons/fa";
+import { FaRegPlusSquare, FaRegUserCircle} from "react-icons/fa";
 import { createBookingAction } from "../../actions/bookingsActions";
 import axios from "axios";
 import "./DeskBooking.css"
 import moment from 'moment'
 import ReactTooltip from 'react-tooltip';
-import { Helmet } from "react-helmet";
+
 
 function DeskBooking({history, match}) {
 
@@ -18,7 +18,7 @@ function DeskBooking({history, match}) {
 
     const userUpdate = useSelector((state) => state.userUpdate);
     const { loading, error, success } = userUpdate;
-
+    
     var today = moment(new Date()).format('YYYY-MM-DD');
     var time = moment(new Date()).format('hh:mm: a')
 
@@ -195,9 +195,6 @@ function DeskBooking({history, match}) {
 
     return(
     <>
-    <Helmet>
-        <style>{"body { background-color: orange; }"}</style>
-      </Helmet>
       {userInfo &&
         <MainMenu uInfo={userInfo}></MainMenu>}
         {showConfirmationError ? <ConfirmationError id="confirmation"/> : null }
