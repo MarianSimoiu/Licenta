@@ -9,7 +9,7 @@ import axios from "axios";
 import "./DeskBooking.css"
 import moment from 'moment'
 import ReactTooltip from 'react-tooltip';
-import { DatePicker } from 'react-rainbow-components';
+
 
 
 function DeskBooking({history, match}) {
@@ -203,8 +203,14 @@ function DeskBooking({history, match}) {
         <TextBar text={"Welcome to Safe Office Desk Booking System!"}></TextBar>
 
         <div className="row">
-          <div className="col-2"></div>
-          <div className="col-2" style={{margin:"auto"}}>   
+          <div className="col-2">
+          
+          </div>
+          <div className="col-2" style={{margin:"auto"}}> 
+            <div className="control-point">
+              <label for="dateSelect">Date:</label> 
+              <input type="date" className="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
+            </div>
             <div class="example">
               <article class="card depth--two"  style={{width:"250px"}}>
                 <figure class="image"><img src={pic}/></figure>
@@ -225,14 +231,14 @@ function DeskBooking({history, match}) {
               </article>
             </div>
           </div>         
-          <div className="col-6 pt-5" style={{margin:"auto", display:"block"}}>
+          <div className="col-4 pt-5" style={{margin:"auto", display:"block"}}>
               <FloorPlan></FloorPlan>
               <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                 {[...Array.from(Array(noFloors).keys())].map((num, i) =>{
                   return(
                     <>
                       <input type="radio" class="btn-check" name="btnradio" id={i} autocomplete="off" checked=""></input>
-                      <label class="btn btn-outline-primary" for="btnradio1">Floor {num+1}</label>
+                      <label class="btn btn-outline-primary" for="btnradio1">{num+1}</label>
                     </>
                     )})}
               </div>

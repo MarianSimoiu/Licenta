@@ -22,6 +22,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/buildings", buildingRoutes);
 
 // --------------------------deployment------------------------------
+
 const __dirname = path.resolve();
 
 if (process.env.NODE_ENV === "production") {
