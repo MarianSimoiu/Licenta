@@ -8,8 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { listBookings } from "../../actions/bookingsActions";
 import axios from "axios";
 import MainMenu from "../../components/MainMenu"
-import { format } from 'date-fns';
-import image from "../../images/da.jpg"
+import TextBar  from "../../components/TextBar";
 
 function Buildings({history, match}) {
 
@@ -217,8 +216,8 @@ function Search(){
 <>
   {userInfo &&
   <MainMenu uInfo={userInfo}></MainMenu>}
-  
-  <div class="content">
+  <TextBar text={"Buildings"} subText={"Choose one office building from the list below"}></TextBar>
+  <div className="container" style={{position:"relative", left:"200px", top:"50px"}}>
    {buildings?.map((b,key) => 
     <div class="example" key={key}>
       <article class="card depth--two">
@@ -230,17 +229,16 @@ function Search(){
             {b?.address.map((a) => 
             <>
               <h2 class="text-large">{a.city}</h2>
-              <h3 class="text-secondary text-normal text-small">{a.street}</h3> 
+              <span class="badge bg-primary">{a.street}</span>
             </> 
             )}
           </header>
           <div class="card__supporting-text">        
-            <p>Floors: {b.noFloors}</p>
-            {b.floor?.map((f, i) =>
-              f.desk[i] == ""
-              )}
-            <p></p>
-          </div>
+            <span class="badge bg-warning">Floors: {b.noFloors}</span> 
+            <span id="b-left" class="badge bg-danger">Conference Rooms: {b.noFloors}</span>  <br></br>
+            <span class="badge bg-success">Desks: {12*b.noFloors}</span>  
+            <span id="b-left" class="badge bg-info">Tables: {2*b.noFloors}</span>
+          </div> 
         </div>
         <footer class="card__actions">
           <a href={`/${match.params.kind}/${b._id}`}class="btn"  >Select Building</a>

@@ -51,7 +51,7 @@ function MainScreen({uInfo}) {
   <ul class="nav flex-column bg-white mb-0">
     <li class="nav-item" id="option">
       <a href={`/mybookings/${uInfo._id}`} class="nav-link text-dark font-italic">
-        <GiNotebook id="side-icon"></GiNotebook> <p id="side-item"><em>My bookings</em></p>
+        <GiNotebook id="side-icon"></GiNotebook> <p id="side-item"><em>My Bookings</em></p>
       </a>
     </li>
     <li class="nav-item" id="option">

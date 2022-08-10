@@ -163,7 +163,7 @@ input[type=time]{
 .welcome-text{
     padding-top: 10px;
     padding-bottom: 0.5px;
-    padding-left: 10px;
+    padding-left: 25px;
     color: rgb(10, 17, 27);
     background-color: rgb(255, 255, 255);
     border-radius: 10px;

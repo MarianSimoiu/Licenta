@@ -1,11 +1,11 @@
 
 
-const TextBar = ({text}) => {
+const TextBar = (props) => {
 
     return(
         <div className="welcome-text">
-            <h4>{text}</h4>
-            <p class="text-secondary"> Book your place at the office</p>
+            <h4>{props.text}</h4>
+            <p class="text-secondary">{props.subText}</p>
         </div>
     )
 }

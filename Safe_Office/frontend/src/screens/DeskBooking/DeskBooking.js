@@ -199,7 +199,7 @@ function DeskBooking({history, match}) {
         <MainMenu uInfo={userInfo}></MainMenu>}
         {showConfirmationError ? <ConfirmationError id="confirmation"/> : null }
         
-        <TextBar text={"Desk Booking"}></TextBar>
+        <TextBar text={"Desk Booking"} subText={"Choose a desk and confirm your booking"}></TextBar>
         <form onSubmit={SubmitHandler} id="first-form">
         <div className="row">
           <div className="col-2"> </div>
@@ -217,10 +217,8 @@ function DeskBooking({history, match}) {
                     )}
                   </header>
                   <div class="card__supporting-text">      
-                    
                     <span class="badge bg-warning">Total floors: {noFloors}</span> <br></br>
                     <span class="badge bg-info">Total desks: {noFloors}</span>  <br></br>
-
                   </div>
                 </div>
               </article>
@@ -231,7 +229,7 @@ function DeskBooking({history, match}) {
             
               <div className="control-point" style={{left:"10px"}}>
               
-                <label id="dateLabel">Booking Date</label>
+                <label id="dateLabel">Date</label>
                 <input type="date" className="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
                 <label id="dateLabel">From</label>
                 <input type="time" className="form-control" id="time-from" value={from} onChange={(e) => setFrom(e.target.value)}></input>
