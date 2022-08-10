@@ -1,4 +1,5 @@
 
+
 .control-area {
     margin-top: 50px;
     background-color: rgb(173, 208, 239);
@@ -159,17 +160,18 @@ input[type=time]{
   font-family: 'Times New Roman', Times, serif;
 }
 
-#welcome-text{
-    padding: 20px 30px;
+.welcome-text{
+    padding-top: 10px;
+    padding-bottom: 0.5px;
+    padding-left: 10px;
     color: rgb(10, 17, 27);
-    font-size: 30px;
-    font-family: 'Times New Roman', Times, serif;
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
     position: relative;
     width: 70%;
     top: 30px;
     left: 21%;
+    line-height: 0.2;
 }
 
 .line{
@@ -227,6 +229,8 @@ input[type=time]{
 #confirmation{
   position: fixed;
   z-index: 2;
-  width: 400px;
+  width: 300px;
+  display: block;
 }
+
 

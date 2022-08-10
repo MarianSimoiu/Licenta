@@ -29,9 +29,6 @@ const ProfileScreen = ({match, history }) => {
   const userUpdate = useSelector((state) => state.userUpdate);
   const { loading, error, success } = userUpdate;
 
-  const bar = "_"
-
-
 
   useEffect(() => {
     const fetchColleagues = async() =>{

@@ -9,15 +9,18 @@ import axios from "axios";
 import "./DeskBooking.css"
 import moment from 'moment'
 import ReactTooltip from 'react-tooltip';
-import DateTimePicker from 'react-datetime-picker';
+import { Helmet } from "react-helmet";
 
 function DeskBooking({history, match}) {
 
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
 
+    const userUpdate = useSelector((state) => state.userUpdate);
+    const { loading, error, success } = userUpdate;
 
     var today = moment(new Date()).format('YYYY-MM-DD');
+    var time = moment(new Date()).format('hh:mm: a')
 
     const [address, setAddress] = useState([]);
     const [floor, setFloor] = useState("1");
@@ -28,7 +31,8 @@ function DeskBooking({history, match}) {
     const [showConfirmationError, setShowConfirmationError] = React.useState(false)
     const [fetchedData, setFetchedData] = useState([]);
     const [pic, setPic] = useState([]);
-    const [value, setValue] = React.useState(new Date());
+    const[from, setFrom] = useState("");
+    const[to, setTo] = useState(time);
     const dispatch = useDispatch();
 
     const fetchFilteredBookings = async () => {
@@ -61,7 +65,7 @@ function DeskBooking({history, match}) {
         fetchFilteredBookings();
         fetching();
       },[match.params.id,userInfo,floor,date])
-
+      console.log(floor)
     
       const SubmitHandler = (e) => {
             e.preventDefault();
@@ -72,7 +76,7 @@ function DeskBooking({history, match}) {
             resetHandler();  
             setTimeout(function(){
               window.location.reload(1);
-           }, 2000);
+           }, 1000);
             if (!floor || !date || !codSpace) 
                return;
       };
@@ -84,21 +88,36 @@ function DeskBooking({history, match}) {
      
       function ConfirmationError(){
         return(
-            <div class="alert alert-dismissible alert-success" id="success-alert">
+            <div class="alert alert-dismissible alert-success" id="success-alert" >
                 <strong>Well done!</strong> Your booking has been <a href="#" class="alert-link">successfully registered</a>.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" onClick={() => setShowConfirmationError(false)}></button>
             </div>
+            
         )
     }
 
     function Confirmation(){
         return(
-          <div class="card text-white bg-primary mb-3" id="confirmation">
-            <div class="card-header">Header</div>
-            <div class="card-body">
-              <h4 class="card-title">Primary card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <div class="card bg-secondary mb-3" id="confirmation">
+            <div class="card-header">
+              <h4>Confirm your booking!</h4>
             </div>
+            <div class="card-body">
+              {address?.map((d) =>  {
+                return(
+                <>
+                  <p>City: {d.city}</p>
+                  <p>Address: {d.street}</p>
+                </>
+                )})}
+                <p>Floors: {floor}</p>
+                <p>Date: {date}</p>
+                <p>Desk: {codSpace}</p>
+            </div>
+            <div class="modal-footer">
+                <button  form="first-form" type="submit" class="btn btn-primary" id="btn-">Save changes</button>
+                <button onClick={ () => {setShowConfirmation(false);}} type="button" class="btn btn-danger"  data-bs-dismiss="modal">Close</button>
+              </div>
           </div>
           )}
     
@@ -176,57 +195,65 @@ function DeskBooking({history, match}) {
 
     return(
     <>
+    <Helmet>
+        <style>{"body { background-color: orange; }"}</style>
+      </Helmet>
       {userInfo &&
         <MainMenu uInfo={userInfo}></MainMenu>}
-        {showConfirmationError ? <ConfirmationError/> : null }
-        <TextBar text={"Welcome to Safe Office Desk Booking System!"}></TextBar>
+        {showConfirmationError ? <ConfirmationError id="confirmation"/> : null }
         
+        <TextBar text={"Desk Booking"}></TextBar>
+        <form onSubmit={SubmitHandler} id="first-form">
         <div className="row">
           <div className="col-2"> </div>
-          <div className="col-1" style={{margin:"auto"}}> 
+          <div className="col-2 pt-4" style={{margin:"auto"}}> 
             <div class="example">
-              <article class="card depth--two"  style={{width:"250px"}}>
+              <article class="card depth--two"  style={{width:"330px"}}>
                 <figure class="image"><img src={pic}/></figure>
                 <div class="card__body">
                   <header class="card__primary-title">
                   {address.map((a) => 
                     <>
                     <h2 class="text-large">{a.city}</h2>
-                    <h3 class="text-secondary text-normal text-small">{a.street}</h3> 
+                    <span class="badge bg-primary">{a.street}</span>
                     </> 
                     )}
                   </header>
-                  <div class="card__supporting-text">        
-                    <p>Floors: {noFloors}</p>
-                    <p></p>
+                  <div class="card__supporting-text">      
+                    
+                    <span class="badge bg-warning">Total floors: {noFloors}</span> <br></br>
+                    <span class="badge bg-info">Total desks: {noFloors}</span>  <br></br>
+
                   </div>
                 </div>
               </article>
             </div>
           </div>
+         
             <div className="col-2 pt-5">
+            
               <div className="control-point" style={{left:"10px"}}>
               
                 <label id="dateLabel">Booking Date</label>
                 <input type="date" className="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
                 <label id="dateLabel">From</label>
-                <input type="time"   className="form-control" id="time-from"></input>
+                <input type="time" className="form-control" id="time-from" value={from} onChange={(e) => setFrom(e.target.value)}></input>
                 <label id="dateLabel">To</label>
-                <input type="time"  className="form-control"  id="time-to"></input>
+                <input type="time"  className="form-control"  id="time-to" value={to} onChange={(e) => setTo(e.target.value)}></input>
               </div>
               
             </div>         
-          <div className="col-4 pt-5" style={{margin:"auto", display:"block"}}>
+          <div className="col-5 pt-5" style={{margin:"auto", display:"block"}}>
               <FloorPlan ></FloorPlan>
               <div div class="btn-group me-2" role="group" aria-label="First group">
                 {[...Array.from(Array(noFloors).keys())].map((num, i) =>{
                   return(
-                      <button type="button" class="btn btn-primary" value={floor} onChange={(e) => setFloor(e.target.value)}> {num+1}</button>
+                      <button  type="button" class="btn btn-primary" value={num+1} onClick={(e) => setFloor(e.target.value)}> {num+1}</button>
                     )})}
               </div>
           </div> 
-         
         </div>
+      </form>
     </>
 )}
 /*
@@ -270,6 +297,8 @@ function DeskBooking({history, match}) {
                 </div>     
 
 *******8
+
+
 <div className="control-point">
                     <label for="dateSelect">From:</label> 
                     <span className="custom-dropdown small">
