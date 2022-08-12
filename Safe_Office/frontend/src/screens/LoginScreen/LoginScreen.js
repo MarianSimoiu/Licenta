@@ -19,7 +19,7 @@ function LoginScreen({ history }) {
 
   useEffect(() => {
     if (userInfo) {
-      history.push("/buildings");
+      history.push("/select_building/desk_booking");
     }
   }, [history, userInfo]);
 

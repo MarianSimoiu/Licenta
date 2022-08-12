@@ -1,0 +1,45 @@
+.tab {
+    position: absolute;
+    font-size: 26px;
+    color: rgb(83, 194, 83);
+  }
+  
+  .tab:hover {
+    color: rgb(58, 153, 58);
+    cursor: pointer;
+  }
+  
+  #tslot1 {
+    left:330px;
+    top:60px;
+  } 
+  
+  #tslot2 {
+    left:470px;
+    top:48px;
+  } 
+
+  .tableReserved {
+    position: absolute;
+    font-size: 26px;
+    color: rgb(240, 51, 96);
+  
+  }
+  
+.tableReserved:hover {
+    color: rgb(191, 22, 137);
+    cursor: pointer;
+  }
+
+
+.tableReservedByMe{
+  position: absolute;
+  font-size: 26px;
+  color: rgb(18, 93, 223);
+ 
+}
+
+.tableReservedByMe:hover {
+  color:rgb(103, 168, 252);
+  cursor: pointer;
+}

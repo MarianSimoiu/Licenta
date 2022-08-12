@@ -196,7 +196,7 @@ function BookForColleague({history, match}) {
         <MainMenu uInfo={userInfo}></MainMenu>}
         {showConfirmationError ? <ConfirmationError id="confirmation"/> : null }
         
-        <TextBar text={"Room Booking"} subText={"Choose a conference room and confirm your booking"}></TextBar>
+        <TextBar text={"Colleague Booking"} subText={"Choose a desk and a colleague to book for"}></TextBar>
         <form onSubmit={SubmitHandler} id="first-form">
         <div className="row">
           <div className="col-2"> </div>

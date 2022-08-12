@@ -89,7 +89,7 @@ function Header({ setSearch }) {
                     My Profile
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="my_bookings">My Bookings</NavDropdown.Item>
+                  <NavDropdown.Item href={`/my_bookings/${userInfo._id}`}>My Bookings</NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout

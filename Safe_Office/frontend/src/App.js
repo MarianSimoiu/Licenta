@@ -14,6 +14,7 @@ import RoomBooking from "./screens/RoomBooking/RoomBooking"
 import Buildings from "./screens/Buildings/Buildings"
 import BookForColleague from "./screens/BookForColleague/BookForColleague";
 import TableBooking from "./screens/TableBooking/TableBooking";
+import AddUser from "./screens/AddUser/AddUser";
 
 function App() {
   
@@ -30,10 +31,11 @@ function App() {
         <Route path="/desk_booking/:id" component={DeskBooking} />
         <Route path="/profile" component={ProfileScreen} />
         <Route path="/room_booking/:id" component={RoomBooking} />
-        <Route path="/book-for-colleague/:id" component={BookForColleague} />
+        <Route path="/book_for_colleague/:id" component={BookForColleague} />
         <Route path="/table_booking/:id" component={TableBooking} />
         <Route path="/search_friend" component={SearchFriend} />
-        <Route path="/mybookings/:user" component={MyBookings} />
+        <Route path="/my_bookings/:user" component={MyBookings} />
+        <Route path="add_user" component={AddUser} />
         
       </main>
       <Footer />

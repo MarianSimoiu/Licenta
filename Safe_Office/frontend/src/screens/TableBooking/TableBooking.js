@@ -8,7 +8,7 @@ import { createBookingAction } from "../../actions/bookingsActions";
 import axios from "axios";
 import moment from 'moment'
 import ReactTooltip from 'react-tooltip';
-
+import "./TableBooking.css"
 
 function TableBooking({history, match}){
     const userLogin = useSelector((state) => state.userLogin);
@@ -129,11 +129,11 @@ function TableBooking({history, match}){
       
       return(
           fetchedData?.map((d, i) => {
-          if(d.codSpace == props.deskNo) {
+          if(d.codSpace == props.tableNo) {
             if(d.user == userInfo._id)
-              var cls = "deskReservedByMe";
+              var cls = "tableReservedByMe";
             else
-              var cls = "deskReserved";
+              var cls = "tableReserved";
             let string = "booked by: " + d.userName + "<br></br>" +   "space cod: " + d.codSpace 
           return( 
           <>
@@ -147,23 +147,23 @@ function TableBooking({history, match}){
     }
 
     function Available(props) {
-      let string = "Available!" + "<br></br>" + "space cod: " + props.deskNo;
+      let string = "Available!" + "<br></br>" + "space cod: " + props.tableNo;
 
       return(
         <>
-          <FaRegPlusSquare class="desk" id={props.cod} key={props.cod} data-type="success" data-tip={string} data-html={true}
-          onClick={() => {setShowConfirmation(true); setSpace(props.deskNo)}}></FaRegPlusSquare>
+          <FaRegPlusSquare class="tab" id={props.cod} key={props.cod} data-type="success" data-tip={string} data-html={true}
+          onClick={() => {setShowConfirmation(true); setSpace(props.tableNo)}}></FaRegPlusSquare>
           <ReactTooltip />
         </>
       )
     }
     
 
-    function IsAvailable(deskNo){
+    function IsAvailable(tableNo){
       
       var available = true;
       fetchedData.map((d, i) => {
-          if(d.codSpace == deskNo) 
+          if(d.codSpace == tableNo) 
             available = false;
           })
       return available;
@@ -172,9 +172,8 @@ function TableBooking({history, match}){
     function FloorPlan() { 
         return(
         <div style={{position:"relative"}}> 
-          {IsAvailable("D-1") ? <Available cod="slot1" deskNo="D-1" > </Available> : <Reserved cod="slot1" deskNo="D-1"></Reserved>}
-          {IsAvailable("D-2") ? <Available cod="slot2" deskNo="D-2" > </Available> : <Reserved cod="slot2" deskNo="D-2"></Reserved>}  
-                             
+          {IsAvailable("T-1") ? <Available cod="tslot1" tableNo="T-1" > </Available> : <Reserved cod="tslot1" tableNo="T-1"></Reserved>}
+          {IsAvailable("T-2") ? <Available cod="tslot2" tableNo="T-2" > </Available> : <Reserved cod="tslot2" tableNo="T-2"></Reserved>}               
           <img  id="image-floor" src={floorPrint} style={{display:"block"}} alt={"image-floor"}></img>
           {showConfirmation ? <Confirmation/> : null}
         </div>
@@ -187,7 +186,7 @@ function TableBooking({history, match}){
             <MainMenu uInfo={userInfo}></MainMenu>}
             {showConfirmationError ? <ConfirmationError id="confirmation"/> : null }
             
-            <TextBar text={"Desk Booking"} subText={"Choose a desk and confirm your booking"}></TextBar>
+            <TextBar text={"Table Booking"} subText={"Choose your booking details"}></TextBar>
             <form onSubmit={SubmitHandler} id="first-form">
             <div className="row">
               <div className="col-2"> </div>

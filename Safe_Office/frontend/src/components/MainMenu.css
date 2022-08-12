@@ -61,6 +61,14 @@
   margin-left: 5px;
   width: 30px;
   color: blue;
+  font-size: 18px;
+}
+#little-icon{
+  display:inline;
+  margin-left: 3px;
+  width: 30px;
+  color: blue;
+  font-size: 20px;
 }
 
 #safe-logo{
