@@ -45,7 +45,7 @@ function LoginScreen({ history }) {
               <p id="p" class="mb-4">Fill in the login details with your own credentials and book your way to the office!</p>
             </div>
             <Form onSubmit={submitHandler}>
-          <Form.Group controlId="formBasicEmail">
+          <Form.Group className="mb-3"controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control id="input"
               type="email"
@@ -55,7 +55,7 @@ function LoginScreen({ history }) {
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicPassword">
+          <Form.Group className="mt-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control id="input"
               type="password"

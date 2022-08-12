@@ -1,4 +1,4 @@
-import React from "react";
+
 import "./MainMenu.css"
 import {FaDesktop, FaUserFriends, FaUserEdit} from "react-icons/fa";
 import { MdMeetingRoom, MdOutlineLogout} from "react-icons/md";
@@ -7,16 +7,23 @@ import {GiNotebook} from "react-icons/gi"
 import { logout } from "../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import {HiUserAdd} from "react-icons/hi"
+import React, { useEffect, useState} from "react";
 
 function MainScreen({uInfo, history}) {
-  
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const dispatch = useDispatch();
   const logoutHandler = () => {
     dispatch(logout());
   };
 
+
   
   return (
+<>
+    
+  {uInfo && 
   <div class="vertical-nav bg-white" id="sidebar">
   <div class="py-4 px-3 mb-4 bg-light">
     
@@ -80,10 +87,9 @@ function MainScreen({uInfo, history}) {
       </a>
     </li>
   </ul>
-  
- 
-</div>
-    
+  </div>
+  }
+</>
     )
 }
 

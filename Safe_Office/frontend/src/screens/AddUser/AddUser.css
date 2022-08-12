@@ -1,0 +1,45 @@
+#form53-user{
+    background-color: rgb(252, 252, 252);
+    height: 500px;
+    width: 500px;
+    border-radius: 5px;
+
+}
+.mainback {
+    min-height: 93vh;
+    display: flex;
+    padding: 10px 0;
+    margin-left: 600px;
+}
+  .page {
+    width: 100%;
+  }
+
+#text-user{
+    margin-left: 30%;
+    padding: 10px;
+    font-weight: 500;
+    font-family: 'Fira Sans', sans-serif;
+}
+
+#control{
+   margin-left: 100px;
+}
+
+
+#inpu43tDefault{
+    background-color: #0a6590;
+    color: #fff;
+    height: 50px;
+    width: 200px;
+}
+
+#lb{
+    background-color: white;
+}
+
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+  }

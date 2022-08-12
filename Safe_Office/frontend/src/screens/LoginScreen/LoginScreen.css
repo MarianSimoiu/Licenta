@@ -5,8 +5,6 @@
 #input {
   width: 400px;
   font-size: 15px;
-  font-style: italic;
-  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 #p {
@@ -14,3 +12,6 @@
   opacity: 50%;
 }
 
+#form-submit{
+  text-align: center;
+}

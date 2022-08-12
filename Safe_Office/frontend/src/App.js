@@ -35,7 +35,7 @@ function App() {
         <Route path="/table_booking/:id" component={TableBooking} />
         <Route path="/search_friend" component={SearchFriend} />
         <Route path="/my_bookings/:user" component={MyBookings} />
-        <Route path="add_user" component={AddUser} />
+        <Route path="/add_user" component={AddUser} />
         
       </main>
       <Footer />
