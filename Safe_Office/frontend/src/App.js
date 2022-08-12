@@ -6,16 +6,14 @@ import LandingPage from "./screens/LandingPage/LandingPage";
 import DeskBooking from "./screens/DeskBooking/DeskBooking";
 import Test from "./screens/Test/test";
 import MyBookings  from "./screens/MyBookings/MyBookings";
-//import SingleNote from "./screens/SingleNote/SingleNote";
 import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
-//import createBooking from "./screens/SingleNote/CreateNote";
 import ProfileScreen from "./screens/ProfileScreen/ProfileScreen";
 import SearchFriend from "./screens/SearchFriend/SearchFriend";
 import RoomBooking from "./screens/RoomBooking/RoomBooking"
 import Buildings from "./screens/Buildings/Buildings"
 import BookForColleague from "./screens/BookForColleague/BookForColleague";
-
+import TableBooking from "./screens/TableBooking/TableBooking";
 
 function App() {
   
@@ -33,6 +31,7 @@ function App() {
         <Route path="/profile" component={ProfileScreen} />
         <Route path="/room_booking/:id" component={RoomBooking} />
         <Route path="/book-for-colleague/:id" component={BookForColleague} />
+        <Route path="/table_booking/:id" component={TableBooking} />
         <Route path="/search_friend" component={SearchFriend} />
         <Route path="/mybookings/:user" component={MyBookings} />
         

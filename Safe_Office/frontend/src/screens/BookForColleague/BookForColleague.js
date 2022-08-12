@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { FaRegPlusSquare,FaRegUserCircle } from "react-icons/fa";
-import { createBookingAction } from "../../actions/bookingsActions";
-import floorPrint from "../../images/mainFloor.png"
+import { createBookingColleagueAction } from "../../actions/bookingsActions";
+import floorPrint from "../../images/mainFloor.PNG"
 import TextBar from "../../components/TextBar"
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import MainMenu from "../../components/MainMenu"
 import moment from 'moment'
 import ReactTooltip from 'react-tooltip';
+import './BookForColleague.css' 
 
 function BookForColleague({history, match}) {
 
@@ -25,6 +26,10 @@ function BookForColleague({history, match}) {
   const [showConfirmation, setShowConfirmation] = React.useState(false)
   const [showConfirmationError, setShowConfirmationError] = React.useState(false)
   const [fetchedData, setFetchedData] = useState([]);
+  const [pic, setPic] = useState([]);
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [colleague, setColleague] = useState("");
 
   const dispatch = useDispatch();
 
@@ -48,6 +53,7 @@ function BookForColleague({history, match}) {
       const { data } = await axios.get(`/api/buildings/${match.params.id}`);
       setFloors(data.noFloors);
       setAddress(data.address);
+      setPic(data.pic);
 }
 
       if (!userInfo) {
@@ -60,18 +66,20 @@ function BookForColleague({history, match}) {
 
   
     const SubmitHandler = (e) => {
-          e.preventDefault();
-          dispatch(createBookingAction(match.params.id, address, floor, date, codSpace, userInfo.name));
-          
-          setShowConfirmation(false)
-          setShowConfirmationError(true);
-          resetHandler();  
-          setTimeout(function(){
-            window.location.reload(1);
-         }, 2000);
-          if (!floor || !date || !codSpace) 
-             return;
-    };
+      e.preventDefault();
+      const startDate = moment(date).add(from, 'm').toDate();
+      const endDate = moment(date).add(to, 'm').toDate();
+      dispatch(createBookingColleagueAction(match.params.id, address, floor, startDate, endDate, codSpace, colleague));
+      
+      setShowConfirmation(false)
+      setShowConfirmationError(true);
+      resetHandler();  
+      setTimeout(function(){
+        window.location.reload(1);
+     }, 1000);
+      if (!floor || !date || !codSpace) 
+         return;
+};
 
     const resetHandler = () => {
       setFloor(floor);
@@ -88,35 +96,27 @@ function BookForColleague({history, match}) {
   }
 
   function Confirmation(){
-      return(
-        <div className="modal-sm" id="confirmation">
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Confirm Booking</h5>
-              <button onClick={ () => {setShowConfirmation(false)}}  type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-    
-              <span aria-hidden="true"></span>
-              </button>
-            </div>
-            <div class="modal-body">
-            {address?.map((d) =>  {
-              return(
-              <>
-                <p>City: {d.city}</p>
-                <p>Address: {d.street}</p>
-              </>
-              )})}
-              <p>Floors: {floor}</p>
-              <p>Date: {date}</p>
-              <p>Desk: {codSpace}</p>
-            </div>
-            <div class="modal-footer">
-              <button  form="first-form" type="submit" class="btn btn-primary">Save changes</button>
-              <button onClick={ () => {setShowConfirmation(false);}} type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Close</button>
-            </div>
-         </div>
+    return(
+      <div class="card bg-secondary mb-3" id="confirmation">
+        <div class="card-header">
+          <h4>Confirm your booking!</h4>
         </div>
+        <div class="card-body">
+          {address?.map((d) =>  {
+            return(
+            <>
+              <p>City: {d.city}</p>
+              <p>Address: {d.street}</p>
+            </>
+            )})}
+            <p>Floors: {floor}</p>
+            <p>Date: {date}</p>
+            <p>Space cod: {codSpace}</p>
+        </div>
+        <div class="modal-footer">
+            <button  form="first-form" type="submit" class="btn btn-primary" id="btn-">Save changes</button>
+            <button onClick={ () => {setShowConfirmation(false);}} type="button" class="btn btn-danger"  data-bs-dismiss="modal">Close</button>
+          </div>
       </div>
       )}
   
@@ -171,7 +171,7 @@ function BookForColleague({history, match}) {
   
   function FloorPlan() { 
       return(
-      <div> 
+      <div style={{position:"relative"}}> 
         {IsAvailable("D-1") ? <Available cod="slot1" deskNo="D-1" > </Available> : <Reserved cod="slot1" deskNo="D-1"></Reserved>}
         {IsAvailable("D-2") ? <Available cod="slot2" deskNo="D-2" > </Available> : <Reserved cod="slot2" deskNo="D-2"></Reserved>}  
         {IsAvailable("D-3") ? <Available cod="slot3" deskNo="D-3" > </Available> : <Reserved cod="slot3" deskNo="D-3"></Reserved>} 
@@ -193,55 +193,70 @@ function BookForColleague({history, match}) {
   return(
   <>
     {userInfo &&
-      <MainMenu uInfo={userInfo}></MainMenu>}
-      {showConfirmationError ? <ConfirmationError/> : null }
-      <TextBar text={"Book a desk for your colleague!"}></TextBar>
-      <div className="content">         
-      <form onSubmit={SubmitHandler} id="first-form">
+        <MainMenu uInfo={userInfo}></MainMenu>}
+        {showConfirmationError ? <ConfirmationError id="confirmation"/> : null }
         
-          <div className="row">
-              <div className="col-sm-4">
-                <div className="control-area">
-                  <h4 id="header-search">Quick desk search</h4>
-                  <div className="control-point" id="floorSelect">
-
-                  {address?.map((d) =>  {
-                      return (
-                        <>
-                          <p>City: <p id="info">{d.city}</p></p>
-                          <p>Address: <p id="info">{d.street}</p></p>
-                        </>
-                      );
-                    })} 
-                     
-                    <label for="floorSelect" class="form-label mt-2" >Floor:</label>
-                    <span className="custom-dropdown small">
-                      <select value={floor} onChange={(e) => {setFloor(e.target.value); }}>
-                        <option value=""disabled selected>select floor</option>
-                        {[...Array.from(Array(noFloors).keys())].map((num, i) => <option key={i}>{num+1}</option>)}
-                       </select>
-                    </span>
-                    </div>
+        <TextBar text={"Room Booking"} subText={"Choose a conference room and confirm your booking"}></TextBar>
+        <form onSubmit={SubmitHandler} id="first-form">
+        <div className="row">
+          <div className="col-2"> </div>
+          <div className="col-2 pt-4" style={{margin:"auto"}}> 
+            <div class="example">
+              <article class="card depth--two"  style={{width:"330px"}}>
+                <figure class="image"><img src={pic}/></figure>
+                <div class="card__body">
+                  <header class="card__primary-title">
+                  {address.map((a) => 
+                    <>
+                    <h2 class="text-large">{a.city}</h2>
+                    <span class="badge bg-primary">{a.street}</span>
+                    </> 
+                    )}
+                  </header>
+                  <div class="card__supporting-text">      
+                    <span class="badge bg-warning">Total floors: {noFloors}</span> <br></br>
+                    <span class="badge bg-info">Total desks: {noFloors}</span>  <br></br>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+         
+            <div className="col-2 pt-5">
             
-                <div className="control-point">
-                  <label for="dateSelect">Date:</label> 
-                  <input type="date" className="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
-                </div>
-                <div className="control-point" id="cp-name">
-                  <label for="nameSelect">Colleague:</label> 
-                  <input type="text" className="form-control" id="nameSelect"></input>
-                </div>
-  
+              <div className="control-point" style={{left:"10px"}}>
+              
+                <label id="dateLabel">Date</label>
+                <input type="date" className="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
+                <label id="dateLabel">From</label>
+                <input type="time" className="form-control" id="time-from" value={from} onChange={(e) => setFrom(e.target.value)}></input>
+                <label id="dateLabel">To</label>
+                <input type="time"  className="form-control"  id="time-to" value={to} onChange={(e) => setTo(e.target.value)}></input>
+                <label id="dateLabel">Colleague</label> <br></br>
+                <span className="custom-dropdown small" >
+                  <select id="colleague" value={colleague} onChange={(e) => {setColleague(e.target.value)}}>
+                    <option value="" select disabled hidden>Choose Colleague</option>
+                    {userInfo.permission?.map((p,i) => {
+                      return(
+                        <option key={i}>{p}</option>
+                      )})}
+                  </select>
+                </span>
+
               </div>
-              </div>          
-              <div className="col-sm-4">
-                <div className="floor">
-                  <FloorPlan></FloorPlan>
-                </div>
+              
+            </div>         
+          <div className="col-5 pt-5" style={{margin:"auto", display:"block"}}>
+              <FloorPlan ></FloorPlan>
+              <div div class="btn-group me-2" role="group" aria-label="First group">
+                {[...Array.from(Array(noFloors).keys())].map((num, i) =>{
+                  return(
+                      <button  type="button" class="btn btn-primary" value={num+1} onClick={(e) => setFloor(e.target.value)}> {num+1}</button>
+                    )})}
               </div>
-          </div>    
-        </form>
-      </div>
+          </div> 
+        </div>
+      </form>
   </>
   )
 }

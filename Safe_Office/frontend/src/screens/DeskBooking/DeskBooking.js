@@ -2,7 +2,7 @@ import MainMenu from "../../components/MainMenu"
 import TextBar from "../../components/TextBar"
 import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import floorPrint from "../../images/mainFloor.png"
+import floorPrint from "../../images/mainFloor.PNG"
 import { FaRegPlusSquare, FaRegUserCircle} from "react-icons/fa";
 import { createBookingAction } from "../../actions/bookingsActions";
 import axios from "axios";
@@ -31,8 +31,9 @@ function DeskBooking({history, match}) {
     const [showConfirmationError, setShowConfirmationError] = React.useState(false)
     const [fetchedData, setFetchedData] = useState([]);
     const [pic, setPic] = useState([]);
-    const[from, setFrom] = useState("");
-    const[to, setTo] = useState(time);
+    const [from, setFrom] = useState("");
+    const [to, setTo] = useState("");
+
     const dispatch = useDispatch();
 
     const fetchFilteredBookings = async () => {
@@ -61,15 +62,17 @@ function DeskBooking({history, match}) {
         if (!userInfo) {
           history.push("/login");
         }
-  
+       
         fetchFilteredBookings();
         fetching();
-      },[match.params.id,userInfo,floor,date])
-      console.log(floor)
+      },[match.params.id,userInfo,floor,date, history])
+      
     
       const SubmitHandler = (e) => {
             e.preventDefault();
-            dispatch(createBookingAction(match.params.id, address, floor, date, codSpace, userInfo.name));
+            const startDate = moment(date).add(from, 'm').toDate();
+            const endDate = moment(date).add(to, 'm').toDate();
+            dispatch(createBookingAction(match.params.id, address, floor, startDate, endDate, codSpace, userInfo.name));
             
             setShowConfirmation(false)
             setShowConfirmationError(true);
@@ -185,13 +188,15 @@ function DeskBooking({history, match}) {
           {IsAvailable("D-10") ? <Available cod="slot10" deskNo="D-10" > </Available> : <Reserved cod="slot10" deskNo="D-10"></Reserved>}
           {IsAvailable("D-11") ? <Available cod="slot11" deskNo="D-11" > </Available> : <Reserved cod="slot11" deskNo="D-11"></Reserved>}
           {IsAvailable("D-12") ? <Available cod="slot12" deskNo="D-12" > </Available> : <Reserved cod="slot12" deskNo="D-12"></Reserved>}                      
-          <img  id="image-floor" src={floorPrint} style={{display:"block"}}></img>
+          <img  id="image-floor" src={floorPrint} style={{display:"block"}} alt={"image-floor"}></img>
           {showConfirmation ? <Confirmation/> : null}
         </div>
         )}
 
      
-        
+       
+          
+       
 
     return(
     <>

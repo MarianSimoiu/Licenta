@@ -3,7 +3,7 @@ import { FaRegPlusSquare } from "react-icons/fa";
 import { createBookingAction } from "../../actions/bookingsActions";
 import "./Buildings.css";
 import {listBuildingDesks, listBuildings} from "../../actions/buildingActions";
-import floorPrint from "../../images/mainFloor.png"
+import floorPrint from "../../images/mainFloor.PNG"
 import { useDispatch, useSelector } from "react-redux";
 import { listBookings } from "../../actions/bookingsActions";
 import axios from "axios";

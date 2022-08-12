@@ -11,19 +11,10 @@ function MyBookings({match, history}) {
 
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
-
-    const [address, setAddress] = useState("");
-    const [floor, setFloor] = useState("");
-    const [date, setDate] = useState("");
-    const [desk, setDesk] = useState("");
-    const [noFloors, setFloors] = useState("");
+    
     const [filter, setFilter] = useState("All");
-    const [status, setStatus] = useState();
-
-    const [fetchedDataActive, setFetchedDataActive] = useState([]);
-    const [fetchedDataExpired, setFetchedDataExpired] = useState([]);
     const [fetchedAllData, setFetchedAllData] = useState([]);
-    const [fetchedBuilding, setFetchedBuilding] = useState([]);
+
 
     const noteDelete = useSelector((state) => state.noteDelete);
     const dispatch = useDispatch();
@@ -45,16 +36,9 @@ function MyBookings({match, history}) {
                     Authorization: `Bearer ${userInfo.token}`,
                 },
               };
-
-            const response  = await axios.get(`/api/bookings/active/${match.params.user}`, config)
-            const respone2 = await axios.get(`/api/bookings/expired/${match.params.user}`, config)
-            const respone3 = await axios.get(`/api/bookings/`, config)
-           
-          
-            setFetchedDataActive(response.data)
-            setFetchedDataExpired(respone2.data)
-            setFetchedAllData(respone3.data)
-            
+            const respone = await axios.get(`/api/bookings/${match.params.user}`, config);
+        
+            setFetchedAllData(respone.data)
           };
       
           fetching();
@@ -78,7 +62,8 @@ function MyBookings({match, history}) {
                             )})}
                         <td>{b.floor}</td>
                         <td>{b.codSpace}</td>
-                        <td>{moment(b.date).format('yyyy/MM/DD')}</td>
+                        <td>{moment(b.startDate).format('yyyy/MM/DD')}</td>
+                        <td>{moment(b.startDate).format('hh:mm') + " - " + moment(b.endDate).format('hh:mm')}</td>
                         {b.status == "Active" ? 
                         <td><span className="badge-success">{b.status}</span></td>
                         : <td><span className="badge-inactive">{b.status}</span></td>
@@ -90,8 +75,9 @@ function MyBookings({match, history}) {
         if(filter == "Expired")
              return(
             <>
-                {fetchedDataExpired?.map((b,i) =>  
-
+                {fetchedAllData?.map((b,i) =>  {
+                    if(b.status == "Expired")
+                    return(
                     <tr>
                     <td>{i+1}</td>
                     {b.address?.map((d) =>  {
@@ -104,14 +90,17 @@ function MyBookings({match, history}) {
                     <td>{b.floor}</td>
                     <td>{b.codSpace}</td>
                     <td>{moment(b.date).format('yyyy/MM/DD')}</td>
+                    <td>{moment(b.startDate).format('hh:mm') + " - " + moment(b.endDate).format('hh:mm')}</td>
                     <td><span className="badge-inactive">Expired</span></td>
                     <td><button className="btn btn-danger" onClick={() => deleteHandler(b._id)}>Delete</button></td>
-                    </tr>)}
+                    </tr>)})}
             </>)
         if(filter == "Active")
              return(
             <>
-                {fetchedDataActive?.map((b,i) =>        
+                {fetchedAllData?.map((b,i) => {
+                    if(b.status == "Active")
+                        return(        
                     <tr data-status="active">
                     <td>{i+1}</td>
                     {b.address?.map((d) =>  {
@@ -124,16 +113,17 @@ function MyBookings({match, history}) {
                     <td>{b.floor}</td>
                     <td>{b.codSpace}</td>
                     <td>{moment(b.date).format('yyyy/MM/DD')}</td>
+                    <td>{moment(b.startDate).format('hh:mm') + " - " + moment(b.endDate).format('hh:mm')}</td>
                     <td><span className="badge-success">Active</span></td>
                     <td><button className="btn btn-danger" onClick={() => deleteHandler(b._id)}>Delete</button></td>
-                    </tr>)}
+                    </tr>)})}
             </>) }
 
 
     return(
 <div>
     <MainMenu uInfo={userInfo}></MainMenu> 
-    <TextBar text={"You can manage your active bookings and delete old ones!"}></TextBar>
+    <TextBar subText={"View your booking history"} text={"My Bookings"}></TextBar>
     <div class="container-xl" >    
         <div class="table-responsive">
             <div class="table-wrapper">   
@@ -158,6 +148,7 @@ function MyBookings({match, history}) {
                         <th>Floor</th>
                         <th>Space cod</th>
                         <th>Date</th>
+                        <th>Time interval</th>
                         <th>Status</th> 
                         <th>Action</th>
                     </tr>

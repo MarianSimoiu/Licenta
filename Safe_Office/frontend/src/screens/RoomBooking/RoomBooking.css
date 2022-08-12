@@ -18,6 +18,8 @@
     font-size: 25px;
     color: rgb(240, 51, 96);
     display: inline-block;
+    top: 335px;
+    left: 390px;
   }
   
 .roomReserved:hover {

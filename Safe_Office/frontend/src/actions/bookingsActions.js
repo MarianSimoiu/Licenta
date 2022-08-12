@@ -82,7 +82,7 @@ export const listUserBookings = () => async (dispatch, getState) => {
   }
 };
 
-export const createBookingAction = (building, address, floor, date, codSpace, userName) => async (
+export const createBookingAction = (building, address, floor, startDate, endDate, codSpace, userName) => async (
   dispatch,
   getState
 ) => {
@@ -104,7 +104,49 @@ export const createBookingAction = (building, address, floor, date, codSpace, us
 
     const { data } = await axios.post(
       `/api/bookings/create`,
-      {building, address, floor, date, codSpace, userName},
+      {building, address, floor, startDate, endDate, codSpace, userName},
+      config
+    );
+
+    dispatch({
+      type:  BOOKINGS_CREATE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({
+      type: BOOKINGS_CREATE_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const createBookingColleagueAction = (building, address, floor, startDate, endDate, codSpace, userName) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: BOOKINGS_CREATE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `/api/bookings/create-colleague`,
+      {building, address, floor, startDate, endDate, codSpace, userName},
       config
     );
 

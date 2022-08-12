@@ -1,12 +1,8 @@
-.expired {
-    overflow: scroll;
-    height: 400px;
-
-}
 
 .table-responsive {
     padding-top: 100px;
-    padding-left: 300px;
+    padding-left: 180px;
+    overflow: hidden;
 }
 
 .table-wrapper {
