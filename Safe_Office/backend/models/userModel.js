@@ -25,7 +25,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
       default:
-        "https://res.cloudinary.com/dnmtxnbkb/image/upload/v1652347359/buildings/Circ_tjkhgr.jpg",
+        "https://res.cloudinary.com/dhfeqdcb2/image/upload/v1660490011/samples/Image-default.jpg",
     },
     isVaccinated: {
       type: Boolean,

@@ -5,35 +5,67 @@ import "./AddUser.css"
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import Loading from "../../components/Loading";
+import ErrorMessage from "../../components/ErrorMessage";
+import { register } from "../../actions/userActions";
+import axios from "axios";
 
 function AddUser(){
 
+  function createPassword(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+   return result;
+  }
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
-
-    const sgMail = require('@sendgrid/mail')
+    const dispatch = useDispatch();
+    const userRegister = useSelector((state) => state.userRegister);
+    const { loading, error } = userRegister;
+    const [admin, setAdmin] = useState(false)
     const [email, setEmail] = useState("");
     const [userName, setUserName] = useState("");
+    const password = createPassword(10);
+
+    const sender = "marian.simoiu00@e-uvt.ro";
+    const topic = "Safe Office Account Password"
+    const html = `<h1>Congratulations, your account has been successfully created!</h1>` +
+                 `<p><strong>User name:</strong> ${userName}</p>` +
+                 `<p><strong>Email:</strong> ${email}</p>` +
+                 `<p><strong>Password:</strong> ${password}</p>` 
 
     const SubmitHandler = (e) =>{
-      e.preventDefault();
-      alert("Email sent");   
-    const msg = {
-        to: `${email}`, // Change to your recipient
-        from: 'marian.simoiu00@e-uvt.ro', // Change to your verified sender
-        subject: 'Sending with SendGrid is Fun',
-        text: 'and easy to do anywhere, even with Node.js',
-        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-    }
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-    sgMail
-        .send(msg)
-        .then(() => {
-          console.alert('Email sent')
-        })
+      const config = {
+        headers: {
+            Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const name = userName;
+      axios.post("/api/users",{ name, email, password},config);
+
+      e.preventDefault()
+      fetch(`http://localhost:5000/api/users/send-email?recipient=${email}&sender=${sender}&topic=${topic}&html=${html}`, {
+        method: "get"})
+        .then(() =>
+        console.log("Email sent!"))
         .catch((error) => {
-          console.error(error)
-        })}
+          console.error("Error: ", error);
+      })
+      resetHandler();
+      alert("User Created!")
+      }
+    
+    const resetHandler = () => {
+          setUserName("");
+          setEmail("");
+        };
+
+    
 
     return(
 <>
@@ -56,14 +88,11 @@ function AddUser(){
             <Form onSubmit={SubmitHandler}>
                 <Form.Group className="mb-3" controlId="name">
                     <Form.Label>Full Name</Form.Label>
-                    <Form.Control id="input" type="name"value={userName} placeholder="Enter full name" onChange={(e) => setUserName(e.target.value)}/>
+                    <Form.Control id="input" type="name" value={userName} placeholder="Enter full name" onChange={(e) => setUserName(e.target.value)}/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email</Form.Label>
                     <Form.Control id="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter email"/>
-                </Form.Group>
-                <Form.Group className="mt-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="is admin" />
                 </Form.Group>
                 <Button className="mt-3" variant="primary" type="submit">Submit</Button>
             </Form>
@@ -74,6 +103,6 @@ function AddUser(){
     </div>
   </div>
 </>
-    )}
+)}
 
 export default AddUser;

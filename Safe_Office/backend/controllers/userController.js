@@ -1,6 +1,8 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
+import sgMail from '@sendgrid/mail'
+import cors from 'cors'
 
 //@description     Auth the user
 //@route           POST /api/users/login
@@ -39,20 +41,30 @@ const authUser = asyncHandler(async (req, res) => {
 //@route           POST /api/users/
 //@access          Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, pic } = req.body;
+  const { name, email, password} = req.body;
 
   const userExists = await User.findOne({ email });
 
   if (userExists) {
     res.status(404);
     throw new Error("User already exists");
-  }
-
+  }else{
+    if (!name || !email || !password) {
+      res.status(400);
+      throw new Error("Please Fill all the feilds");
+      return;
+    } else {
+      const user = new User({name, email, password})
+      const createdUser = await user.save()
+      res.status(201).json(createdUser);
+    }}
+  
+  /*
   const user = await User.create({
     name,
     email,
     password,
-    pic,
+    isAdmin,
   });
 
   if (user) {
@@ -69,6 +81,7 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("User not found");
   }
+  */
 });
 
 // @desc    GET user profile
@@ -139,4 +152,20 @@ const getUsers = asyncHandler(async (req,res) => {
   res.json(users);
 })
 
-export { authUser, updateUserProfile, registerUser, getUsers, addPermission };
+const sendEmail = asyncHandler(async (req, res) =>{
+  const{ recipient, sender, topic, html} = req.query;
+  
+
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+  const msg = {
+    to: recipient,
+    from: sender,
+    subject: topic,
+    html: html,
+
+  }
+  sgMail.send(msg)
+    .then((msg) =>console.log("Email sent"))
+})
+
+export { authUser, updateUserProfile, registerUser, getUsers, addPermission, sendEmail};
