@@ -112,6 +112,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
   if (!Array.isArray(user.permission))
       user.permission = [];
+
+  if (!Array.isArray(user.vaccination))
+      user.permission = [];
   
   if (user) {
     if (req.body.permissionArray[0] == "add")
@@ -125,7 +128,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     user.pic = req.body.pic || user.pic;
-      
+
+
     if (req.body.password) {
       user.password = req.body.password;
     }

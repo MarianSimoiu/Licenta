@@ -15,6 +15,7 @@ import Buildings from "./screens/Buildings/Buildings"
 import BookForColleague from "./screens/BookForColleague/BookForColleague";
 import TableBooking from "./screens/TableBooking/TableBooking";
 import AddUser from "./screens/AddUser/AddUser";
+import Requests from "./screens/Requests/Requests"
 
 function App() {
   
@@ -36,8 +37,8 @@ function App() {
         <Route path="/search_friend" component={SearchFriend} />
         <Route path="/my_bookings/:user" component={MyBookings} />
         <Route path="/add_user" component={AddUser} />
-        
-      </main>
+        <Route path="/requests" component={Requests} />
+      </main> 
       <Footer />
     </Router>
   );

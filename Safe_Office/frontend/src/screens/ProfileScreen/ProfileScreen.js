@@ -20,7 +20,7 @@ const ProfileScreen = ({match, history }) => {
   const [userNameAdd, setAddPermission] = useState("");
   const [userNameDelete, setDeletePermission] = useState("");
   const [permissionType, setPermissionType] = useState("")
-
+  const [certificate, setCertificate] = useState("");
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -66,13 +66,26 @@ const ProfileScreen = ({match, history }) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(pic);
+          setCertificate(data.url.toString());
         })
         .catch((err) => {
           console.log(err);
         });
   };
-  
+  const user = userInfo._id;
+
+  const sendRequest = async () => {
+    console.log("sending")
+    const config = {
+      headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const dcc = certificate
+    await axios.post(`/api/request/create-requests`, {user, dcc}, config);
+  }
+
+
   const postDetails = (pics) => {
     setPicMessage(null);
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
@@ -100,13 +113,18 @@ const ProfileScreen = ({match, history }) => {
   };
 
   const submitHandler = (e) => {
+
     e.preventDefault();
     let permissionArray = [];
     if(permissionType == "add")
       permissionArray.push(permissionType, userNameAdd);
     if(permissionType == "delete")
       permissionArray.push(permissionType, userNameDelete);
-
+    console.log(certificate)
+    if(certificate){
+       sendRequest();
+       console.log(certificate,"asta e")
+    }
     dispatch(updateProfile({ name, email, password, pic, permissionArray}));
   };
 

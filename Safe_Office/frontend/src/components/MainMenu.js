@@ -8,6 +8,7 @@ import { logout } from "../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import {HiUserAdd} from "react-icons/hi"
 import React, { useEffect, useState} from "react";
+import {BsFileEarmarkCheckFill} from "react-icons/bs"
 
 function MainScreen({uInfo, history}) {
   const userLogin = useSelector((state) => state.userLogin);
@@ -65,6 +66,11 @@ function MainScreen({uInfo, history}) {
     <li class="nav-item" id="option">
       <a href={`/add_user`} class="nav-link text-dark font-italic">
         <HiUserAdd id="little-icon"></HiUserAdd> <p id="side-item"><em>Add User</em></p>
+      </a>
+    </li>
+    <li class="nav-item" id="option">
+      <a href={`/requests`} class="nav-link text-dark font-italic">
+        <BsFileEarmarkCheckFill id="side-icon"></BsFileEarmarkCheckFill> <p id="side-item"><em>Requests</em></p>
       </a>
     </li>
   </ul>

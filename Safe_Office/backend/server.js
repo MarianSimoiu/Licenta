@@ -8,6 +8,7 @@ import cors from 'cors'
 import bookingRoutes from "./routes/bookingRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import buildingRoutes from "./routes/buildingRoutes.js";
+import requestRoutes from "./routes/requestRoutes.js"
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
@@ -21,6 +22,7 @@ app.use(express.json()); // to accept json data
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/buildings", buildingRoutes);
+app.use("/api/request", requestRoutes);
 
 // --------------------------deployment------------------------------
 

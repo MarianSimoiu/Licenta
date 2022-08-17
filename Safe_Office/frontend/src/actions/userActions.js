@@ -113,6 +113,7 @@ export const addPermission = (userName) =>async (dispatch, getState) => {
   }
 }
 export const updateProfile = (user) => async (dispatch, getState) => {
+
   try {
     dispatch({ type: USER_UPDATE_REQUEST });
 

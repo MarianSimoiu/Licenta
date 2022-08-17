@@ -11,7 +11,7 @@ import ErrorMessage from "../../components/ErrorMessage";
 import { register } from "../../actions/userActions";
 import axios from "axios";
 
-function AddUser(){
+function AddUser({history}){
 
   function createPassword(length) {
     var result           = '';
@@ -39,6 +39,13 @@ function AddUser(){
                  `<p><strong>Email:</strong> ${email}</p>` +
                  `<p><strong>Password:</strong> ${password}</p>` 
 
+    useEffect(() => {
+    
+    if (!userInfo) {
+      history.push("/login");
+    }
+  },[userInfo])
+  
     const SubmitHandler = (e) =>{
       const config = {
         headers: {

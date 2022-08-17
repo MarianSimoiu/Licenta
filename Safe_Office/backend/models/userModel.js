@@ -29,7 +29,6 @@ const userSchema = mongoose.Schema(
     },
     isVaccinated: {
       type: Boolean,
-      required: true,
       default: false,
     },
     permission: {
