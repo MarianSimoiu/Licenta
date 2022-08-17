@@ -8,6 +8,19 @@ const getRequest = asyncHandler(async (req, res) => {
     res.json(request);
 })
 
+const DeleteRequest = asyncHandler(async (req, res) => {
+
+  const request = await Request.findById(req.params.id);
+
+  if (request) {
+    await request.remove();
+    res.json({ message: "Request Removed" });
+  } else {
+    res.status(404);
+    throw new Error("Request not Found");
+  }
+})
+
 const createRequest = asyncHandler(async (req, res) => {
     const { user, dcc} = req.body;
 
@@ -24,4 +37,4 @@ const createRequest = asyncHandler(async (req, res) => {
     }
 })
 
-export { getRequest, createRequest}
+export { getRequest, createRequest, DeleteRequest}

@@ -67,6 +67,7 @@ const ProfileScreen = ({match, history }) => {
         .then((res) => res.json())
         .then((data) => {
           setCertificate(data.url.toString());
+          console.log(certificate)
         })
         .catch((err) => {
           console.log(err);
@@ -75,7 +76,7 @@ const ProfileScreen = ({match, history }) => {
   const user = userInfo._id;
 
   const sendRequest = async () => {
-    console.log("sending")
+    console.log("Am trimis request", certificate)
     const config = {
       headers: {
           Authorization: `Bearer ${userInfo.token}`,
@@ -102,7 +103,6 @@ const ProfileScreen = ({match, history }) => {
         .then((res) => res.json())
         .then((data) => {
           setPic(data.url.toString());
-          console.log(pic);
         })
         .catch((err) => {
           console.log(err);
@@ -123,7 +123,6 @@ const ProfileScreen = ({match, history }) => {
     console.log(certificate)
     if(certificate){
        sendRequest();
-       console.log(certificate,"asta e")
     }
     dispatch(updateProfile({ name, email, password, pic, permissionArray}));
   };

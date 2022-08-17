@@ -181,6 +181,7 @@ export const deleteBookingAction = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
+  
 
     const { data } = await axios.delete(`/api/bookings/${id}`, config);
 
@@ -199,6 +200,8 @@ export const deleteBookingAction = (id) => async (dispatch, getState) => {
     });
   }
 };
+
+
 
 export const updateBookingAction = (id, city, address, floor, date ) => async (
   dispatch,
