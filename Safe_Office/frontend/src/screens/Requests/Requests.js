@@ -14,7 +14,6 @@ function Request(){
     const [pdf, setPdf] = useState([""])
 
     const deleteRequest = async(id) =>{
-        console.log(id, "e asta")
         const config = {
             headers: {
               "Content-Type": "application/json",
@@ -25,6 +24,20 @@ function Request(){
         if (window.confirm("Are you sure?")) {
             const {data} = await axios.delete(`/api/request/${id}`, config);
           }
+        window.location.reload();
+    }
+
+    const updateRequest = async(id, request) =>{
+        const config = {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userInfo.token}`,
+            },
+          };
+
+        const {data} = await axios.put(`/api/users/status/${id}`, config);
+
+        deleteRequest(request);
         window.location.reload();
     }
 
@@ -49,7 +62,8 @@ function Request(){
         return(
            <div className="fill">
                 <iframe id="frame" src={pdf}></iframe>
-                 <button id="btnClose"onClick={ () => {setShowConfirmation(false);}} type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                 
+                 <button type="button" id="btnClose" onClick={ () => {setShowConfirmation(false);}}class="btn-close" data-bs-dismiss="alert"></button>
                 
            </div>
             
@@ -66,7 +80,8 @@ function Request(){
                 <td>{i+1}</td>
                 <td>Nume</td>
                 <td><a onClick={() => {setShowConfirmation(true); setPdf(b.dcc)}}>Click to view</a></td>  
-                <td><button className="btn btn-danger" onClick={() => {deleteRequest(b._id)}}>Delete</button></td>
+                <td><button class="btn btn-success" onClick={() => {updateRequest(b.user,b._id)}}>Validate</button></td>
+                <td><button className="btn btn-danger" onClick={() => {deleteRequest(b._id)}}>Reject</button></td>
                 </tr>
                 
                 )})}

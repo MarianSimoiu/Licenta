@@ -128,14 +128,27 @@ const ProfileScreen = ({match, history }) => {
   };
 
   return (
-      <>
-        <MainMenu uInfo={userInfo}></MainMenu>
-        <TextBar text={"Edit my profile."}></TextBar>
-        <div className="content">   
-            <form onSubmit={submitHandler} className="form-profile">
-            <div className="row">
-              <div className="col-sm-4">
-              {loading && <Loading />}
+<div>
+      <MainMenu uInfo={userInfo}></MainMenu>
+      
+      <div class="container rounded" id="contaier-profile">
+        <div class="row pt-2">
+          <div class="col-2"></div> 
+          <div class="col-2 bg-white border border-secundary border-right" >
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+              <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+              </img>
+              <span class="font-weight-bold">Edogaru</span>
+              <span class="text-black-50">edogaru@mail.com.my</span>
+              <span className="border border-secundary border-right"></span>
+            </div>
+          </div>
+         <div class="col-4  bg-white border border-secundary border-right" >
+            <div class="p-3 py-5 border-right">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profile Settings</h4>                
+                </div>
+                {loading && <Loading />}
               {success && (
                 <ErrorMessage variant="success">
                   Updated Successfully
@@ -143,44 +156,43 @@ const ProfileScreen = ({match, history }) => {
               )}
               {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
                 <div className="form-group">
-                  <label htmlFor="name" className="form-label mt-2">Name</label>
-                  <input  type="text" className="input-general" placeholder="Enter Name" value={name} onChange={(e) => setName(e.target.value)}></input>
+                  <label htmlFor="name" className="form-label mt-2">Name</label><br></br>
+                  <input  type="text" id ="formFile1" class="form-control mt-2"placeholder="Enter Name" value={name} onChange={(e) => setName(e.target.value)}></input>
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="" className="form-label mt-2">Email Address</label>
-                  <input type="email" className="input-general" placeholder="Enter Email" value={email} onChange={(e) => setEmail(e.target.value)}></input>
+                  <label htmlFor="" className="form-label mt-2">Email Address</label><br></br>
+                  <input type="email" id ="formFile1" class="form-control mt-2" placeholder="Enter Email" value={email} onChange={(e) => setEmail(e.target.value)}></input>
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="" className="form-label mt-2">Password</label>
-                  <input type="password" placeholder="Enter Password" className="input-general" value={password} onChange={(e) => setPassword(e.target.value)}></input>
+                  <label htmlFor="" className="form-label mt-2">Password</label><br></br>
+                  <input type="password" placeholder="Enter Password" id ="formFile1" class="form-control mt-2" value={password} onChange={(e) => setPassword(e.target.value)}></input>
                 </div>
                 
                 <div className="form-group">
-                  <label htmlFor="" className="form-label mt-2">Confirm Password</label>
-                  <input type="password" placeholder="Confirm Password" className="input-general" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></input>
+                  <label htmlFor="" className="form-label mt-2">Confirm Password</label><br></br>
+                  <input type="password" placeholder="Confirm Password" id ="formFile1" class="form-control mt-2" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></input>
                 </div>
 
               
               <div className="form-group">
-                <label htmlFor="" className="form-label mt-2">Add Vaccination Certificate</label>
-                <input class="input-general mt-2"   onChange={(e) => postDetailsVaccination(e.target.files[0])} id="formFile" type="file" label="Upload Profile Picture"></input>
+                <label htmlFor="" className="form-label mt-3">Add Vaccination Certificate</label><br></br>
+                <input id ="formFile1" class="form-control mt-2"onChange={(e) => postDetailsVaccination(e.target.files[0])}  type="file" label="Upload Profile Picture"></input>
+                
               </div>
  
-              </div>
-              <div className="col-sm-4">
-                {picMessage && (
-                <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
-                )}
-                <img src={userInfo.pic} alt={name} className="profilePic" />
-                <div className="form-group" id="changePicture">
-                  <label htmlFor="" className="form-label mt-2">Change Profile Picture</label>
-                  <input class="input-general mt-2"   onChange={(e) => postDetails(e.target.files[0])} id="formFile" type="file" label="Upload Profile Picture"></input>
+                <div class="mt-5 text-center">
+                  <button type="button" class="btn btn-success">Update Profile</button>
                 </div>
-                <button type="submit" class="btn btn-success mt-2">Update Profile</button>   
-              </div>
-              <div className="col-mt-2">
+            </div>
+        </div>
+        <div class="col-4  bg-white border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center experience">
+                  <h4 class="text-right">Manage Permissions</h4> 
+                </div> <br></br>
+                <div class="col-md-12">
                   <p className="ml-2">Create permission</p>
                   <span className="custom-dropdown small">
                     <select value={userNameAdd} onChange={(e) => {setAddPermission(e.target.value)}}>
@@ -192,6 +204,9 @@ const ProfileScreen = ({match, history }) => {
                     </select>
                   </span>
                   <button type="submit" class="btn btn-success ml-4" onClick={() => setPermissionType("add")}>Add permission</button>
+                </div> <br></br>
+                <form onSubmit={submitHandler} className="form-profile">
+                <div class="col-md-12">
                 <p className="ml-2">Modify permission</p>
                 <span className="custom-dropdown small">
                   <select value={userNameDelete} onChange={(e) => {setDeletePermission(e.target.value)}}>
@@ -202,18 +217,15 @@ const ProfileScreen = ({match, history }) => {
                   </select>
                 </span>
                 <button type="submit" className="btn btn-danger ml-4" onClick={() => setPermissionType("delete")}>Delete permission</button>
-              </div>
+                </div>
+               </form>
             </div>
-          </form>
+          </div>
         </div>
-            
-          
-     
-          
-  </>
-       
-     
-  );
-};
+    </div>
+  </div>
+)}
 
 export default ProfileScreen;
+
+

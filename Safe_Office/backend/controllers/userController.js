@@ -107,6 +107,19 @@ const addPermission = asyncHandler(async (req, res) => {
   }
  })
 
+const updateStatus = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  
+  if(user){
+    user.isVaccinated = true;
+    const updatedUser = await user.save();
+    res.json(updatedUser)
+  }else {
+    res.status(404);
+    throw new Error("User Not Found");
+  }
+});
+
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
@@ -172,4 +185,4 @@ const sendEmail = asyncHandler(async (req, res) =>{
     .then((msg) =>console.log("Email sent"))
 })
 
-export { authUser, updateUserProfile, registerUser, getUsers, addPermission, sendEmail};
+export { authUser, updateUserProfile, registerUser, getUsers, addPermission, sendEmail, updateStatus};
