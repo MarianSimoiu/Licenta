@@ -7,6 +7,7 @@ import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 import TextBar from "../../components/TextBar";
 import axios from "axios";
+import {AiFillCamera} from "react-icons/ai";
 
 const ProfileScreen = ({match, history }) => {
   const [name, setName] = useState("");
@@ -21,6 +22,8 @@ const ProfileScreen = ({match, history }) => {
   const [userNameDelete, setDeletePermission] = useState("");
   const [permissionType, setPermissionType] = useState("")
   const [certificate, setCertificate] = useState("");
+
+
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -128,25 +131,33 @@ const ProfileScreen = ({match, history }) => {
   };
 
   return (
-<div>
+  <div>
       <MainMenu uInfo={userInfo}></MainMenu>
-      
-      <div class="container rounded" id="contaier-profile">
-        <div class="row pt-2">
+      <form onSubmit={submitHandler}>
+      <div class="container rounded pt-4" id="contaier-profile">
+        <div class="row pt">
           <div class="col-2"></div> 
           <div class="col-2 bg-white border border-secundary border-right" >
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-              <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
-              </img>
-              <span class="font-weight-bold">Edogaru</span>
-              <span class="text-black-50">edogaru@mail.com.my</span>
-              <span className="border border-secundary border-right"></span>
-            </div>
+          <h4 class="text-right" id="pictureText">Profile info</h4>  
+            <div className="profilepic" id="picture">
+              <label for="file-input">
+                <img class="profilepic__image" src={pic} width="150" height="150" alt="Profibild" />
+              <div class="profilepic__content">
+              <span class="profilepic__icon"><AiFillCamera id="iconita"></AiFillCamera></span>
+              <span class="profilepic__text">Change Profile Picture</span>
+              </div>
+              </label>
+              <input id="file-input" onClick={(e) =>  setPic(e.target.files[0])} onChange={(e) => {postDetails(e.target.files[0])}} type="file" />
+              
+          </div>
+          <span class="badge bg-secondary" id="centrat">Employee</span>
+          <h5 class="text-right" id="pictureText2">Vaccination info</h5> 
+          {userInfo.isVaccinated ? <span id="bg" class="badge bg-success">Vaccinated</span> : <span id="bg" class="badge bg-warning">Not vaccinated</span> }
           </div>
          <div class="col-4  bg-white border border-secundary border-right" >
             <div class="p-3 py-5 border-right">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Profile Settings</h4>                
+                    <h4 class="text-right">Profile settings</h4>                
                 </div>
                 {loading && <Loading />}
               {success && (
@@ -183,19 +194,19 @@ const ProfileScreen = ({match, history }) => {
               </div>
  
                 <div class="mt-5 text-center">
-                  <button type="button" class="btn btn-success">Update Profile</button>
+                  <button type="button" class="btn btn-success">Update profile</button>
                 </div>
             </div>
         </div>
         <div class="col-4  bg-white border-right">
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center experience">
-                  <h4 class="text-right">Manage Permissions</h4> 
+                  <h4 class="text-right mb-4">Manage booking permissions</h4> 
                 </div> <br></br>
                 <div class="col-md-12">
                   <p className="ml-2">Create permission</p>
                   <span className="custom-dropdown small">
-                    <select value={userNameAdd} onChange={(e) => {setAddPermission(e.target.value)}}>
+                    <select id="permission" value={userNameAdd} onChange={(e) => {setAddPermission(e.target.value)}}>
                       {fetchedData?.map((c,i) => {
                         if(c._id != userInfo._id)
                         return(
@@ -203,27 +214,29 @@ const ProfileScreen = ({match, history }) => {
                         )})}
                     </select>
                   </span>
-                  <button type="submit" class="btn btn-success ml-4" onClick={() => setPermissionType("add")}>Add permission</button>
+                  <button type="submit" class="btn btn-primary ml-4" onClick={() => setPermissionType("add")}>Add permission</button>
                 </div> <br></br>
-                <form onSubmit={submitHandler} className="form-profile">
+                
                 <div class="col-md-12">
                 <p className="ml-2">Modify permission</p>
                 <span className="custom-dropdown small">
-                  <select value={userNameDelete} onChange={(e) => {setDeletePermission(e.target.value)}}>
+                  <select id="permission" value={userNameDelete} onChange={(e) => {setDeletePermission(e.target.value)}}>
                     {userInfo.permission?.map((p,i) => {
                       return(
                         <option key={i}>{p}</option>
                       )})}
                   </select>
                 </span>
-                <button type="submit" className="btn btn-danger ml-4" onClick={() => setPermissionType("delete")}>Delete permission</button>
+                <button type="submit" className="btn btn-outline-warning ml-4 btn-sm" onClick={() => setPermissionType("delete")}>Delete permission</button>
                 </div>
-               </form>
+               
             </div>
           </div>
         </div>
     </div>
+    </form>
   </div>
+  
 )}
 
 export default ProfileScreen;
