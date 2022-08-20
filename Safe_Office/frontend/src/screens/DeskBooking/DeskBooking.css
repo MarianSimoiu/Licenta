@@ -234,3 +234,6 @@ input[type=time]{
 }
 
 
+#screen{
+  overflow: hidden;
+}

@@ -126,9 +126,9 @@ function MyBookings({match, history}) {
     <TextBar subText={"View your booking history"} text={"My Bookings"}></TextBar>
     <div class="container-xl" >    
         <div class="table-responsive">
-            <div class="table-wrapper">   
+            <div class="table-wrapper" >   
             <div class="table-title">
-                <div class="row">
+                <div class="row" >
                     <div class="col-sm-6"><h2>Manage <b>Bookings</b></h2></div>
                     <div class="col-sm-6">
                         <div class="btn-group" data-toggle="buttons">
@@ -140,7 +140,7 @@ function MyBookings({match, history}) {
                 </div>
             </div>
             <table class="table table-striped table-hover">
-                <thead>
+                <thead >
                     <tr>
                         <th>#</th>
                         <th>City</th>

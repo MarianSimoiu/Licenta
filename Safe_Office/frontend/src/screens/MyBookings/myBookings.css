@@ -2,7 +2,7 @@
 .table-responsive {
     padding-top: 100px;
     padding-left: 180px;
-    overflow: hidden;
+    
 }
 
 .table-wrapper {
@@ -11,6 +11,9 @@
 	margin: 0 auto;
     padding: 20px 30px 5px;
     box-shadow: 0 0 1px 0 rgba(0,0,0,.25);
+    overflow-y: scroll;
+    
+    height: 500px;
 }
 
 .table-title .btn-group {

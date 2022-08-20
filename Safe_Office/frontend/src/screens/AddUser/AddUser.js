@@ -10,7 +10,7 @@ import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 import { register } from "../../actions/userActions";
 import axios from "axios";
-
+import loginImage from "../../images/undraw_remotely_2j6y.svg"
 function AddUser({history}){
 
   function createPassword(length) {
@@ -105,6 +105,8 @@ function AddUser({history}){
             </Form>
             </div>
           </div> 
+        </div>
+        <div className="col-4 mt-5"><img src={loginImage} alt="Image" class="img-fluid mt-5"></img>
         </div>
       </div>
     </div>

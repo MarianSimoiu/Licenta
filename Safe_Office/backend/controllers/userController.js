@@ -113,7 +113,16 @@ const updateStatus = asyncHandler(async (req, res) => {
   if(user){
     user.isVaccinated = true;
     const updatedUser = await user.save();
-    res.json(updatedUser)
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      pic: updatedUser.pic,
+      isAdmin: updatedUser.isAdmin,
+      isVaccinated:updatedUser.isVaccinated,
+      permission: updatedUser.permission,
+      token: generateToken(updatedUser._id),
+  })
   }else {
     res.status(404);
     throw new Error("User Not Found");
@@ -121,14 +130,13 @@ const updateStatus = asyncHandler(async (req, res) => {
 });
 
 const updateUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id);
 
+  const user = await User.findById(req.user._id);
+  
   if (!Array.isArray(user.permission))
       user.permission = [];
 
-  if (!Array.isArray(user.vaccination))
-      user.permission = [];
-  
+
   if (user) {
     if (req.body.permissionArray[0] == "add")
       user.permission.push(req.body.permissionArray[1]);
@@ -141,7 +149,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     user.pic = req.body.pic || user.pic;
-
+    //user.isVaccinated = user.isVaccinated;
 
     if (req.body.password) {
       user.password = req.body.password;
@@ -155,6 +163,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       email: updatedUser.email,
       pic: updatedUser.pic,
       isAdmin: updatedUser.isAdmin,
+      isVaccinated:updatedUser.isVaccinated,
       permission: updatedUser.permission,
       token: generateToken(updatedUser._id),
     });

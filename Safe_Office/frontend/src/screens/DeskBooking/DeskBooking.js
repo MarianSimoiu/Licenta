@@ -9,7 +9,7 @@ import axios from "axios";
 import "./DeskBooking.css"
 import moment from 'moment'
 import ReactTooltip from 'react-tooltip';
-
+import { TimePickerComponent } from '@syncfusion/ej2-react-calendars';
 
 function DeskBooking({history, match}) {
 
@@ -199,14 +199,14 @@ function DeskBooking({history, match}) {
        
 
     return(
-    <>
+    <div id="screen">
       {userInfo &&
         <MainMenu uInfo={userInfo}></MainMenu>}
         {showConfirmationError ? <ConfirmationError id="confirmation"/> : null }
         
         <TextBar text={"Desk Booking"} subText={"Choose a desk and confirm your booking"}></TextBar>
         <form onSubmit={SubmitHandler} id="first-form">
-        <div className="row">
+        <div className="row" id="screen">
           <div className="col-2"> </div>
           <div className="col-2 pt-4" style={{margin:"auto"}}> 
             <div class="example">
@@ -237,9 +237,10 @@ function DeskBooking({history, match}) {
                 <label id="dateLabel">Date</label>
                 <input type="date" className="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
                 <label id="dateLabel">From</label>
-                <input type="time" className="form-control" id="time-from" value={from} onChange={(e) => setFrom(e.target.value)}></input>
+                <input type="time" className="form-control" id="time-from" value="08:30:00" step="240" onChange={(e) => setFrom(e.target.value)}></input>
                 <label id="dateLabel">To</label>
                 <input type="time"  className="form-control"  id="time-to" value={to} onChange={(e) => setTo(e.target.value)}></input>
+                <TimePickerComponent ></TimePickerComponent>
               </div>
               
             </div>         
@@ -254,7 +255,7 @@ function DeskBooking({history, match}) {
           </div> 
         </div>
       </form>
-    </>
+    </div>
 )}
 /*
 ******8

@@ -36,7 +36,7 @@ function Request(){
           };
 
         const {data} = await axios.put(`/api/users/status/${id}`, config);
-
+        localStorage.setItem("userInfo", JSON.stringify(data));
         deleteRequest(request);
         window.location.reload();
     }

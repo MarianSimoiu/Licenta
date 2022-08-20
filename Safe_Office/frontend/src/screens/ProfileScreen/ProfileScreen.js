@@ -56,12 +56,14 @@ const ProfileScreen = ({match, history }) => {
   }, [history, userInfo]);
 
   const postDetailsVaccination = (pics) => {
+    const cod = createPassword(5)
+
     setPicMessage(null);
       const data = new FormData();
       data.append("file", pics);
       data.append("upload_preset", "Safe_Office");
       data.append("cloud_name","dhfeqdcb2");
-      data.append("public_id", `${userInfo.name + "_" + userInfo.email}`);
+      data.append("public_id", `${userInfo.name + "_" + userInfo.email + cod}`);
       data.append("folder", "digital_green_certificate")
       fetch("https://api.cloudinary.com/v1_1/dhfeqdcb2/image/upload", {
         method: "post",
@@ -76,6 +78,15 @@ const ProfileScreen = ({match, history }) => {
           console.log(err);
         });
   };
+  function createPassword(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+   return result;
+  }
   const user = userInfo._id;
 
   const sendRequest = async () => {
@@ -91,13 +102,14 @@ const ProfileScreen = ({match, history }) => {
 
 
   const postDetails = (pics) => {
+    
     setPicMessage(null);
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const data = new FormData();
       data.append("file", pics);
       data.append("upload_preset", "Safe_Office");
       data.append("cloud_name", "dhfeqdcb2");
-      data.append("public_id", `${userInfo.name + "_" + userInfo.email}`);
+      data.append("public_id", `${userInfo.name + "_" + userInfo.email }`);
       data.append("folder", "profile_picture")
       fetch("https://api.cloudinary.com/v1_1/dhfeqdcb2/image/upload", {
         method: "post",
@@ -129,7 +141,6 @@ const ProfileScreen = ({match, history }) => {
     }
     dispatch(updateProfile({ name, email, password, pic, permissionArray}));
   };
-
   return (
   <div>
       <MainMenu uInfo={userInfo}></MainMenu>
@@ -189,12 +200,12 @@ const ProfileScreen = ({match, history }) => {
               
               <div className="form-group">
                 <label htmlFor="" className="form-label mt-3">Add Vaccination Certificate</label><br></br>
-                <input id ="formFile1" class="form-control mt-2"onChange={(e) => postDetailsVaccination(e.target.files[0])}  type="file" label="Upload Profile Picture"></input>
+                <input id ="formFile1" class="form-control mt-2" onChange={(e) => postDetailsVaccination(e.target.files[0])}  type="file"></input>
                 
               </div>
  
                 <div class="mt-5 text-center">
-                  <button type="button" class="btn btn-success">Update profile</button>
+                  <button type="submit" class="btn btn-success" onClick={() => submitHandler}>Update profile</button>
                 </div>
             </div>
         </div>

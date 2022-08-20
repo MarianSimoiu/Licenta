@@ -61,19 +61,7 @@ function MainScreen({uInfo, history}) {
       </a>
     </li>
   </ul>
-  <p class="text-gray font-weight-bold text-uppercase px-3 small py-4 mb-0">Admin actions</p>
-  <ul class="nav flex-column bg-white mb-0">
-    <li class="nav-item" id="option">
-      <a href={`/add_user`} class="nav-link text-dark font-italic">
-        <HiUserAdd id="little-icon"></HiUserAdd> <p id="side-item"><em>Add User</em></p>
-      </a>
-    </li>
-    <li class="nav-item" id="option">
-      <a href={`/requests`} class="nav-link text-dark font-italic">
-        <BsFileEarmarkCheckFill id="side-icon"></BsFileEarmarkCheckFill> <p id="side-item"><em>Requests</em></p>
-      </a>
-    </li>
-  </ul>
+  
   <p class="text-gray font-weight-bold text-uppercase px-3 small py-4 mb-0">Profile actions</p>
 
   <ul class="nav flex-column bg-white mb-0">
@@ -93,6 +81,23 @@ function MainScreen({uInfo, history}) {
       </a>
     </li>
   </ul>
+  {userInfo.isAdmin &&
+  <>
+  <p class="text-gray font-weight-bold text-uppercase px-3 small py-4 mb-0">Admin actions</p>
+  <ul class="nav flex-column bg-white mb-0">
+    <li class="nav-item" id="option">
+      <a href={`/add_user`} class="nav-link text-dark font-italic">
+        <HiUserAdd id="little-icon"></HiUserAdd> <p id="side-item"><em>Add User</em></p>
+      </a>
+    </li>
+    <li class="nav-item" id="option">
+      <a href={`/requests`} class="nav-link text-dark font-italic">
+        <BsFileEarmarkCheckFill id="side-icon"></BsFileEarmarkCheckFill> <p id="side-item"><em>Requests</em></p>
+      </a>
+    </li>
+  </ul>
+  </>
+  }
   </div>
   }
 </>
