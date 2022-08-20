@@ -9,7 +9,6 @@ import axios from "axios";
 import "./DeskBooking.css"
 import moment from 'moment'
 import ReactTooltip from 'react-tooltip';
-import { TimePickerComponent } from '@syncfusion/ej2-react-calendars';
 
 function DeskBooking({history, match}) {
 
@@ -21,7 +20,7 @@ function DeskBooking({history, match}) {
     
     var today = moment(new Date()).format('YYYY-MM-DD');
     var time = moment(new Date()).format('hh:mm: a')
-
+    
     const [address, setAddress] = useState([]);
     const [floor, setFloor] = useState("1");
     const [date, setDate] = useState(today)
@@ -240,7 +239,7 @@ function DeskBooking({history, match}) {
                 <input type="time" className="form-control" id="time-from" value="08:30:00" step="240" onChange={(e) => setFrom(e.target.value)}></input>
                 <label id="dateLabel">To</label>
                 <input type="time"  className="form-control"  id="time-to" value={to} onChange={(e) => setTo(e.target.value)}></input>
-                <TimePickerComponent ></TimePickerComponent>
+                <TimePicker></TimePicker>
               </div>
               
             </div>         
