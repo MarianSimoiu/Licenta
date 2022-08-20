@@ -9,6 +9,7 @@ import axios from "axios";
 import "./DeskBooking.css"
 import moment from 'moment'
 import ReactTooltip from 'react-tooltip';
+import TimePicker from 'react-time-picker';
 
 function DeskBooking({history, match}) {
 
@@ -20,7 +21,7 @@ function DeskBooking({history, match}) {
     
     var today = moment(new Date()).format('YYYY-MM-DD');
     var time = moment(new Date()).format('hh:mm: a')
-    
+
     const [address, setAddress] = useState([]);
     const [floor, setFloor] = useState("1");
     const [date, setDate] = useState(today)
