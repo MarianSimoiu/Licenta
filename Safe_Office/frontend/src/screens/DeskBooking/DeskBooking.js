@@ -9,7 +9,7 @@ import axios from "axios";
 import "./DeskBooking.css"
 import moment from 'moment'
 import ReactTooltip from 'react-tooltip';
-import TimePicker from 'react-time-picker';
+import Calendar from "../../components/calendar";
 
 function DeskBooking({history, match}) {
 
@@ -31,8 +31,8 @@ function DeskBooking({history, match}) {
     const [showConfirmationError, setShowConfirmationError] = React.useState(false)
     const [fetchedData, setFetchedData] = useState([]);
     const [pic, setPic] = useState([]);
-    const [from, setFrom] = useState("");
-    const [to, setTo] = useState("");
+    const [from, setFrom] = useState('08:00');
+    const [to, setTo] = useState("08:00");
 
     const dispatch = useDispatch();
 
@@ -237,20 +237,23 @@ function DeskBooking({history, match}) {
                 <label id="dateLabel">Date</label>
                 <input type="date" className="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
                 <label id="dateLabel">From</label>
-                <input type="time" className="form-control" id="time-from" value="08:30:00" step="240" onChange={(e) => setFrom(e.target.value)}></input>
+                <input type="time" className="form-control" id="time-from" value={from} step="240" onChange={(e) => setFrom(e.target.value)}></input>
                 <label id="dateLabel">To</label>
                 <input type="time"  className="form-control"  id="time-to" value={to} onChange={(e) => setTo(e.target.value)}></input>
-                <TimePicker></TimePicker>
+                
               </div>
               
-            </div>         
-          <div className="col-5 pt-5" style={{margin:"auto", display:"block"}}>
+            </div>       
+          <div className="col-5 pt-5" style={{margin: "auto",display:"block"}}>
               <FloorPlan ></FloorPlan>
-              <div div class="btn-group me-2" role="group" aria-label="First group">
+
+              <div class="btn-group me-2" role="group" aria-label="First group" id="floors">
                 {[...Array.from(Array(noFloors).keys())].map((num, i) =>{
-                  return(
-                      <button  type="button" class="btn btn-primary" value={num+1} onClick={(e) => setFloor(e.target.value)}> {num+1}</button>
+                  return( 
+             <button  type="button" class="btn btn-primary" value={num+1} onClick={(e) => setFloor(e.target.value)}>Floor{num+1}</button>
+                         
                     )})}
+             
               </div>
           </div> 
         </div>

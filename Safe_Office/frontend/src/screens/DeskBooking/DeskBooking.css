@@ -237,3 +237,9 @@ input[type=time]{
 #screen{
   overflow: hidden;
 }
+
+#floors{
+  overflow-x:true;
+  overflow-y: false;
+  width: 500px;
+}
