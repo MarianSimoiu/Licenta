@@ -25,7 +25,7 @@ function Header({ setSearch }) {
 
   const [isOn, setOn] = React.useState(JSON.parse(localStorage.getItem('is-on')) || false);
   const [checked, setCheck] = React.useState(isOn)
-
+  
   const handleToggle = () => {
     setOn(!isOn);
   }

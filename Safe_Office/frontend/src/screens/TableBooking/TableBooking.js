@@ -18,7 +18,7 @@ function TableBooking({history, match}){
     const { loading, error, success } = userUpdate;
     
     var today = moment(new Date()).format('YYYY-MM-DD');
-    var time = moment(new Date()).format('hh:mm: a')
+    var time = moment(new Date()).format('hh:mm a')
 
     const [address, setAddress] = useState([]);
     const [floor, setFloor] = useState("1");
@@ -28,10 +28,11 @@ function TableBooking({history, match}){
     const [showConfirmation, setShowConfirmation] = React.useState(false)
     const [showConfirmationError, setShowConfirmationError] = React.useState(false)
     const [fetchedData, setFetchedData] = useState([]);
+    const [showError, setShowError] = React.useState(false)
     const [pic, setPic] = useState([]);
-    const [from, setFrom] = useState("");
-    const [to, setTo] = useState("");
-
+    const [from, setFrom] = useState('08:00');
+    const [to, setTo] = useState('20:00');
+    const [isOn, setOn] = React.useState(JSON.parse(localStorage.getItem('is-on')) || false);
     const dispatch = useDispatch();
 
     const fetchFilteredBookings = async () => {
@@ -43,10 +44,16 @@ function TableBooking({history, match}){
           },
         };
       
-      const response  = await axios.get(`/api/bookings/${match.params.id}/${floor}/${date}`, config)
-      setFetchedData(response.data)
-    }
+      const startDate = moment(date).add(from, 'm').toDate();
+      const endDate = moment(date).add(to, 'm').toDate();
+      console.log(startDate)
+      const start = new Date(startDate)
+      console.log(endDate)
 
+      const response  = await axios.get(`/api/bookings/${match.params.id}/${floor}/${startDate}/${endDate}`, config)
+      setFetchedData(response.data)  
+      console.log(fetchedData)
+    }
     
 
     useEffect(() => {
@@ -63,7 +70,7 @@ function TableBooking({history, match}){
        
         fetchFilteredBookings();
         fetching();
-      },[match.params.id,userInfo,floor,date, history])
+      },[match.params.id,userInfo,floor,date, history, from, to])
       
     
       const SubmitHandler = (e) => {
@@ -96,6 +103,23 @@ function TableBooking({history, match}){
             
         )
     }
+    function canBook(){
+      if(isOn)
+        if(userInfo.isVaccinated){
+          setShowConfirmation(true); 
+        }else
+          setShowError(true);
+      else
+      setShowConfirmation(true);
+    }
+    function ErrorConfirmation(){
+      return(
+        <div class="alert alert-dismissible alert-danger" id="success-alert">
+        <strong>Vaccination error!</strong> Your digital covid certificate is not valid or has not been verified. You can upload one in <a href="/profile" class="alert-link">My Profile section</a>.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" onClick={() => setShowError(false)}></button>
+        </div>
+        )
+    }
 
     function Confirmation(){
         return(
@@ -111,13 +135,14 @@ function TableBooking({history, match}){
                   <p>Address: {d.street}</p>
                 </>
                 )})}
-                <p>Floors: {floor}</p>
+                <p>Floor: {floor}</p>
                 <p>Date: {date}</p>
+                <p>Time interval: {from} - {to}</p>
                 <p>Desk: {codSpace}</p>
             </div>
             <div class="modal-footer">
-                <button  form="first-form" type="submit" class="btn btn-primary" id="btn-">Save changes</button>
-                <button onClick={ () => {setShowConfirmation(false);}} type="button" class="btn btn-danger"  data-bs-dismiss="modal">Close</button>
+                <button id="butonSave" form="first-form" type="submit" class="btn btn-primary" >Save changes</button>
+                <button id="butonSave" onClick={ () => {setShowConfirmation(false);}} type="button" class="btn btn-warning"  data-bs-dismiss="modal">Close</button>
               </div>
           </div>
           )}
@@ -134,7 +159,12 @@ function TableBooking({history, match}){
               var cls = "tableReservedByMe";
             else
               var cls = "tableReserved";
-            let string = "booked by: " + d.userName + "<br></br>" +   "space cod: " + d.codSpace 
+              var start = d.startDate
+              var end = d.endDate
+              moment(new Date()).format('hh:mm: a')
+              //let interval = start.format("H:MM") + "-" + end.format("H:MM")
+              let interval = "Time interval: " + moment(start).format("hh:mm a") + " - " + moment(end).format("hh:mm a")
+              let string = "booked by: " + d.userName + "<br></br>" +  interval +  "<br></br>" + "space cod: " + d.codSpace 
           return( 
           <>
             <FaRegUserCircle class={cls} id={props.cod} key={props.cod}  data-type="warning" data-place ="top"
@@ -152,7 +182,7 @@ function TableBooking({history, match}){
       return(
         <>
           <FaRegPlusSquare class="tab" id={props.cod} key={props.cod} data-type="success" data-tip={string} data-html={true}
-          onClick={() => {setShowConfirmation(true); setSpace(props.tableNo)}}></FaRegPlusSquare>
+          onClick={() => {setSpace(props.tableNo); canBook()}}></FaRegPlusSquare>
           <ReactTooltip />
         </>
       )
@@ -185,10 +215,10 @@ function TableBooking({history, match}){
           {userInfo &&
             <MainMenu uInfo={userInfo}></MainMenu>}
             {showConfirmationError ? <ConfirmationError id="confirmation"/> : null }
-            
+            {showError ?  <ErrorConfirmation/> : null}
             <TextBar text={"Table Booking"} subText={"Choose your booking details"}></TextBar>
             <form onSubmit={SubmitHandler} id="first-form">
-            <div className="row">
+            <div className="row pt-5">
               <div className="col-2"> </div>
               <div className="col-2 pt-4" style={{margin:"auto"}}> 
                 <div class="example">
@@ -214,25 +244,27 @@ function TableBooking({history, match}){
              
                 <div className="col-2 pt-5">
                 
-                  <div className="control-point" style={{left:"10px"}}>
-                  
-                    <label id="dateLabel">Date</label>
-                    <input type="date" className="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
-                    <label id="dateLabel">From</label>
-                    <input type="time" className="form-control" id="time-from" value={from} onChange={(e) => setFrom(e.target.value)}></input>
-                    <label id="dateLabel">To</label>
-                    <input type="time"  className="form-control"  id="time-to" value={to} onChange={(e) => setTo(e.target.value)}></input>
-                  </div>
+                <div className="control-point" style={{left:"10px"}}>
+                <label id="dateLabel">Floor</label>
+                <span className="custom-dropdown small">
+                    <select id="permission2" value={floor} onChange={(e) => {setFloor(e.target.value); }}>
+                      <option value=""disabled selected>select floor</option>
+                      {[...Array.from(Array(noFloors).keys())].map((num, i) => <option key={i}>{num+1}</option>)}
+                   </select>
+                </span>
+                <label id="dateLabel">Date</label>
+                <input type="date" className="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
+                <label id="dateLabel">From</label>
+                <input type="time" className="form-control" id="time-from" value={from}  onChange={(e) => setFrom(e.target.value)}></input>
+                <label id="dateLabel">To</label>
+                <input type="time"  className="form-control"  id="time-to" value={to} onChange={(e) => setTo(e.target.value)}></input>
+               
+              </div>
                   
                 </div>         
               <div className="col-5 pt-5" style={{margin:"auto", display:"block"}}>
                   <FloorPlan ></FloorPlan>
-                  <div div class="btn-group me-2" role="group" aria-label="First group">
-                    {[...Array.from(Array(noFloors).keys())].map((num, i) =>{
-                      return(
-                          <button  type="button" class="btn btn-primary" value={num+1} onClick={(e) => setFloor(e.target.value)}> {num+1}</button>
-                        )})}
-                  </div>
+                  
               </div> 
             </div>
           </form>

@@ -4,7 +4,7 @@ import {useSelector} from "react-redux"
 import React, { useEffect , useState} from "react";
 import axios from "axios"
 import "./Requests.css"
-function Request(){
+function Request({history}){
 
     
     const userLogin = useSelector((state) => state.userLogin);
@@ -42,7 +42,9 @@ function Request(){
     }
 
     useEffect(() => {
-
+        if (!userInfo) {
+            history.push("/login");
+          }
         const fetching = async () => {
               
             const config = {
@@ -56,7 +58,7 @@ function Request(){
           };
       
           fetching();
-    },[])
+    },[userInfo])
 
     function Confirmation(){
         return(

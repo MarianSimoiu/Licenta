@@ -14,7 +14,7 @@ function MyBookings({match, history}) {
     
     const [filter, setFilter] = useState("All");
     const [fetchedAllData, setFetchedAllData] = useState([]);
-
+    
 
     const noteDelete = useSelector((state) => state.noteDelete);
     const dispatch = useDispatch();
@@ -28,7 +28,9 @@ function MyBookings({match, history}) {
 
 
     useEffect(() => {
-
+        if (!userInfo) {
+            history.push("/login");
+          }
         const fetching = async () => {
               
             const config = {
@@ -42,7 +44,7 @@ function MyBookings({match, history}) {
           };
       
           fetching();
-    },[match.params.user])
+    },[match.params.user, userInfo])
 
     function ManageFilter(){
         if(filter == "All")
@@ -63,12 +65,12 @@ function MyBookings({match, history}) {
                         <td>{b.floor}</td>
                         <td>{b.codSpace}</td>
                         <td>{moment(b.startDate).format('yyyy/MM/DD')}</td>
-                        <td>{moment(b.startDate).format('hh:mm') + " - " + moment(b.endDate).format('hh:mm')}</td>
+                        <td>{moment(b.startDate).format('hh:mm a') + " - " + moment(b.endDate).format('hh:mm a')}</td>
                         {b.status == "Active" ? 
                         <td><span className="badge-success">{b.status}</span></td>
                         : <td><span className="badge-inactive">{b.status}</span></td>
                         }
-                        <td><button className="btn btn-danger" onClick={() => deleteHandler(b._id)}>Delete</button></td>
+                        <td><button className="btn btn-warning" onClick={() => deleteHandler(b._id)}>Delete</button></td>
                         </tr>
                         )})}
                 </>)
@@ -90,9 +92,9 @@ function MyBookings({match, history}) {
                     <td>{b.floor}</td>
                     <td>{b.codSpace}</td>
                     <td>{moment(b.date).format('yyyy/MM/DD')}</td>
-                    <td>{moment(b.startDate).format('hh:mm') + " - " + moment(b.endDate).format('hh:mm')}</td>
+                    <td>{moment(b.startDate).format('hh:mm a') + " - " + moment(b.endDate).format('hh:mm a')}</td>
                     <td><span className="badge-inactive">Expired</span></td>
-                    <td><button className="btn btn-danger" onClick={() => deleteHandler(b._id)}>Delete</button></td>
+                    <td><button className="btn btn-warning" onClick={() => deleteHandler(b._id)}>Delete</button></td>
                     </tr>)})}
             </>)
         if(filter == "Active")
@@ -112,10 +114,10 @@ function MyBookings({match, history}) {
                             )})}
                     <td>{b.floor}</td>
                     <td>{b.codSpace}</td>
-                    <td>{moment(b.date).format('yyyy/MM/DD')}</td>
-                    <td>{moment(b.startDate).format('hh:mm') + " - " + moment(b.endDate).format('hh:mm')}</td>
+                    <td>{moment(b.startDate).format('yyyy/MM/DD')}</td>
+                    <td>{moment(b.startDate).format('hh:mm a') + " - " + moment(b.endDate).format('hh:mm a')}</td>
                     <td><span className="badge-success">Active</span></td>
-                    <td><button className="btn btn-danger" onClick={() => deleteHandler(b._id)}>Delete</button></td>
+                    <td><button className="btn btn-warning" onClick={() => deleteHandler(b._id)}>Delete</button></td>
                     </tr>)})}
             </>) }
 
@@ -124,7 +126,7 @@ function MyBookings({match, history}) {
 <div>
     <MainMenu uInfo={userInfo}></MainMenu> 
     <TextBar subText={"View your booking history"} text={"My Bookings"}></TextBar>
-    <div class="container-xl" >    
+    <div class="container-xxl" >    
         <div class="table-responsive">
             <div class="table-wrapper" >   
             <div class="table-title">

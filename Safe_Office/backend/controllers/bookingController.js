@@ -53,19 +53,27 @@ const UserBookings = asyncHandler(async (req, res) => {
 });
 
 const getFilteredBookings = asyncHandler(async (req, res) => {
-   const tomorrow = new Date()
-   const today = new Date(req.params.date)
-   tomorrow.setDate(today.getDate() + 1);
-   var tomorrowFixed = moment(tomorrow).format('YYYY-MM-DD[T00:00:00.000Z]');
 
-  const booking = await Booking.find({ building: req.params.buildingId, floor: req.params.floor, date: {"$lte": new Date(today),
-                                             "$gte": new Date(today)}})
+   var start = moment(req.params.startDate).format('YYYY-MM-DD[T00:00:00.000Z]');
+   var end =  moment(req.params.endDate).format('YYYY-MM-DD[T00:00:00.000Z]');
+
+   const gte_Date = new Date(req.params.endDate)
+   const lt_Date =  new Date(req.params.startDate)
+
+ const booking = await Booking.find({ building: req.params.buildingId, 
+  floor: req.params.floor, status: "Active", startDate: {"$lt": gte_Date},
+                   endDate: {"$gt": lt_Date }});
+                                                                
+
+ //console.log(new Date(req.params.endDate).toISOString())
+ //console.log(new Date(req.params.startDate).toISOString())
+ 
   if(booking)
     res.json(booking)
   else
     res.status(404).json({ message: "Bookings not found"})
+   
 })
-
 
 
 //@description     Create single Note
@@ -73,14 +81,19 @@ const getFilteredBookings = asyncHandler(async (req, res) => {
 //@access          Private
 
 const CreateBooking = asyncHandler(async (req, res) => {
-  const {building, address, floor, startDate, endDate, codSpace, userName} = req.body;
+  var {building, address, floor, startDate, endDate, codSpace, userName} = req.body;
 
+  const start = moment(startDate).format('YYYY-MM-DD[T00:00:00.000Z]');
+  const end = moment(endDate).format('YYYY-MM-DD[T00:00:00.000Z]');
+
+  //startDate = new Date(start)
+  //endDate = new Date(end)
   if (!building|| !floor || !startDate || !endDate || !codSpace || !userName) {
     res.status(400);
     throw new Error("Please Fill all the feilds");
     return;
   } else {
-    const booking = new Booking({ user: req.user._id, building, address, floor, startDate, endDate, codSpace, userName});
+    const booking = new Booking({ user: req.user._id, building, address, floor, startDate , endDate, codSpace, userName});
 
     const createdBooking = await booking.save();
 
@@ -100,6 +113,7 @@ const ColleagueBooking = asyncHandler(async (req, res) => {
     const userId = user._id
     const booking = new Booking({ user: userId, building, address, floor, startDate, endDate, codSpace, userName});
 
+
     const createdBooking = await booking.save();
 
     res.status(201).json(createdBooking);
@@ -108,6 +122,7 @@ const ColleagueBooking = asyncHandler(async (req, res) => {
 //@description     Delete single Note
 //@route           GET /api/notes/:id
 //@access          Private
+
 const DeleteBooking = asyncHandler(async (req, res) => {
   const booking = await Booking.findById(req.params.id);
 

@@ -243,3 +243,24 @@ input[type=time]{
   overflow-y: false;
   width: 500px;
 }
+
+#permission2{
+  width: 200px;
+  font-size: 14px;
+  background-color: white;
+  color: black;
+  border-style: solid;
+  border-color: black;
+  border-width: 0.5px;
+  margin-left: 40px;
+}
+
+#butonSave{
+  margin-right: 30px;
+  margin-bottom: 10px;
+}
+
+#succes-alert{
+  display: fixed;
+  z-index: 1;
+}

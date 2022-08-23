@@ -46,7 +46,7 @@ const ProfileScreen = ({match, history }) => {
     }
 
     if (!userInfo) {
-      history.push("/");
+      history.push("/login");
     } else {
       setName(userInfo.name);
       setEmail(userInfo.email);
@@ -87,9 +87,10 @@ const ProfileScreen = ({match, history }) => {
     }
    return result;
   }
-  const user = userInfo._id;
+  
 
   const sendRequest = async () => {
+    const user = userInfo._id;
     console.log("Am trimis request", certificate)
     const config = {
       headers: {
@@ -102,14 +103,14 @@ const ProfileScreen = ({match, history }) => {
 
 
   const postDetails = (pics) => {
-    
+    const cod = createPassword(5)
     setPicMessage(null);
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const data = new FormData();
       data.append("file", pics);
       data.append("upload_preset", "Safe_Office");
       data.append("cloud_name", "dhfeqdcb2");
-      data.append("public_id", `${userInfo.name + "_" + userInfo.email }`);
+      data.append("public_id", `${userInfo.name + "_" + userInfo.email + cod  }`);
       data.append("folder", "profile_picture")
       fetch("https://api.cloudinary.com/v1_1/dhfeqdcb2/image/upload", {
         method: "post",
@@ -150,9 +151,9 @@ const ProfileScreen = ({match, history }) => {
           <div class="col-2"></div> 
           <div class="col-2 bg-white border border-secundary border-right" >
           <h4 class="text-right" id="pictureText">Profile info</h4>  
-            <div className="profilepic" id="picture">
+            <div className="profilepic" id="imag">
               <label for="file-input">
-                <img class="profilepic__image" src={pic} width="150" height="150" alt="Profibild" />
+                <img class="profilepic__image" src={pic}  width="125px"  alt="Profibild" />
               <div class="profilepic__content">
               <span class="profilepic__icon"><AiFillCamera id="iconita"></AiFillCamera></span>
               <span class="profilepic__text">Change Profile Picture</span>
@@ -218,6 +219,7 @@ const ProfileScreen = ({match, history }) => {
                   <p className="ml-2">Create permission</p>
                   <span className="custom-dropdown small">
                     <select id="permission" value={userNameAdd} onChange={(e) => {setAddPermission(e.target.value)}}>
+                     <option value="" select disabled hidden>Choose Colleague</option>
                       {fetchedData?.map((c,i) => {
                         if(c._id != userInfo._id)
                         return(
@@ -232,6 +234,7 @@ const ProfileScreen = ({match, history }) => {
                 <p className="ml-2">Modify permission</p>
                 <span className="custom-dropdown small">
                   <select id="permission" value={userNameDelete} onChange={(e) => {setDeletePermission(e.target.value)}}>
+                  <option value="" select disabled hidden>Choose Colleague</option>
                     {userInfo.permission?.map((p,i) => {
                       return(
                         <option key={i}>{p}</option>

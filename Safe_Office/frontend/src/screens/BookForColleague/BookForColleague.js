@@ -25,12 +25,13 @@ function BookForColleague({history, match}) {
   const [noFloors, setFloors] = useState("");
   const [showConfirmation, setShowConfirmation] = React.useState(false)
   const [showConfirmationError, setShowConfirmationError] = React.useState(false)
+  const [showError, setShowError] = React.useState(false)
   const [fetchedData, setFetchedData] = useState([]);
   const [pic, setPic] = useState([]);
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [from, setFrom] = useState("08:00");
+  const [to, setTo] = useState("20:30");
   const [colleague, setColleague] = useState("");
-
+  const [isOn, setOn] = React.useState(JSON.parse(localStorage.getItem('is-on')) || false);
   const dispatch = useDispatch();
 
   const fetchFilteredBookings = async () => {
@@ -42,9 +43,17 @@ function BookForColleague({history, match}) {
         },
       };
     
-    const response  = await axios.get(`/api/bookings/${match.params.id}/${floor}/${date}`, config)
-    setFetchedData(response.data)
+    const startDate = moment(date).add(from, 'm').toDate();
+    const endDate = moment(date).add(to, 'm').toDate();
+    console.log(startDate)
+    const start = new Date(startDate)
+    console.log(endDate)
+
+    const response  = await axios.get(`/api/bookings/${match.params.id}/${floor}/${startDate}/${endDate}`, config)
+    setFetchedData(response.data)  
+    console.log(fetchedData)
   }
+  
 
   
 
@@ -62,7 +71,7 @@ function BookForColleague({history, match}) {
 
       fetchFilteredBookings();
       fetching();
-    },[match.params.id,userInfo,floor,date])
+    },[match.params.id,userInfo,floor,date, from, to])
 
   
     const SubmitHandler = (e) => {
@@ -94,6 +103,23 @@ function BookForColleague({history, match}) {
           </div>
       )
   }
+  function canBook(){
+    if(isOn)
+      if(userInfo.isVaccinated){
+        setShowConfirmation(true); 
+      }else
+        setShowError(true);
+    else
+    setShowConfirmation(true);
+  }
+  function ErrorConfirmation(){
+    return(
+      <div class="alert alert-dismissible alert-danger" id="success-alert">
+      <strong>Vaccination error!</strong> Your digital covid certificate is not valid or has not been verified. You can upload one in <a href="/profile" class="alert-link">My Profile section</a>.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" onClick={() => setShowError(false)}></button>
+      </div>
+      )
+  }
 
   function Confirmation(){
     return(
@@ -109,13 +135,15 @@ function BookForColleague({history, match}) {
               <p>Address: {d.street}</p>
             </>
             )})}
-            <p>Floors: {floor}</p>
-            <p>Date: {date}</p>
-            <p>Space cod: {codSpace}</p>
+            <p>Floor: {floor}</p>
+                <p>Date: {date}</p>
+                <p>Time interval: {from} - {to}</p>
+                <p>Desk: {codSpace}</p>
+                <p>Colleague: {colleague}</p>
         </div>
         <div class="modal-footer">
-            <button  form="first-form" type="submit" class="btn btn-primary" id="btn-">Save changes</button>
-            <button onClick={ () => {setShowConfirmation(false);}} type="button" class="btn btn-danger"  data-bs-dismiss="modal">Close</button>
+            <button  id="butonSave" form="first-form" type="submit" class="btn btn-primary">Save changes</button>
+            <button id="butonSave" onClick={ () => {setShowConfirmation(false);}} type="button" class="btn btn-warning"  data-bs-dismiss="modal">Close</button>
           </div>
       </div>
       )}
@@ -132,7 +160,12 @@ function BookForColleague({history, match}) {
             var cls = "deskReservedByMe";
           else
             var cls = "deskReserved";
-          let string = "booked by: " + d.userName + "<br></br>" +   "space cod: " + d.codSpace 
+            var start = d.startDate
+            var end = d.endDate
+            moment(new Date()).format('hh:mm: a')
+            //let interval = start.format("H:MM") + "-" + end.format("H:MM")
+            let interval = "Time interval: " + moment(start).format("hh:mm a") + " - " + moment(end).format("hh:mm a")
+            let string = "booked by: " + d.userName + "<br></br>" +  interval +  "<br></br>" + "space cod: " + d.codSpace 
         return( 
         <>
           <FaRegUserCircle class={cls} id={props.cod} key={props.cod}  data-type="warning" data-place ="top"
@@ -150,7 +183,7 @@ function BookForColleague({history, match}) {
     return(
       <>
         <FaRegPlusSquare class="desk" id={props.cod} key={props.cod} data-type="success" data-tip={string} data-html={true}
-        onClick={() => {setShowConfirmation(true); setSpace(props.deskNo)}}></FaRegPlusSquare>
+        onClick={() => {setSpace(props.deskNo); canBook()}}></FaRegPlusSquare>
         <ReactTooltip />
       </>
     )
@@ -195,10 +228,10 @@ function BookForColleague({history, match}) {
     {userInfo &&
         <MainMenu uInfo={userInfo}></MainMenu>}
         {showConfirmationError ? <ConfirmationError id="confirmation"/> : null }
-        
+        {showError ?  <ErrorConfirmation/> : null}
         <TextBar text={"Colleague Booking"} subText={"Choose a desk and a colleague to book for"}></TextBar>
         <form onSubmit={SubmitHandler} id="first-form">
-        <div className="row">
+        <div className="row pt-4">
           <div className="col-2"> </div>
           <div className="col-2 pt-4" style={{margin:"auto"}}> 
             <div class="example">
@@ -226,15 +259,25 @@ function BookForColleague({history, match}) {
             
               <div className="control-point" style={{left:"10px"}}>
               
+              
+                <label id="dateLabel">Floor</label>
+                <span className="custom-dropdown small">
+                    <select id="permission2" value={floor} onChange={(e) => {setFloor(e.target.value); }}>
+                      <option value=""disabled selected>select floor</option>
+                      {[...Array.from(Array(noFloors).keys())].map((num, i) => <option key={i}>{num+1}</option>)}
+                   </select>
+                </span>
                 <label id="dateLabel">Date</label>
                 <input type="date" className="form-control"  id="dateSelect"  value={date} onChange={(e) => setDate(e.target.value)}></input>
                 <label id="dateLabel">From</label>
-                <input type="time" className="form-control" id="time-from" value={from} onChange={(e) => setFrom(e.target.value)}></input>
+                <input type="time" className="form-control" id="time-from" value={from} step="240" onChange={(e) => setFrom(e.target.value)}></input>
                 <label id="dateLabel">To</label>
                 <input type="time"  className="form-control"  id="time-to" value={to} onChange={(e) => setTo(e.target.value)}></input>
-                <label id="dateLabel">Colleague</label> <br></br>
+               
+                <label id="dateLabel">Colleague</label>
                 <span className="custom-dropdown small" >
-                  <select id="colleague" value={colleague} onChange={(e) => {setColleague(e.target.value)}}>
+                
+                  <select id="colleague" value={colleague} onChange={(e) => {setColleague(e.target.value)}} required>
                     <option value="" select disabled hidden>Choose Colleague</option>
                     {userInfo.permission?.map((p,i) => {
                       return(
@@ -248,12 +291,6 @@ function BookForColleague({history, match}) {
             </div>         
           <div className="col-5 pt-5" style={{margin:"auto", display:"block"}}>
               <FloorPlan ></FloorPlan>
-              <div div class="btn-group me-2" role="group" aria-label="First group">
-                {[...Array.from(Array(noFloors).keys())].map((num, i) =>{
-                  return(
-                      <button  type="button" class="btn btn-primary" value={num+1} onClick={(e) => setFloor(e.target.value)}> {num+1}</button>
-                    )})}
-              </div>
           </div> 
         </div>
       </form>

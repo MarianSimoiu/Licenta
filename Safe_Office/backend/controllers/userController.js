@@ -136,7 +136,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   if (!Array.isArray(user.permission))
       user.permission = [];
 
-
   if (user) {
     if (req.body.permissionArray[0] == "add")
       user.permission.push(req.body.permissionArray[1]);
